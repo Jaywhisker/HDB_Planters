@@ -1,0 +1,90 @@
+services:
+  ui:
+    stdin_open: true
+    tty: true
+    image: ui
+    volumes:
+      - ../hdb-ui/public:/hdb-ui/public
+      - ../hdb-ui/src:/hdb-ui/src
+      - ../hdb-ui/package.json:/hdb-ui/package.json
+      - ../hdb-ui/package-lock.json:/hdb-ui/package-lock.json
+      - ../hdb-ui/.env:/hdb-ui/.env
+    ports:
+      - ${UI_HOST_PORT}:${UI_SERVICE_PORT}
+    build:
+      context: ../
+      dockerfile: build/ReactUI.Dockerfile
+
+  plant-selection:
+      image: plant-selection
+      stdin_open: true
+      tty: true
+      build:
+          context: ../
+          dockerfile: build/AIPlantSelection.Dockerfile
+      volumes:
+        - ../hdb-plant-selection/src:/hdb-plant-selection/src        
+        - ../hdb-plant-selection/tests:/hdb-plant-selection/tests
+      ports:
+        - ${AI_PLANT_HOST_PORT}:${AI_PLANT_SERVICE_PORT}
+      env_file:
+        - .env
+
+
+  spatial-placement:
+      image: spatial-placement
+      stdin_open: true
+      tty: true
+      build:
+          context: ../
+          dockerfile: build/AIPlantSelection.Dockerfile
+      volumes:
+        - ../hdb-spatial-placement/src:/hdb-spatial-placement/src        
+        - ../hdb-spatial-placement/tests:/hdb-spatial-placement/tests
+      ports:
+        - ${AI_SPATIAL_HOST_PORT}:${AI_SPATIAL_SERVICE_PORT}
+      env_file:
+        - .env
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.10.1
+    tty: true
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=true
+      - xpack.security.transport.ssl.enabled=false
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - ELASTIC_PASSWORD=$ELASTIC_PASSWORD
+    volumes:
+      - ../hdb-elasticsearch-db/data:/usr/share/elasticsearch/data
+      - ../hdb-elasticsearch-db/src:/hdb-elasticsearch-db/src
+    ports:
+      - ${ELASTIC_HOST_PORT}:${ELASTIC_SERVICE_PORT}
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+      nofile:
+        soft: 200000
+        hard: 200000
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "sh",
+          "-c",
+          "curl -sf --insecure http://$ELASTIC_USERNAME:$ELASTIC_PASSWORD@localhost:9200/_cat/health | grep -ioE 'green|yellow' || echo 'not green/yellow cluster status'"
+        ]
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.10.1
+    container_name: kibana
+    ports:
+      - ${KIBANA_HOST_PORT}:${KIBANA_SERVICE_PORT}
+    depends_on:
+      - elasticsearch
+    environment:
+      ELASTICSEARCH_USERNAME: ${ELASTIC_USERNAME}
+      ELASTICSEARCH_PASSWORD: ${ELASTIC_PASSWORD}
+      ELASTICSEARCH_HOSTS: http://elasticsearch:${ELASTIC_HOST_PORT}
