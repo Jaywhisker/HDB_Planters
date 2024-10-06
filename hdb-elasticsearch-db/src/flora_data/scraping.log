@@ -1,0 +1,7 @@
+2024-10-06 22:56:49,054 - INFO - Folder already exists: src/flora_data
+2024-10-06 22:56:49,054 - INFO - No existing CSV found. New file will be created at src/flora_data/flora_species.csv.
+2024-10-06 22:56:49,054 - INFO - Accessing URL: https://www.nparks.gov.sg/api/FFWApi/GetSpecies?itemsRequested=9999&page=1&category=&productTerm=&tags=flora&sort=&imageTag=
+2024-10-06 22:56:49,184 - INFO - Successfully fetched flora species data.
+2024-10-06 22:56:49,191 - INFO - Processing 4925 species.
+2024-10-06 22:56:49,211 - INFO - Data successfully written to src/flora_data/flora_species.csv
+2024-10-06 22:56:49,211 - INFO - Flora data scraping complete. 4925 new species added. Total species in CSV: 4925
