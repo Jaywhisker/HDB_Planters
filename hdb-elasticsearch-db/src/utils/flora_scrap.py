@@ -3,7 +3,6 @@ import csv
 import logging
 import requests
 from bs4 import BeautifulSoup
-from collections import defaultdict
 
 DATA_FOLDER = os.path.join('src', 'flora_data')
 if not os.path.exists(DATA_FOLDER):
@@ -49,7 +48,7 @@ class WebScrap:
 
         # boolean variables to check if plant info already found
         self.found_max_height = False
-        self.found_flower_color = False
+        self.found_flower_colour = False
         self.found_mature_bark_texture = False
         self.found_bark_colour = False
         self.found_foliage = False
@@ -194,8 +193,8 @@ class WebScrap:
 
         '''
         default_data = {
-            'Light Preference': '-',
-            'Water Preference': '-',
+            'Light Preference': [],
+            'Water Preference': [],
             'Drought Tolerant?': 'False',
             'Native to SG?': 'False',
             'Fruit Bearing?': 'False'
@@ -208,7 +207,6 @@ class WebScrap:
         updates icon data based on the title found in the icon's image.
 
         For titles that correspond to specific preferences (like light or water preference), it searches the respective list to find a matching value. 
-        If the title does not require a list (e.g., just checking against string 'drought tolerant'), the value is set directly.
 
         parameters:
             title (str): title attribute of the icon's image (e.g., 'light preference','drought tolerant').
@@ -217,37 +215,32 @@ class WebScrap:
         returns:
             None: The function updates the `icon_data` dictionary in-place.    
         '''
+        title_lower = title.lower()
 
+        # Check for light preferences
+        for lp in self.light_preferences:
+            if title_lower in lp.lower():
+                icon_data['Light Preference'].append(lp)  # Append to the list
+                logging.info(f"Light preference {lp} found.")
 
-        # define a mapping of titles to icon data keys and their corresponding preferences lists
-        title_mapping = {
-            'light preference': ('Light Preference', self.light_preferences),
-            'water preference': ('Water Preference', self.water_preferences),
-            'drought tolerant': ('Drought Tolerant?', None, 'True'),
-            'native to singapore': ('Native to SG?', None, 'True'),
-            'fruit bearing': ('Fruit Bearing?', None, 'True'),
-            'fragrant plant': ('Fragrant Plant?', None, 'True')
-        }
+        # Check for water preferences
+        for wp in self.water_preferences:
+            if title_lower in wp.lower():
+                icon_data['Water Preference'].append(wp)  # Append to the list
+                logging.info(f"Water preference {wp} found.")
 
-        # normalize the title for consistent comparison
-        normalized_title = title.lower()
-
-        # check if title has a mapping
-        if normalized_title in title_mapping:
-            icon_key, preferences_list, value = title_mapping[normalized_title]
-
-            # if there is a preferences list, normalize and check against it
-            if preferences_list:
-                icon_data[icon_key] = next(
-                    (pref for pref in preferences_list if pref.lower() == normalized_title), '-'
-                )
-                logging.info(f"{icon_key} {normalized_title} found.")
-            else:
-                # otherwise, set the value directly
-                icon_data[icon_key] = value
-                logging.info(f"{icon_key} icon found.")
-        else:
-            logging.warning(f"Title {normalized_title} not recognized.")
+        if title == 'drought tolerant':
+            icon_data['Drought Tolerant?'] = 'True'
+            logging.info("Drought tolerant found.")
+        if title == 'native to singapore':
+            icon_data['Native to SG?'] = 'True'
+            logging.info("Native to Singapore found.")
+        if title == 'fruit bearing':
+            icon_data['Fruit Bearing?'] = 'True'
+            logging.info("Fruit bearing plant found.")
+        if title == 'fragrant plant':
+            icon_data['Fragrant Plant?'] = 'True'
+            logging.info("Fragrant plant found.")
 
     def scrape_icons(self, soup: BeautifulSoup) -> dict:
         '''
@@ -297,7 +290,10 @@ class WebScrap:
         if self.is_tree and icon_data['Fragrant Plant?'] == 'False':
             logging.info("Tree detected. Setting 'Fragrant Plant?' to 'None' for trees.")
             icon_data['Fragrant Plant?'] = 'None'
-        
+
+        icon_data['Light Preference'] = ', '.join(icon_data['Light Preference']) if icon_data['Light Preference'] else '-'
+        icon_data['Water Preference'] = ', '.join(icon_data['Water Preference']) if icon_data['Water Preference'] else '-'
+
         return icon_data
 
     def update_section_data(self, section_data: dict, table: BeautifulSoup, row_keywords: dict):
@@ -306,7 +302,6 @@ class WebScrap:
 
         for each row in the table, it looks for a header (td or th with <strong>)that matches any of the provided row keywords. 
         if a match is found, the corresponding data cell value (which would be the first td after) is added to the `section_data` dictionary under the mapped key. 
-        special handling is provided for the 'Leaf Colour' key, where multiple values are appended.
         
         parameters:
             section_data (dict): dictionary that holds the extracted data.
@@ -325,22 +320,10 @@ class WebScrap:
                         if keyword.lower() == header_text.lower():
                             existing_value = section_data.get(output_key, '')
 
-                            # handling appending for 'Leaf Colour' in particular
-                            if output_key == 'Leaf Colour':
-                                if existing_value and existing_value != '-':
-                                    # Append the new value to the existing value
-                                    section_data[output_key] = f"{existing_value}, {new_value}"
-                                    logging.info(f"Appended '{new_value}' to existing 'Leaf Colour' value.")
-                                else:
-                                    # Set the value directly if it's empty or default
-                                    section_data[output_key] = new_value
-                                    logging.info(f"Set 'Leaf Colour' to '{new_value}'.")
-                            elif not existing_value or existing_value == '-':
-                                # Only set if empty or default value
+                            if not existing_value or existing_value == '-':
                                 section_data[output_key] = new_value
                                 logging.info(f"Set '{output_key}' to '{new_value}'.")
                             break
-    
 
     def scrape_section_by_h3(self, soup: BeautifulSoup, section_id: str, row_keywords: dict, default_values: dict = None) -> dict:
         """
@@ -430,7 +413,7 @@ class WebScrap:
         section_data = self.scrape_section_by_h3(soup, 'floral', row_keywords, default_values)
 
         if section_data['Flower Colour'] != '-':
-            self.found_flower_color = True
+            self.found_flower_colour = True
             logging.info(f"Flower color found: {section_data['Flower Colour']}" )
         
         return section_data
@@ -439,7 +422,6 @@ class WebScrap:
         '''
         scrapes the Foliar section of the plant data to extract leaf color and leaf area index (LIA).
             - retrieves the mature foliage color, prominent young flush colour(s) and leaf area index from the foliar section.
-            - mature foliage color and prominent young flush colour(s) are both saved in Leaf Colour
 
         parameters:
             soup (BeautifulSoup): BeautifulSoup object of the HTML content to scrape.
@@ -448,12 +430,13 @@ class WebScrap:
             dict: dictionary containing the extracted data for the foliar section.
         '''
         row_keywords = {
-            'mature foliage colour(s)': 'Leaf Colour',
-            'prominent young flush colour(s)': 'Leaf Colour',  # appends to existing Leaf Colour
+            'mature foliage colour(s)': 'Mature Leaf Colour',
+            'prominent young flush colour(s)': 'Young Flush Leaf Colour',
             'leaf area index (lai) for green plot ratio': 'Leaf Area Index'
         }
         default_values = {
-            'Leaf Colour': '-',
+            'Mature Leaf Colour': '-',
+            'Young Flush Leaf Colour': '-',
             'Leaf Area Index': '-'
         }
         
@@ -581,7 +564,7 @@ class WebScrap:
 
         return section_data
 
-    def description_section(self, soup: BeautifulSoup) -> dict:
+    def description_section(self, soup: BeautifulSoup, classification_data:dict, floral_data:dict, nonfoliar_data:dict) -> dict:
         '''
         scrapes data from the Description and Ethnobotany section of a plant species page, denoted by h3 header.
 
@@ -592,22 +575,31 @@ class WebScrap:
 
         parameters:
             soup (BeautifulSoup): A BeautifulSoup object representing the parsed HTML of the species page.
-            plant_type (str): The type of the plant (e.g., shrub, tree) for applying specific logic.
+            classification_data (dict): dictionary containing classification attributes of the plant species.
+            floral_data (dict): dictionary containing floral attributes of the plant species.
+            nonfoliar_data (dict): dictionary containing non-foliar attributes of the plant species.
 
         returns:
             dict: dictionary containing the scraped attributes from the description section.
                 The dictionary includes:
-                - 'Trunk Colour': color of the trunk or '-' if not found.
-                - 'Trunk Texture': texture of the trunk or '-' if not found.
-                - 'Maximum Height': maximum height of the plant or '-' if not found.
-                - 'Flower Colour': color of the flower or '-' if not found.
-                - 'Leaf Texture': texture of the leaves or '-' if not found, depending on plant type.
+                - 'Trunk Colour': Color of the trunk or '-' if not found.
+                - 'Trunk Texture': Texture of the trunk or '-' if not found.
+                - 'Maximum Height': Maximum height of the plant or '-' if not found.
+                - 'Flower Colour': Color of the flower or '-' if not found.
+                - 'Leaf Texture': Texture of the leaves or '-' if not found, depending on the plant type.
         '''
         section_data = {}
-        classifications_heading = soup.find('h3', id='foliar')
+        heading = soup.find('h3', id='description')
 
-        if classifications_heading:
-            first_table_div = classifications_heading.find_next('div', class_='rte')
+        section_data['Trunk Colour'] = nonfoliar_data.get('Trunk Colour', '-')
+        section_data['Trunk Texture'] = nonfoliar_data.get('Trunk Texture', '-')
+        section_data['Maximum Height'] = classification_data.get('Maximum Height', '-')
+        section_data['Flower Colour'] = floral_data.get('Flower Colour', '-')
+        section_data['Leaf Texture'] = floral_data.get('Leaf Texture', '-' if self.is_shrub else 'None')
+
+
+        if heading:
+            first_table_div = heading.find_next('div', class_='rte')
             if first_table_div:
                 # extract data from both tables
                 table = first_table_div.find('table', {'aria-label': 'descflora'})
@@ -622,52 +614,34 @@ class WebScrap:
                             data_cell = header.find_next_sibling('td')
                             if header_text:
                                 
-                                if 'trunk' in header_text.lower() and self.found_bark_colour == False:
+                                if 'trunk' in header_text.lower() and section_data['Trunk Colour']=='-':
                                     trunk_bark_colour = data_cell.text.strip() if data_cell else ''
                                     section_data['Trunk Colour'] = trunk_bark_colour
-                                    self.found_bark_colour = True
                                     logging.info("Trunk Colour found")
 
-                                if 'trunk' in header_text.lower() and self.found_mature_bark_texture == False:
+                                if 'trunk' in header_text.lower() and section_data['Trunk Texture']=='-':
                                     trunk_bark_texture = data_cell.text.strip() if data_cell else ''
                                     section_data['Trunk Texture'] = trunk_bark_texture
-                                    self.found_mature_bark_texture = True
                                     logging.info("Trunk Texture found")
 
-                                if 'growth form' in header_text.lower() and self.found_max_height==False:
-                                    growth_form_max_height = data_cell.text.strip() if data_cell else ''
+                                if 'growth form' in header_text.lower() and section_data['Maximum Height']=='-':
+                                    growth_form_max_height = data_cell.text.strip() if data_cell else '-'
                                     section_data['Maximum Height'] = growth_form_max_height
-                                    self.found_max_height == True
-                                    logging.info("Maximum Height")
+                                    logging.info(f"Maximum height (from Growth Form): {section_data['Maximum Height']}")
 
-                                if 'growth form' in header_text.lower() and self.found_bark_colour == False:
-                                    growth_form_bark_colour = data_cell.text.strip() if data_cell else ''
-                                    section_data['Trunk Colour'] = growth_form_bark_colour
-                                    self.found_bark_colour = True
-                                    logging.info("Trunk Colour found")
-
-                                if 'growth form' in header_text.lower() and self.found_mature_bark_texture == False:
-                                    growth_form_bark_texture = data_cell.text.strip() if data_cell else ''
-                                    section_data['Trunk Texture'] = growth_form_bark_texture
-                                    self.found_mature_bark_texture = True
-                                    logging.info("Trunk Texture found")
-
-                                if 'flowers' in header_text.lower() and self.found_flower_color == False:
+                                if 'flowers' in header_text.lower() and section_data['Flower Colour'] =='-':
                                     flower_colour = data_cell.text.strip() if data_cell else ''
                                     section_data['Flower Colour'] = flower_colour
-                                    self.found_flower_color = True
                                     logging.info("Flower Colour found")
 
-                                if 'foliage' in header_text.lower():
+                                if 'foliage' in header_text.lower() and section_data['Leaf Texture']=='-':
                                     foliage_colour = data_cell.text.strip() if data_cell else ''
                                     section_data['Leaf Texture'] = foliage_colour
-                                    self.found_foliage = True
                                     logging.info("Leaf Texture found")
 
-                                if 'others - plant morphology' in header_text.lower() and  self.found_foliage == False:
+                                if 'others - plant morphology' in header_text.lower() and section_data['Leaf Texture']=='-':
                                     plant_morphology = data_cell.text.strip() if data_cell else ''
                                     section_data['Leaf Texture'] = plant_morphology
-                                    self.found_foliage = True
                                     logging.info("Leaf Texture found")
 
                 if table:
@@ -675,21 +649,20 @@ class WebScrap:
                 if table_show:
                     extract_classification_data(table_show)
 
-        if 'Flower Colour' not in section_data and self.found_flower_color == False:
+        if 'Flower Colour' not in section_data and not self.found_flower_colour:
             section_data['Flower Colour'] = '-'
          
-        if 'Maximum Height' not in section_data and self.found_max_height == False:
+        if 'Maximum Height' not in section_data and not self.found_max_height:
             section_data['Maximum Height'] = '-'
 
-        if self.found_foliage == 'False':
+        if 'Leaf Texture' not in section_data:
             section_data['Leaf Texture'] = '-' if self.is_shrub else 'None'
-    
-        if self.found_mature_bark_texture == 'False':
-            section_data['Trunk Texture'] = '-' if self.is_tree else 'None',
 
-        if self.found_bark_colour == 'False':
-            section_data['Trunk Colour'] = '-' if self.is_tree else 'None',
- 
+        if not self.found_mature_bark_texture:
+            section_data['Trunk Texture'] = '-' if self.is_tree else 'None'
+
+        if not self.found_bark_colour:
+            section_data['Trunk Colour'] = '-' if self.is_tree else 'None'
         return section_data
 
     def fetch_additional_data(self, link: str) -> dict:
@@ -713,32 +686,55 @@ class WebScrap:
             response.raise_for_status()
             soup = BeautifulSoup(response.text, 'html.parser')
 
+            # initialize final_data dictionary
+            final_data = {}
+
+            # scraping functions with priority order
             plant_type_data = self.get_plant_type(soup)
+            if plant_type_data:
+                final_data.update(plant_type_data)
+
             icon_data = self.scrape_icons(soup)
+            if icon_data:
+                final_data.update(icon_data)
+
             classification_data = self.classifications_section(soup)
+            if classification_data:
+                final_data.update(classification_data)
+
             floral_data = self.floral_section(soup)
+            if floral_data:
+                final_data.update(floral_data)
+
             landscape_data = self.landscape_section(soup)
+            if landscape_data:
+                final_data.update(landscape_data)
+
             fauna_data = self.fauna_section(soup)
+            if fauna_data:
+                final_data.update(fauna_data)
+
             biogeography_data = self.biogeography_section(soup)
+            if biogeography_data:
+                final_data.update(biogeography_data)
+
             foliar_data = self.foliar_section(soup)
+            if foliar_data:
+                final_data.update(foliar_data)
+
             plantcare_data = self.plantcare_section(soup)
+            if plantcare_data:
+                final_data.update(plantcare_data)
+
             nonfoliar_data = self.nonfoliar_section(soup)
-            description_data = self.description_section(soup)
+            if nonfoliar_data:
+                final_data.update(nonfoliar_data)
 
-            # use defaultdict to merge while handling duplicates
-            merged_data = defaultdict(list)
+            description_data = self.description_section(soup, classification_data, floral_data, nonfoliar_data)
+            if description_data:
+                final_data.update(description_data)
 
-            for section in [plant_type_data, icon_data, classification_data,
-                            floral_data, landscape_data, fauna_data,
-                            biogeography_data, foliar_data, plantcare_data,
-                            nonfoliar_data, description_data]:
-                for key, value in section.items():
-                    merged_data[key].append(value)
-
-            # Convert lists to a single value or keep them as lists based on your requirement
-            final_data = {key: value[0] if len(value) == 1 else value for key, value in merged_data.items()}
-
-            # Log the final merged data
+            # log the final merged data
             logging.debug(f"Merged data: {final_data}")
 
             return final_data
@@ -780,14 +776,26 @@ class WebScrap:
         '''
         try:
             with open(CSV_UPDATED_FILE_PATH, mode=mode, newline='', encoding='utf-8') as csvfile:
-                fieldnames = list(updated_row.keys())
+                fieldnames = [
+                    'Scientific Name', 'Common Name', 'Species ID', 'Link',
+                    'Plant Type', 'Light Preference', 'Water Preference',
+                    'Drought Tolerant?', 'Native to SG?', 'Fruit Bearing?',
+                    'Fragrant Plant?', 'Maximum Height', 'Flower Colour',
+                    'Hazard', 'Attracted animals', 'Native habitat',
+                    'Mature Leaf Colour', 'Young Flush Leaf Colour',
+                    'Leaf Area Index', 'Growth rate', 'Trunk Texture',
+                    'Trunk Colour', 'Leaf Texture'
+                ]
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-                # write header only if the file is empty or in 'w' mode
+                # Write header only if the file is empty or in 'w' mode
                 if csvfile.tell() == 0 and mode == 'w':
                     writer.writeheader()
-                writer.writerow(updated_row)
-                logging.info(f"Wrote updated row for species: {updated_row['Scientific Name']} to CSV.")
+
+                # Create a new row that matches the fieldnames order
+                row_to_write = {field: updated_row.get(field, '-') for field in fieldnames}
+                writer.writerow(row_to_write)
+                logging.info(f"Wrote updated row for species: {updated_row.get('Scientific Name', 'Unknown')} to CSV.")
 
         except IOError as e:
             logging.error(f"Error writing to CSV file: {e}")
@@ -831,8 +839,8 @@ class WebScrap:
     
 if __name__ == '__main__':
     '''example for how to call as a segment of csv'''
-    scraper = WebScrap(start_row = 0, end_row = 4)
+    # scraper = WebScrap(start_row = 0, end_row = 100)
 
     '''example for how to call entire csv'''
-    # scraper = WebScrap()
+    scraper = WebScrap()
     scraper.scrape()
