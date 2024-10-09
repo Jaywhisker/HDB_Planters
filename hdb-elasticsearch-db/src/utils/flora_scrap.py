@@ -6,11 +6,13 @@ from bs4 import BeautifulSoup
 from collections import defaultdict
 
 DATA_FOLDER = os.path.join('src', 'flora_data')
+if not os.path.exists(DATA_FOLDER):
+    os.makedirs(DATA_FOLDER)
+
 CSV_FILENAME = 'flora_species.csv'
 CSV_UPDATED_FILENAME = 'flora_species_updated.csv'
 CSV_FILE_PATH = os.path.join(DATA_FOLDER, CSV_FILENAME)
 CSV_UPDATED_FILE_PATH = os.path.join(DATA_FOLDER, CSV_UPDATED_FILENAME) 
-
 
 # logs configuration: note that log is cleared at each run
 logging.basicConfig(
@@ -39,6 +41,7 @@ class WebScrap:
         '''
         self.start_row = start_row
         self.end_row = end_row
+        self.ensure_data_folder_exists()
         self.species_data = []
 
         self.is_shrub = False
@@ -64,6 +67,16 @@ class WebScrap:
         self.shrubs = ['Shrub', 'Succulent Plant','Herbaceous Plant', 'Lithophyte', 'Cycad', 'Epiphyte', 'Aquatic & Hydrophyte', 'Bamboo', 'Climber', 'Creeper']
         self.trees = ['Palm','Tree']
 
+    def ensure_data_folder_exists(self) -> None:
+        '''
+        ensure that the data folder exists. if not found, it will create the folder.
+        '''
+        if not os.path.exists(DATA_FOLDER):
+            os.makedirs(DATA_FOLDER)
+            logging.info(f"Created folder: {DATA_FOLDER}")
+        else:
+            logging.info(f"Folder already exists: {DATA_FOLDER}")
+    
     def read_csv(self):
         '''
         read species data from CSV file.
@@ -158,6 +171,83 @@ class WebScrap:
 
         return {'Plant Type': ', '.join(plant_types) if plant_types else '-'}
 
+    def get_default_icon_data(self) -> dict:
+        '''
+        returns default default values based on plant type.
+
+        example:
+        For shrubs, the default value for 'Fragrant Plant?' is set to '-'. For trees, it is set to 'None'.
+
+        returns: dict: a dictionary with default values for following keys:
+              'Light Preference', 'Water Preference', 'Drought Tolerant?', 
+              'Native to SG?', 'Fruit Bearing?', and 'Fragrant Plant?'.
+
+              Example:
+              {
+                  'Light Preference': '-',
+                  'Water Preference': '-',
+                  'Drought Tolerant?': 'False',
+                  'Native to SG?': 'False',
+                  'Fruit Bearing?': 'False',
+                  'Fragrant Plant?': '-'
+              }
+
+        '''
+        default_data = {
+            'Light Preference': '-',
+            'Water Preference': '-',
+            'Drought Tolerant?': 'False',
+            'Native to SG?': 'False',
+            'Fruit Bearing?': 'False'
+        }
+        default_data['Fragrant Plant?'] = '-' if self.is_shrub else 'None'
+        return default_data
+
+    def extract_icon_title(self, title: str, icon_data: dict):
+        '''
+        updates icon data based on the title found in the icon's image.
+
+        For titles that correspond to specific preferences (like light or water preference), it searches the respective list to find a matching value. 
+        If the title does not require a list (e.g., just checking against string 'drought tolerant'), the value is set directly.
+
+        parameters:
+            title (str): title attribute of the icon's image (e.g., 'light preference','drought tolerant').
+            icon_data (dict): dictionary to be updated with the corresponding plant attributes (e.g., 'Light Preference', 'Drought Tolerant?').
+
+        returns:
+            None: The function updates the `icon_data` dictionary in-place.    
+        '''
+
+
+        # define a mapping of titles to icon data keys and their corresponding preferences lists
+        title_mapping = {
+            'light preference': ('Light Preference', self.light_preferences),
+            'water preference': ('Water Preference', self.water_preferences),
+            'drought tolerant': ('Drought Tolerant?', None, 'True'),
+            'native to singapore': ('Native to SG?', None, 'True'),
+            'fruit bearing': ('Fruit Bearing?', None, 'True'),
+            'fragrant plant': ('Fragrant Plant?', None, 'True')
+        }
+
+        # normalize the title for consistent comparison
+        normalized_title = title.lower()
+
+        # check if title has a mapping
+        if normalized_title in title_mapping:
+            icon_key, preferences_list, value = title_mapping[normalized_title]
+
+            # if there is a preferences list, normalize and check against it
+            if preferences_list:
+                icon_data[icon_key] = next(
+                    (pref for pref in preferences_list if pref.lower() == normalized_title), '-'
+                )
+                logging.info(f"{icon_key} {normalized_title} found.")
+            else:
+                # otherwise, set the value directly
+                icon_data[icon_key] = value
+                logging.info(f"{icon_key} icon found.")
+        else:
+            logging.warning(f"Title {normalized_title} not recognized.")
 
     def scrape_icons(self, soup: BeautifulSoup) -> dict:
         '''
@@ -209,80 +299,6 @@ class WebScrap:
             icon_data['Fragrant Plant?'] = 'None'
         
         return icon_data
-
-    def get_default_icon_data(self) -> dict:
-        '''
-        returns default default values based on plant type.
-
-        example:
-        For shrubs, the default value for 'Fragrant Plant?' is set to '-'. For trees, it is set to 'None'.
-
-        returns: dict: a dictionary with default values for following keys:
-              'Light Preference', 'Water Preference', 'Drought Tolerant?', 
-              'Native to SG?', 'Fruit Bearing?', and 'Fragrant Plant?'.
-
-              Example:
-              {
-                  'Light Preference': '-',
-                  'Water Preference': '-',
-                  'Drought Tolerant?': 'False',
-                  'Native to SG?': 'False',
-                  'Fruit Bearing?': 'False',
-                  'Fragrant Plant?': '-'
-              }
-
-        '''
-        default_data = {
-            'Light Preference': '-',
-            'Water Preference': '-',
-            'Drought Tolerant?': 'False',
-            'Native to SG?': 'False',
-            'Fruit Bearing?': 'False'
-        }
-        default_data['Fragrant Plant?'] = '-' if self.is_shrub else 'None'
-        return default_data
-
-    def extract_icon_title(self, title: str, icon_data: dict):
-        '''
-        updates icon data based on the title found in the icon's image.
-
-        For titles that correspond to specific preferences (like light or water preference), it searches the respective list to find a matching value. 
-        If the title does not require a list (e.g., just checking against string 'drought tolerant'), the value is set directly.
-
-        parameters:
-            title (str): title attribute of the icon's image (e.g., 'light preference','drought tolerant').
-            icon_data (dict): dictionary to be updated with the corresponding plant attributes (e.g., 'Light Preference', 'Drought Tolerant?').
-
-        returns:
-            None: The function updates the `icon_data` dictionary in-place.    
-        '''
-
-        # define a mapping of titles to icon data keys and their corresponding preferences lists
-        title_mapping = {
-            'light preference': ('Light Preference', self.light_preferences),
-            'water preference': ('Water Preference', self.water_preferences),
-            'drought tolerant': ('Drought Tolerant?', None, 'True'),
-            'native to singapore': ('Native to SG?', None, 'True'),
-            'fruit bearing': ('Fruit Bearing?', None, 'True'),
-            'fragrant plant': ('Fragrant Plant?', None, 'True')
-        }
-
-        # normalize the title for consistent comparison
-        normalized_title = title.lower()
-
-        # check if title has a mapping
-        if normalized_title in title_mapping:
-            icon_key, preferences_list, value = title_mapping[normalized_title]
-
-            # if there is a preferences list, check against it
-            if preferences_list:
-                icon_data[icon_key] = next((pref for pref in preferences_list if pref.lower() == normalized_title), '-')
-                logging.info(f"{icon_key} {normalized_title} found.")
-            else:
-                # otherwise, set the value directly
-                icon_data[icon_key] = value
-                logging.info(f"{icon_key} found.")
-
 
     def update_section_data(self, section_data: dict, table: BeautifulSoup, row_keywords: dict):
         """
@@ -383,15 +399,15 @@ class WebScrap:
     
         '''
         row_keywords = {
-            'max height': 'Maximum height'
+            'maximum height': 'Maximum Height'
         }
-        default_values = {'Maximum height': '-'}
+        default_values = {'Maximum Height': '-'}
 
         section_data = self.scrape_section_by_h3(soup, 'classifications', row_keywords, default_values)
 
-        if section_data['Maximum height'] != '-':
+        if section_data['Maximum Height'] != '-':
             self.found_max_height = True
-            logging.info(f"Maximum height found: {section_data['Maximum height']}")
+            logging.info(f"Maximum height found: {section_data['Maximum Height']}")
         
         return section_data
 
@@ -479,7 +495,7 @@ class WebScrap:
             dict: A dictionary containing the extracted data for the landscape section.
         '''
         row_keywords = {
-            'landscaping features': 'Hazard'
+            'usage hazard - cons': 'Hazard'
         }
         default_values = {'Hazard': '-'}
         
@@ -553,7 +569,7 @@ class WebScrap:
             'Trunk Colour': '-' if self.is_tree else 'None'
         }
         
-        section_data = self.scrape_section_by_h3(soup, 'plant', row_keywords, default_values)
+        section_data = self.scrape_section_by_h3(soup, 'non', row_keywords, default_values)
 
         # setting flags
         if section_data['Trunk Texture'] != '-':
@@ -607,32 +623,32 @@ class WebScrap:
                             if header_text:
                                 
                                 if 'trunk' in header_text.lower() and self.found_bark_colour == False:
-                                    trunk = data_cell.text.strip() if data_cell else ''
-                                    section_data['Trunk Colour'] = trunk
+                                    trunk_bark_colour = data_cell.text.strip() if data_cell else ''
+                                    section_data['Trunk Colour'] = trunk_bark_colour
                                     self.found_bark_colour = True
                                     logging.info("Trunk Colour found")
 
                                 if 'trunk' in header_text.lower() and self.found_mature_bark_texture == False:
-                                    trunk = data_cell.text.strip() if data_cell else ''
-                                    section_data['Trunk Texture'] = trunk
+                                    trunk_bark_texture = data_cell.text.strip() if data_cell else ''
+                                    section_data['Trunk Texture'] = trunk_bark_texture
                                     self.found_mature_bark_texture = True
                                     logging.info("Trunk Texture found")
 
                                 if 'growth form' in header_text.lower() and self.found_max_height==False:
-                                    growth_form = data_cell.text.strip() if data_cell else ''
-                                    section_data['Maximum Height'] = growth_form
+                                    growth_form_max_height = data_cell.text.strip() if data_cell else ''
+                                    section_data['Maximum Height'] = growth_form_max_height
                                     self.found_max_height == True
                                     logging.info("Maximum Height")
 
                                 if 'growth form' in header_text.lower() and self.found_bark_colour == False:
-                                    trunk = data_cell.text.strip() if data_cell else ''
-                                    section_data['Trunk Colour'] = trunk
+                                    growth_form_bark_colour = data_cell.text.strip() if data_cell else ''
+                                    section_data['Trunk Colour'] = growth_form_bark_colour
                                     self.found_bark_colour = True
                                     logging.info("Trunk Colour found")
 
                                 if 'growth form' in header_text.lower() and self.found_mature_bark_texture == False:
-                                    trunk = data_cell.text.strip() if data_cell else ''
-                                    section_data['Trunk Texture'] = trunk
+                                    growth_form_bark_texture = data_cell.text.strip() if data_cell else ''
+                                    section_data['Trunk Texture'] = growth_form_bark_texture
                                     self.found_mature_bark_texture = True
                                     logging.info("Trunk Texture found")
 
@@ -815,8 +831,8 @@ class WebScrap:
     
 if __name__ == '__main__':
     '''example for how to call as a segment of csv'''
-    # scraper = WebScrap(start_row = 0, end_row = 4)
+    scraper = WebScrap(start_row = 0, end_row = 4)
 
     '''example for how to call entire csv'''
-    scraper = WebScrap()
+    # scraper = WebScrap()
     scraper.scrape()
