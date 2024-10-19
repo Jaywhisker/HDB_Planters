@@ -1,3 +1,7 @@
 __pycache__
 src/models/*
+<<<<<<< HEAD
 notebooks/models/*
+=======
+notebooks/models
+>>>>>>> d2870be358fecb78e730cd208dd74c0b1a3d1de8
