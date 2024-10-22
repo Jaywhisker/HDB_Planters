@@ -1,1 +1,2 @@
 selenium == 4.21.0
+elasticsearch == 8.15.1

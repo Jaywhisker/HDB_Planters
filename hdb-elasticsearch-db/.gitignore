@@ -1,2 +1,4 @@
 __pycache__
 data/
+src/llama
+src/flora_data/logs/

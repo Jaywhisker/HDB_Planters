@@ -4,26 +4,9 @@ import logging
 import requests
 from bs4 import BeautifulSoup
 
-DATA_FOLDER = os.path.join('src', 'flora_data')
-if not os.path.exists(DATA_FOLDER):
-    os.makedirs(DATA_FOLDER)
-
-CSV_FILENAME = 'flora_species.csv'
-CSV_UPDATED_FILENAME = 'flora_species_updated.csv'
-CSV_FILE_PATH = os.path.join(DATA_FOLDER, CSV_FILENAME)
-CSV_UPDATED_FILE_PATH = os.path.join(DATA_FOLDER, CSV_UPDATED_FILENAME) 
-
-# logs configuration: note that log is cleared at each run
-logging.basicConfig(
-    filename=os.path.join(DATA_FOLDER, 'flora_scraping.log'),
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    filemode='w'
-)
-
-class WebScrap:
+class FloraAttributesScraper:
     '''
-    WebScrap class to fetch additional plant data from NParks Flora & Fauna pages.
+    FloraAttributesScraper class to fetch additional plant data from NParks Flora & Fauna pages.
 
     attributes:
         start_row (int): row to start scraping from in the CSV file.
@@ -32,7 +15,7 @@ class WebScrap:
 
     def __init__(self, start_row: int = 0, end_row: int = None):
         '''
-        initialize the WebScrap with starting and ending rows for processing.
+        initialize the FloraAttributesScraper with starting and ending rows for processing.
 
         parameters:
             start_row (int): row to start scraping from in the CSV file.
@@ -842,5 +825,27 @@ if __name__ == '__main__':
     # scraper = WebScrap(start_row = 0, end_row = 100)
 
     '''example for how to call entire csv'''
-    scraper = WebScrap()
+    
+    DATA_FOLDER = os.path.join('src', 'flora_data')
+    if not os.path.exists(DATA_FOLDER):
+        os.makedirs(DATA_FOLDER)
+
+    LOGS_FOLDER = os.path.join('src', 'flora_data', 'logs')
+    if not os.path.exists(LOGS_FOLDER):
+        os.makedirs(LOGS_FOLDER)
+
+    CSV_FILENAME = 'flora_species.csv'
+    CSV_UPDATED_FILENAME = 'flora_species_updated.csv'
+    CSV_FILE_PATH = os.path.join(DATA_FOLDER, CSV_FILENAME)
+    CSV_UPDATED_FILE_PATH = os.path.join(DATA_FOLDER, CSV_UPDATED_FILENAME) 
+
+    # logs configuration: note that log is cleared at each run
+    logging.basicConfig(
+        filename=os.path.join(LOGS_FOLDER, 'flora_attributes_scraping.log'),
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        filemode='w'
+    )
+    
+    scraper = FloraAttributesScraper()
     scraper.scrape()

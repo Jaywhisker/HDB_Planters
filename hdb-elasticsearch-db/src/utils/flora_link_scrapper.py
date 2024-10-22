@@ -4,22 +4,7 @@ import re
 import requests
 import logging
 
-DATA_FOLDER = os.path.join('src', 'flora_data')
-if not os.path.exists(DATA_FOLDER):
-    os.makedirs(DATA_FOLDER)
-
-CSV_FILENAME = 'flora_species.csv'
-CSV_FILE_PATH = os.path.join(DATA_FOLDER, CSV_FILENAME)
-
-# logs configuration: note that log is cleared at each run
-logging.basicConfig(
-    filename=os.path.join(DATA_FOLDER, 'scraping.log'),
-    level=logging.INFO,
-    format='%(asctime)s - %(levelname)s - %(message)s',
-    filemode='w'
-)
-
-class FloraScraper:
+class FloraLinksScraper:
     '''
     scraper class to fetch, process, and save flora species data from NParks Flora & Fauna API.
 
@@ -200,5 +185,25 @@ class FloraScraper:
         logging.info(f"Flora data scraping complete. {new_species_count} new species added. Total species in CSV: {len(self.existing_links)}")
 
 if __name__ == '__main__':
-    scraper = FloraScraper()
+
+    DATA_FOLDER = os.path.join('src', 'flora_data')
+    if not os.path.exists(DATA_FOLDER):
+        os.makedirs(DATA_FOLDER)
+
+    LOGS_FOLDER = os.path.join('src', 'flora_data', 'logs')
+    if not os.path.exists(LOGS_FOLDER):
+        os.makedirs(LOGS_FOLDER)
+
+    CSV_FILENAME = 'flora_species.csv'
+    CSV_FILE_PATH = os.path.join(DATA_FOLDER, CSV_FILENAME)
+
+    # logs configuration: note that log is cleared at each run
+    logging.basicConfig(
+        filename=os.path.join(DATA_FOLDER, 'flora_link_scraping.log'),
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        filemode='w'
+    )
+
+    scraper = FloraLinksScraper()
     scraper.scrape_flora_data()
