@@ -1,4 +1,5 @@
 __pycache__
-src/models/*
 notebooks/models
 notebooks/ppo_spatial_tensorboard
+src/logs/
+notebooks/UI_data.zip
