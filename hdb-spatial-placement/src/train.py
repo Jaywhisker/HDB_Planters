@@ -16,16 +16,13 @@ def parse_arguments():
     """
     Function defining all arguments for the data
     """
-    parser = argparse.ArgumentParser(description="Training script for the ML model.")
+    parser = argparse.ArgumentParser(description="Training script for the RL model.")
     
     # Define the arguments
     parser.add_argument('--model', type=str, required=True, help='Either plant_type_model or shrub_tree_model')
     parser.add_argument('--num_steps', type=int, default=10, help='How many steps before policy updates')
     parser.add_argument('--num_env', type=int, default=50, help='Number of environments to use in training')
     parser.add_argument('--num_run', type=int, default=10000, help='Number of policy updates to run in training')
-
-    # Add more arguments as needed
-    # parser.add_argument('--other_param', type=str, help='Description of other_param.')
 
     return parser.parse_args()
 

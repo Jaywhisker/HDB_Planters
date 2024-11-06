@@ -821,31 +821,33 @@ class FloraAttributesScraper:
 
     
 if __name__ == '__main__':
+    pass
+
     '''example for how to call as a segment of csv'''
     # scraper = WebScrap(start_row = 0, end_row = 100)
 
     '''example for how to call entire csv'''
     
-    DATA_FOLDER = os.path.join('src', 'flora_data')
-    if not os.path.exists(DATA_FOLDER):
-        os.makedirs(DATA_FOLDER)
+    # DATA_FOLDER = os.path.join('src', 'flora_data')
+    # if not os.path.exists(DATA_FOLDER):
+    #     os.makedirs(DATA_FOLDER)
 
-    LOGS_FOLDER = os.path.join('src', 'flora_data', 'logs')
-    if not os.path.exists(LOGS_FOLDER):
-        os.makedirs(LOGS_FOLDER)
+    # LOGS_FOLDER = os.path.join('src', 'flora_data', 'logs')
+    # if not os.path.exists(LOGS_FOLDER):
+    #     os.makedirs(LOGS_FOLDER)
 
-    CSV_FILENAME = 'flora_species.csv'
-    CSV_UPDATED_FILENAME = 'flora_species_updated.csv'
-    CSV_FILE_PATH = os.path.join(DATA_FOLDER, CSV_FILENAME)
-    CSV_UPDATED_FILE_PATH = os.path.join(DATA_FOLDER, CSV_UPDATED_FILENAME) 
+    # CSV_FILENAME = 'flora_species.csv'
+    # CSV_UPDATED_FILENAME = 'flora_species_updated.csv'
+    # CSV_FILE_PATH = os.path.join(DATA_FOLDER, CSV_FILENAME)
+    # CSV_UPDATED_FILE_PATH = os.path.join(DATA_FOLDER, CSV_UPDATED_FILENAME) 
 
-    # logs configuration: note that log is cleared at each run
-    logging.basicConfig(
-        filename=os.path.join(LOGS_FOLDER, 'flora_attributes_scraping.log'),
-        level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s',
-        filemode='w'
-    )
+    # # logs configuration: note that log is cleared at each run
+    # logging.basicConfig(
+    #     filename=os.path.join(LOGS_FOLDER, 'flora_attributes_scraping.log'),
+    #     level=logging.INFO,
+    #     format='%(asctime)s - %(levelname)s - %(message)s',
+    #     filemode='w'
+    # )
     
-    scraper = FloraAttributesScraper()
-    scraper.scrape()
+    # scraper = FloraAttributesScraper()
+    # scraper.scrape()
