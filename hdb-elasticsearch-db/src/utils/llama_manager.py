@@ -81,7 +81,7 @@ class PromptTemplate:
     
 
 class LlamaModel():
-    def __init__(self, mode:str, llama_model_path:str=None, llama_tokenizer_path:str=None):
+    def __init__(self, mode:str, llama_model_path:str='./src/llama/model', llama_tokenizer_path:str='./src/llama/tokenizer'):
         """
         Llama Model Class for data cleaning
 

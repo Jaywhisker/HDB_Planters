@@ -1,12 +1,3 @@
-"""
-Python File to randomly generate a dataset and upload to ElasticSearch database
-
-Note: 
-Ensure that you have a functioning ElastiSearch Database instance. 
-Update the os environment variables with your docker container name and port
-
-To update dataset schema, please do so in this file.
-"""
 import argparse
 import os
 import logging
@@ -30,12 +21,12 @@ def parse_arguments():
     
     # Define the arguments
     parser.add_argument('--filter_data', type=bool, default=True, help='Filter through dataset to ensure that only clean data was uploaded to ElasticSearch. Defaults to True.')
-    parser.add_argument('--dataset_size', type=int, default=30, help='Number of randomly selected sample to upload to database. Use None if upload entire dataset. Defaults to 30.')
+    parser.add_argument('--dataset_size', type=int, default=10, help='Number of randomly selected sample to upload to database. Use None if upload entire dataset. Defaults to 30.')
     parser.add_argument('--seed', type=int, default=None, help='Seed to randomly select dataset.')
-    parser.add_argument('--dataset_filepath', type=str, default='./src/flora_data/cleaned_flora_species.csv', help='Filepath to csv file containing data to be injested to ElasticSearch.')
+    parser.add_argument('--dataset_filepath', type=str, default='./test/flora_data/cleaned_flora_species.csv', help='Filepath to csv file containing data to be injested to ElasticSearch.')
     parser.add_argument('--collection_name', type=str, default='flora', help='Collection name for dataset in ElastiSearch. Defaults to flora.')
-    parser.add_argument('--output_folder', type=str, default='./src/flora_data/', help='Dataset CSV output folder.')
-    parser.add_argument('--logs_folder', type=str, default='./src/flora_data/logs/', help='Logs output folder.')
+    parser.add_argument('--output_folder', type=str, default='./test/flora_data/', help='Dataset CSV output folder.')
+    parser.add_argument('--logs_folder', type=str, default='./test/flora_data/logs/', help='Logs output folder.')
 
     return parser.parse_args()
 
@@ -104,7 +95,7 @@ def ingest_dataset(csv_filepath:str, esManager:ESManager, collection_name:str):
     return esManager.create_document(collection_name, all_documents)
 
 
-def main():
+def test():
     args = parse_arguments()
 
     # Accessing the arguments
@@ -212,7 +203,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    test()
 
 
     

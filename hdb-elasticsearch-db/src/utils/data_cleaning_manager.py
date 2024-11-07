@@ -171,8 +171,9 @@ class DataCleaningModel():
             llama_model (AutoModelForCausalLM): Llama2-7b model set to Classification mode (preset for leaf texture)
         """
         # Clear any chat history
+        llama_model.promptGenerator.clear_chat_history()
         for index, value in tqdm(self.data['Leaf Texture'].items(), total=len(self.data['Leaf Texture']), desc='Classifying Leaf Texture'):
-            if value != '-':
+            if value != '-' and value != 'None':
                 response = llama_model.classify(value)
                 try:
                     leaf_texture = json.loads(response)['answer']
@@ -184,7 +185,7 @@ class DataCleaningModel():
                 except:
                     leaf_texture = '-'
 
-            self.data.at[index, 'Leaf Texture'] = leaf_texture
+                self.data.at[index, 'Leaf Texture'] = leaf_texture
 
 
     def clean_data(self, output_path:str):

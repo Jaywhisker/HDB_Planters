@@ -160,9 +160,6 @@ class FloraAttributesScraper:
         '''
         returns default default values based on plant type.
 
-        example:
-        For shrubs, the default value for 'Fragrant Plant?' is set to 'False'. For trees, it is set to 'None'.
-
         returns: dict: a dictionary with default values for following keys:
               'Light Preference', 'Water Preference', 'Drought Tolerant?', 
               'Native to SG?', 'Fruit Bearing?', and 'Fragrant Plant?'.
@@ -183,9 +180,10 @@ class FloraAttributesScraper:
             'Water Preference': [],
             'Drought Tolerant?': 'False',
             'Native to SG?': 'False',
-            'Fruit Bearing?': 'False'
+            'Fruit Bearing?': 'False',
+            'Fragrant Plant?': 'False'
         }
-        default_data['Fragrant Plant?'] = 'False' if self.is_shrub else 'None'
+
         return default_data
 
     def extract_icon_title(self, title: str, icon_data: dict):
@@ -235,9 +233,6 @@ class FloraAttributesScraper:
 
         If icon data is missing from the webpage, default values are returned based on the 
         plant type. 
-        
-        For trees, special handling is applied for the 'Fragrant Plant?' attribute 
-        based on its presence or absence.
 
         parameters:
             soup (BeautifulSoup): Parsed HTML of the species webpage.
@@ -254,7 +249,7 @@ class FloraAttributesScraper:
                     'Drought Tolerant?': 'True',
                     'Native to SG?': 'False',
                     'Fruit Bearing?': 'True',
-                    'Fragrant Plant?': 'None'
+                    'Fragrant Plant?': 'False'
                 }
         '''
         icons_div = soup.find('div', class_='species-info__icons')
@@ -271,11 +266,6 @@ class FloraAttributesScraper:
             if img:
                 title = img.get('title').lower()
                 self.extract_icon_title(title, icon_data)
-
-        # Handle special case for trees
-        if self.is_tree and icon_data['Fragrant Plant?'] == 'False':
-            logging.debug("Tree detected. Setting 'Fragrant Plant?' to 'None' for trees.")
-            icon_data['Fragrant Plant?'] = 'None'
 
         icon_data['Light Preference'] = ', '.join(icon_data['Light Preference']) if icon_data['Light Preference'] else '-'
         icon_data['Water Preference'] = ', '.join(icon_data['Water Preference']) if icon_data['Water Preference'] else '-'
