@@ -13,7 +13,7 @@ class FloraAttributesScraper:
         end_row (int): row to end scraping at in the CSV file.
     '''
 
-    def __init__(self, start_row: int = 0, end_row: int = None):
+    def __init__(self, data_folder:str, csv_file_path:str, csv_updated_file_path:str, start_row: int = 0, end_row: int = None):
         '''
         initialize the FloraAttributesScraper with starting and ending rows for processing.
 
@@ -23,6 +23,9 @@ class FloraAttributesScraper:
         '''
         self.start_row = start_row
         self.end_row = end_row
+        self.data_folder = data_folder
+        self.csv_file_path = csv_file_path
+        self.csv_updated_file_path = csv_updated_file_path
         self.ensure_data_folder_exists()
         self.species_data = []
 
@@ -53,11 +56,11 @@ class FloraAttributesScraper:
         '''
         ensure that the data folder exists. if not found, it will create the folder.
         '''
-        if not os.path.exists(DATA_FOLDER):
-            os.makedirs(DATA_FOLDER)
-            logging.info(f"Created folder: {DATA_FOLDER}")
+        if not os.path.exists(self.data_folder):
+            os.makedirs(self.data_folder)
+            logging.info(f"Created folder: {self.data_folder}")
         else:
-            logging.info(f"Folder already exists: {DATA_FOLDER}")
+            logging.info(f"Folder already exists: {self.data_folder}")
     
     def read_csv(self):
         '''
@@ -67,7 +70,7 @@ class FloraAttributesScraper:
             list: list of rows from the CSV file.
         '''
         try:
-            with open(CSV_FILE_PATH, mode='r', newline='', encoding='utf-8') as csvfile:
+            with open(self.csv_file_path, mode='r', newline='', encoding='utf-8') as csvfile:
                 reader = csv.DictReader(csvfile)
                 for row in reader:
                     yield row
@@ -107,11 +110,11 @@ class FloraAttributesScraper:
                     title = img.get('title').lower()
                     for plant_type in self.plant_types:
                         if title.strip().lower() == plant_type.strip().lower():
-                            logging.info(f"Plant type {title} found in icons..")
+                            logging.debug(f"Plant type {title} found in icons..")
                             plant_types.append(plant_type)
 
         else:
-            logging.info("No plant type icons found.")
+            logging.debug("No plant type icons found.")
 
         # check for plant shape in the classifications section
         def check_classification_table(table):
@@ -123,7 +126,7 @@ class FloraAttributesScraper:
                     if 'plant shape' in header_text.lower():
                         value = data_cell.text.strip().lower() if data_cell else ''
                         if value == 'shrubby' and 'Shrub' not in plant_types:
-                            logging.info(f"Plant shape '{value}' found in classification. Adding 'Shrub' to plant types.")
+                            logging.debug(f"Plant shape '{value}' found in classification. Adding 'Shrub' to plant types.")
                             plant_types.append('Shrub')
 
         # find tables in the classifications section
@@ -139,7 +142,7 @@ class FloraAttributesScraper:
                     check_classification_table(table_show)
 
         else:
-            logging.info("No classifications section found.")
+            logging.warning("No classifications section found.")
 
         # set flags based on plant types found
         self.is_tree = any(pt in self.trees for pt in plant_types)
@@ -147,9 +150,9 @@ class FloraAttributesScraper:
 
         # log final plant types found
         if plant_types:
-            logging.info(f"Final plant types identified: {', '.join(plant_types)}")
+            logging.debug(f"Final plant types identified: {', '.join(plant_types)}")
         else:
-            logging.info("No plant types identified.")
+            logging.warning("No plant types identified.")
 
         return {'Plant Type': ', '.join(plant_types) if plant_types else '-'}
 
@@ -158,7 +161,7 @@ class FloraAttributesScraper:
         returns default default values based on plant type.
 
         example:
-        For shrubs, the default value for 'Fragrant Plant?' is set to '-'. For trees, it is set to 'None'.
+        For shrubs, the default value for 'Fragrant Plant?' is set to 'False'. For trees, it is set to 'None'.
 
         returns: dict: a dictionary with default values for following keys:
               'Light Preference', 'Water Preference', 'Drought Tolerant?', 
@@ -171,7 +174,7 @@ class FloraAttributesScraper:
                   'Drought Tolerant?': 'False',
                   'Native to SG?': 'False',
                   'Fruit Bearing?': 'False',
-                  'Fragrant Plant?': '-'
+                  'Fragrant Plant?': 'False'
               }
 
         '''
@@ -182,7 +185,7 @@ class FloraAttributesScraper:
             'Native to SG?': 'False',
             'Fruit Bearing?': 'False'
         }
-        default_data['Fragrant Plant?'] = '-' if self.is_shrub else 'None'
+        default_data['Fragrant Plant?'] = 'False' if self.is_shrub else 'None'
         return default_data
 
     def extract_icon_title(self, title: str, icon_data: dict):
@@ -204,26 +207,26 @@ class FloraAttributesScraper:
         for lp in self.light_preferences:
             if title_lower in lp.lower():
                 icon_data['Light Preference'].append(lp)  # Append to the list
-                logging.info(f"Light preference {lp} found.")
+                logging.debug(f"Light preference {lp} found.")
 
         # Check for water preferences
         for wp in self.water_preferences:
             if title_lower in wp.lower():
                 icon_data['Water Preference'].append(wp)  # Append to the list
-                logging.info(f"Water preference {wp} found.")
+                logging.debug(f"Water preference {wp} found.")
 
         if title == 'drought tolerant':
             icon_data['Drought Tolerant?'] = 'True'
-            logging.info("Drought tolerant found.")
+            logging.debug("Drought tolerant found.")
         if title == 'native to singapore':
             icon_data['Native to SG?'] = 'True'
-            logging.info("Native to Singapore found.")
-        if title == 'fruit bearing':
+            logging.debug("Native to Singapore found.")
+        if title == 'fruit or vegetable':
             icon_data['Fruit Bearing?'] = 'True'
-            logging.info("Fruit bearing plant found.")
+            logging.debug("Fruit bearing plant found.")
         if title == 'fragrant plant':
             icon_data['Fragrant Plant?'] = 'True'
-            logging.info("Fragrant plant found.")
+            logging.debug("Fragrant plant found.")
 
     def scrape_icons(self, soup: BeautifulSoup) -> dict:
         '''
@@ -260,7 +263,7 @@ class FloraAttributesScraper:
         icon_data = self.get_default_icon_data()
 
         if not icons_div:
-            logging.info("No icons found on the webpage. Using default values.")
+            logging.warning("No icons found on the webpage. Using default values.")
             return icon_data
 
         for icon in icons_div.find_all('a'):
@@ -271,7 +274,7 @@ class FloraAttributesScraper:
 
         # Handle special case for trees
         if self.is_tree and icon_data['Fragrant Plant?'] == 'False':
-            logging.info("Tree detected. Setting 'Fragrant Plant?' to 'None' for trees.")
+            logging.debug("Tree detected. Setting 'Fragrant Plant?' to 'None' for trees.")
             icon_data['Fragrant Plant?'] = 'None'
 
         icon_data['Light Preference'] = ', '.join(icon_data['Light Preference']) if icon_data['Light Preference'] else '-'
@@ -305,7 +308,7 @@ class FloraAttributesScraper:
 
                             if not existing_value or existing_value == '-':
                                 section_data[output_key] = new_value
-                                logging.info(f"Set '{output_key}' to '{new_value}'.")
+                                logging.debug(f"Set '{output_key}' to '{new_value}'.")
                             break
 
     def scrape_section_by_h3(self, soup: BeautifulSoup, section_id: str, row_keywords: dict, default_values: dict = None) -> dict:
@@ -348,7 +351,7 @@ class FloraAttributesScraper:
         if default_values:
             for key, default_value in default_values.items():
                 section_data.setdefault(key, default_value)
-                logging.info(f"Applied default value '{default_value}' for missing '{key}'.")
+                logging.debug(f"Applied default value '{default_value}' for missing '{key}'.")
         
         return section_data
 
@@ -373,7 +376,7 @@ class FloraAttributesScraper:
 
         if section_data['Maximum Height'] != '-':
             self.found_max_height = True
-            logging.info(f"Maximum height found: {section_data['Maximum Height']}")
+            logging.debug(f"Maximum height found: {section_data['Maximum Height']}")
         
         return section_data
 
@@ -397,7 +400,7 @@ class FloraAttributesScraper:
 
         if section_data['Flower Colour'] != '-':
             self.found_flower_colour = True
-            logging.info(f"Flower color found: {section_data['Flower Colour']}" )
+            logging.debug(f"Flower color found: {section_data['Flower Colour']}" )
         
         return section_data
 
@@ -425,7 +428,7 @@ class FloraAttributesScraper:
         
         section_data = self.scrape_section_by_h3(soup, 'foliar', row_keywords, default_values)
 
-        logging.info(f"Foliar data extracted:{section_data}" )
+        logging.debug(f"Foliar data extracted:{section_data}" )
     
         return section_data
     
@@ -440,13 +443,13 @@ class FloraAttributesScraper:
             dict: dictionary containing the extracted data for the plant care section.
         '''
         row_keywords = {
-            'plant growth rate': 'Growth rate'
+            'plant growth rate': 'Growth Rate'
         }
-        default_values = {'Growth rate': '-'}
+        default_values = {'Growth Rate': '-'}
         
         section_data = self.scrape_section_by_h3(soup, 'plant', row_keywords, default_values)
 
-        logging.info(f"Plant care data extracted:{section_data}")
+        logging.debug(f"Plant care data extracted:{section_data}")
 
         return section_data
     
@@ -467,7 +470,7 @@ class FloraAttributesScraper:
         
         section_data = self.scrape_section_by_h3(soup, 'landscaping', row_keywords, default_values)
 
-        logging.info(f"Landscape data extracted: {section_data}")
+        logging.debug(f"Landscape data extracted: {section_data}")
 
         return section_data
 
@@ -483,13 +486,13 @@ class FloraAttributesScraper:
 
         '''
         row_keywords = {
-            'fauna pollination dispersal associated fauna': 'Attracted animals'
+            'fauna pollination dispersal associated fauna': 'Attracted Animals'
         }
-        default_values = {'Attracted animals': '-'}
+        default_values = {'Attracted Animals': '-'}
         
         section_data = self.scrape_section_by_h3(soup, 'fauna', row_keywords, default_values)
 
-        logging.info(f"Fauna data extracted: {section_data}")
+        logging.debug(f"Fauna data extracted: {section_data}")
 
         return section_data
 
@@ -511,7 +514,7 @@ class FloraAttributesScraper:
         
         section_data = self.scrape_section_by_h3(soup, 'biogeography', row_keywords, default_values)
 
-        logging.info(f"Biogeography data extracted: {section_data}")
+        logging.debug(f"Biogeography data extracted: {section_data}")
 
         return section_data
 
@@ -540,10 +543,10 @@ class FloraAttributesScraper:
         # setting flags
         if section_data['Trunk Texture'] != '-':
             self.found_mature_bark_texture = True
-            logging.info(f"Mature bark texture found: {section_data['Trunk Texture']}")
+            logging.debug(f"Mature bark texture found: {section_data['Trunk Texture']}")
         if section_data['Trunk Colour'] != '-':
             self.found_bark_colour = True
-            logging.info(f"Bark Colour found: {section_data['Trunk Colour']}")
+            logging.debug(f"Bark Colour found: {section_data['Trunk Colour']}")
 
         return section_data
 
@@ -565,11 +568,11 @@ class FloraAttributesScraper:
         returns:
             dict: dictionary containing the scraped attributes from the description section.
                 The dictionary includes:
-                - 'Trunk Colour': Color of the trunk or '-' if not found.
-                - 'Trunk Texture': Texture of the trunk or '-' if not found.
+                - 'Trunk Colour': Color of the trunk or '-' if not found. 'None' if not found and plant type is shrub.
+                - 'Trunk Texture': Texture of the trunk or '-' if not found. 'None' if not found and plant type is shrub.
                 - 'Maximum Height': Maximum height of the plant or '-' if not found.
                 - 'Flower Colour': Color of the flower or '-' if not found.
-                - 'Leaf Texture': Texture of the leaves or '-' if not found, depending on the plant type.
+                - 'Leaf Texture': Texture of the leaves or '-' if not found, depending on the plant type. 'None' if not found and plant type is tree.
         '''
         section_data = {}
         heading = soup.find('h3', id='description')
@@ -600,32 +603,32 @@ class FloraAttributesScraper:
                                 if 'trunk' in header_text.lower() and section_data['Trunk Colour']=='-':
                                     trunk_bark_colour = data_cell.text.strip() if data_cell else ''
                                     section_data['Trunk Colour'] = trunk_bark_colour
-                                    logging.info("Trunk Colour found")
+                                    logging.debug("Trunk Colour found")
 
                                 if 'trunk' in header_text.lower() and section_data['Trunk Texture']=='-':
                                     trunk_bark_texture = data_cell.text.strip() if data_cell else ''
                                     section_data['Trunk Texture'] = trunk_bark_texture
-                                    logging.info("Trunk Texture found")
+                                    logging.debug("Trunk Texture found")
 
                                 if 'growth form' in header_text.lower() and section_data['Maximum Height']=='-':
                                     growth_form_max_height = data_cell.text.strip() if data_cell else '-'
                                     section_data['Maximum Height'] = growth_form_max_height
-                                    logging.info(f"Maximum height (from Growth Form): {section_data['Maximum Height']}")
+                                    logging.debug(f"Maximum height (from Growth Form): {section_data['Maximum Height']}")
 
                                 if 'flowers' in header_text.lower() and section_data['Flower Colour'] =='-':
                                     flower_colour = data_cell.text.strip() if data_cell else ''
                                     section_data['Flower Colour'] = flower_colour
-                                    logging.info("Flower Colour found")
+                                    logging.debug("Flower Colour found")
 
                                 if 'foliage' in header_text.lower() and section_data['Leaf Texture']=='-':
                                     foliage_colour = data_cell.text.strip() if data_cell else ''
                                     section_data['Leaf Texture'] = foliage_colour
-                                    logging.info("Leaf Texture found")
+                                    logging.debug("Leaf Texture found")
 
                                 if 'others - plant morphology' in header_text.lower() and section_data['Leaf Texture']=='-':
                                     plant_morphology = data_cell.text.strip() if data_cell else ''
                                     section_data['Leaf Texture'] = plant_morphology
-                                    logging.info("Leaf Texture found")
+                                    logging.debug("Leaf Texture found")
 
                 if table:
                     extract_classification_data(table)
@@ -758,24 +761,24 @@ class FloraAttributesScraper:
             mode (str): The file open mode, either 'a' for append or 'w' for write. Defaults to 'a'.
         '''
         try:
-            with open(CSV_UPDATED_FILE_PATH, mode=mode, newline='', encoding='utf-8') as csvfile:
+            with open(self.csv_updated_file_path, mode=mode, newline='', encoding='utf-8') as csvfile:
                 fieldnames = [
                     'Scientific Name', 'Common Name', 'Species ID', 'Link',
                     'Plant Type', 'Light Preference', 'Water Preference',
                     'Drought Tolerant?', 'Native to SG?', 'Fruit Bearing?',
                     'Fragrant Plant?', 'Maximum Height', 'Flower Colour',
-                    'Hazard', 'Attracted animals', 'Native habitat',
+                    'Hazard', 'Attracted Animals', 'Native habitat',
                     'Mature Leaf Colour', 'Young Flush Leaf Colour',
-                    'Leaf Area Index', 'Growth rate', 'Trunk Texture',
+                    'Leaf Area Index', 'Growth Rate', 'Trunk Texture',
                     'Trunk Colour', 'Leaf Texture'
                 ]
                 writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
-                # Write header only if the file is empty or in 'w' mode
+                # write header only if the file is empty or in 'w' mode
                 if csvfile.tell() == 0 and mode == 'w':
                     writer.writeheader()
 
-                # Create a new row that matches the fieldnames order
+                # create a new row that matches the fieldnames order
                 row_to_write = {field: updated_row.get(field, '-') for field in fieldnames}
                 writer.writerow(row_to_write)
                 logging.info(f"Wrote updated row for species: {updated_row.get('Scientific Name', 'Unknown')} to CSV.")
@@ -809,7 +812,7 @@ class FloraAttributesScraper:
 
                 if additional_data:
                     updated_row = {**species_row, **additional_data}  # update species row with additional data
-                    mode = 'w' if index == self.start_row else 'a'  # Write header only for the first row
+                    mode = 'w' if index == self.start_row else 'a'  # write header only for the first row
                     self.write_row_to_csv(updated_row, mode)
                     logging.info(f"Completed web scrap for {species_row['Species ID']}")
 

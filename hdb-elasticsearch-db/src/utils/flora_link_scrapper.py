@@ -14,13 +14,17 @@ class FloraLinksScraper:
     JSON_URL_TEMPLATE = "https://www.nparks.gov.sg/api/FFWApi/GetSpecies?itemsRequested={}&page=1&category=&productTerm=&tags=flora&sort=&imageTag="
     BASE_URL = "https://www.nparks.gov.sg"
 
-    def __init__(self, items_count: int = 9999):
+    def __init__(self, data_folder: str, csv_file_path: str, items_count: int = 9999):
         '''
         initialize the FloraScraper with a given number of items to fetch.
 
         parameters:
+            data_folder (str): The folder path where data will be stored.
+            csv_file_path (str): The CSV file path for saving species links.
             items_count (int): number of species to fetch from the API.
         '''
+        self.data_folder = data_folder
+        self.csv_file_path = csv_file_path
         self.items_count = items_count
         self.ensure_data_folder_exists()
         self.existing_links = self.load_existing_species_links()
@@ -29,11 +33,11 @@ class FloraLinksScraper:
         '''
         ensure that the data folder exists. if not found, it will create the folder.
         '''
-        if not os.path.exists(DATA_FOLDER):
-            os.makedirs(DATA_FOLDER)
-            logging.info(f"Created folder: {DATA_FOLDER}")
+        if not os.path.exists(self.data_folder):
+            os.makedirs(self.data_folder)
+            logging.info(f"Created folder: {self.data_folder}")
         else:
-            logging.info(f"Folder already exists: {DATA_FOLDER}")
+            logging.info(f"Folder already exists: {self.data_folder}")
 
     def load_existing_species_links(self) -> set:
         '''
@@ -43,15 +47,15 @@ class FloraLinksScraper:
             set: set containing the links of species already present in CSV file.
         '''
         # if csv file does not exist, create new file
-        if not os.path.exists(CSV_FILE_PATH):
-            logging.info(f"No existing CSV found. New file will be created at {CSV_FILE_PATH}.")
+        if not os.path.exists(self.csv_file_path):
+            logging.info(f"No existing CSV found. New file will be created at {self.csv_file_path}.")
             return set()
 
         # if csv file exists, checks through each row for existing links.
         # utilising links to check for matching as it is more unique than species name
         existing_links = set()
         try:
-            with open(CSV_FILE_PATH, mode='r', newline='', encoding='utf-8') as csvfile:
+            with open(self.csv_file_path, mode='r', newline='', encoding='utf-8') as csvfile:
                 reader = csv.DictReader(csvfile)
                 for row in reader:
                     link = row.get('Link')
@@ -145,16 +149,16 @@ class FloraLinksScraper:
             mode (str): file mode ('w' for write, 'a' for append). Default is 'a' for append.
         '''
         # check if file exists
-        file_exists = os.path.exists(CSV_FILE_PATH)
+        file_exists = os.path.exists(self.csv_file_path)
 
         # by default, it will append
-        with open(CSV_FILE_PATH, mode=mode, newline='', encoding='utf-8') as csvfile:
+        with open(self.csv_file_path, mode=mode, newline='', encoding='utf-8') as csvfile:
             writer = csv.writer(csvfile)
             # however, if file does not exists, then will first append header row before rows of data
             if not file_exists or mode == 'w':  # add header if the file is being created, which means csv file did not exist prior.
                 writer.writerow(["Scientific Name", "Common Name", "Species ID", "Link"])
             writer.writerows(data)
-        logging.info(f"Data successfully written to {CSV_FILE_PATH}")
+        logging.info(f"Data successfully written to {self.csv_file_path}")
 
     def scrape_flora_data(self) -> None:
         '''
@@ -170,16 +174,24 @@ class FloraLinksScraper:
         
         processed_data = []
         new_species_count = 0 #tracking number of new species updated
+        skipped_count = 0
+        skipped_species_links = [] 
+
         for species in species_data:
             row = self.process_species_data(species)
             species_link = row[-1]  # link is the last item in the list
             if species_link in self.existing_links:
-                logging.info(f"Skipping species with link {species_link}. Already exists.")
+                skipped_count += 1
+                skipped_species_links.append(species_link)
+                logging.debug(f"Skipping species with link {species_link}. Already exists.") #only logged if in debug mode if wish to have access to species link
                 continue  # skip this species since it already exists
             
             processed_data.append(row)
             self.existing_links.add(species_link)  # add the new link to the set, avoiding future duplication
             new_species_count += 1
+
+        # Summary of skipped species
+        logging.warning(f"Total skipped species: {skipped_count}. Already exists.")
         
         self.write_to_csv(processed_data)
         logging.info(f"Flora data scraping complete. {new_species_count} new species added. Total species in CSV: {len(self.existing_links)}")

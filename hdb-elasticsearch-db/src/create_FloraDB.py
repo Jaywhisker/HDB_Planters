@@ -45,37 +45,28 @@ def main():
     if not os.path.exists(LOGS_FOLDER):
         os.makedirs(LOGS_FOLDER)
 
-    """
-    Scrapping Links
-    """
     # Logs configuration
     logging.basicConfig(
-        filename=os.path.join(LOGS_FOLDER, 'dataset_links_scrapping.log'),
+        filename=os.path.join(LOGS_FOLDER, 'dataset.log'),
         level=logging.INFO,
         format='%(asctime)s - %(levelname)s - %(message)s',
         filemode='w'
     )
-
+    """
+    Scrapping Links
+    """
     CSV_FILENAME = 'flora_species_links.csv'
-    CSV_FILE_PATH = os.path.join(DATA_FOLDER, CSV_FILENAME)
-    link_scrapper = FloraLinksScraper()
+    LINKS_CSV_FILE_PATH = os.path.join(DATA_FOLDER, CSV_FILENAME)
+    link_scrapper = FloraLinksScraper(DATA_FOLDER, LINKS_CSV_FILE_PATH)
     link_scrapper.scrape_flora_data()
     print("Links scrapped, scrapping flora details.")
 
     """
     Scrapping Attributes
     """    
-    # Logs configuration
-    logging.basicConfig(
-        filename=os.path.join(LOGS_FOLDER, 'dataset_attributes_scrapping.log'),
-        level=logging.INFO,
-        format='%(asctime)s - %(levelname)s - %(message)s',
-        filemode='w'
-    )
-
-    CSV_FILENAME = 'flora_species.csv'
-    CSV_FILE_PATH = os.path.join(DATA_FOLDER, CSV_FILENAME)
-    attr_scrapper = FloraAttributesScraper()
+    CSV_FILENAME = 'flora_species_attributes.csv'
+    ATTRIBUTES_CSV_FILE_PATH = os.path.join(DATA_FOLDER, CSV_FILENAME)
+    attr_scrapper = FloraAttributesScraper(DATA_FOLDER, LINKS_CSV_FILE_PATH, ATTRIBUTES_CSV_FILE_PATH)
     attr_scrapper.scrape()
     print("Attributes scrapped.")
 
@@ -84,20 +75,10 @@ def main():
     """
     if clean_data:
         print("Starting Data Cleaning")
-        # Logs configuration
-        logging.basicConfig(
-            filename=os.path.join(LOGS_FOLDER, 'dataset_cleaning.log'),
-            level=logging.INFO,
-            format='%(asctime)s - %(levelname)s - %(message)s',
-            filemode='w'
-        )
-
-        dataset_cleaner = DataCleaningModel(CSV_FILE_PATH)
+        dataset_cleaner = DataCleaningModel(ATTRIBUTES_CSV_FILE_PATH)
         dataset_cleaner.clean_data(os.path.join(DATA_FOLDER, 'cleaned_flora_species.csv'))
     
     print("Dataset Successfully Created.")
-
-
 
 if __name__ == "__main__":
     main()
