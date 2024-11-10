@@ -1,7 +1,11 @@
 __pycache__
-src/models/*
 <<<<<<< HEAD
 notebooks/models/*
 =======
 notebooks/models
 >>>>>>> d2870be358fecb78e730cd208dd74c0b1a3d1de8
+
+notebooks/ppo_spatial_tensorboard
+src/logs/
+notebooks/UI_data.zip
+notebooks/mock_data_creation.ipynb
