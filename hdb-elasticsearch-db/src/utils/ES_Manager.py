@@ -376,13 +376,14 @@ class ESManager():
 
         return {"response": "200", "api_resp": docs}
 
-    def custom_query(self, collection_name: str, query: dict) -> dict:
+    def custom_query(self, collection_name: str, query: dict, size:int=10) -> dict:
         """
         Read document from index based on custom ES query syntax. 
 
         Args:
             collection_name (str): Index name of ES
             query (dict): Custom query for ES users who are familiar with the query format
+            size (dict, Optional): Maximum results to return per hit, defaults to 10.
 
         Returns:
             dict: response of error along with the faulty document, or code 200 along with the list of retrieved document
@@ -394,7 +395,7 @@ class ESManager():
             return {"response": "Type of 'field_value_dict' is not dict"}
 
         # Check for document's existence
-        search_result = self.client.search(index=collection_name, query=query)
+        search_result = self.client.search(index=collection_name, query=query, size=size)
         result_count = search_result['hits']['total']['value']
 
         if result_count == 0:

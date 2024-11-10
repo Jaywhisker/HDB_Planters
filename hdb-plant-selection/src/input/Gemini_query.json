@@ -1,0 +1,3878 @@
+{
+    "Gemini": [
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Green"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Grass"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a central precinct garden with lush green accents and a meadow style",
+            "Function": "Central Precinct Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [],
+            "Flower_Colour": [],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "Brown"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a rustic boundary area",
+            "Function": "Boundary"
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Orange"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Plan a naturalistic butterfly garden with vibrant orange flowers",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Yellow",
+                "Purple",
+                "Red",
+                "Blue",
+                "Pink",
+                "White"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Grass"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a natural playground with wildflowers and native plants",
+            "Function": "Playground"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Green"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a minimalistic sitting corner with soft green hues",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Lavender",
+                "Pink"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create an ornamental boundary with lavender and pink flowers",
+            "Function": "Boundary"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "None"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Grass"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a landscape that is rustic",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "None"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "True",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a plantation-style future community garden",
+            "Function": "Future Community Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [],
+            "Flower_Colour": [
+                "Red"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Red"
+            ],
+            "Prompt": "Create a natural sitting corner with a red accent",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "White"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Creeper",
+                "Climber"
+            ],
+            "Trunk_Colour": [
+                "Brown"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Plan a formal pavilion with elegant white blooms",
+            "Function": "Pavilion"
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [],
+            "Flower_Colour": [
+                "Yellow",
+                "Soft Yellow"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "False",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a meadow-style butterfly garden with soft yellow hues",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "None"
+            ],
+            "Fragrant_Plant": "False",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Grass"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a passive zone with tall ornamental grasses",
+            "Function": "Passive Zone"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Green"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Grass"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Plan a rustic Active Zone with vibrant green foliage",
+            "Function": "Active Zone"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "Yellow",
+                "Pink",
+                "Red",
+                "White"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a minimalist playground with simple flowers",
+            "Function": "Playground"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Purple",
+                "Pink",
+                "White",
+                "Yellow"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Palm",
+                "Creeper"
+            ],
+            "Trunk_Colour": [
+                "Brown"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a landscape with picturesque style",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Blue"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Creeper",
+                "Climber"
+            ],
+            "Trunk_Colour": [
+                "Brown"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design an ornamental pergola space with rich blue flowers",
+            "Function": "Pergola"
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly"
+            ],
+            "Avoid_Animals": [
+                "Bird"
+            ],
+            "Flower_Colour": [
+                "pink",
+                "white"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Create a naturalistic butterfly garden with pink and white blooms",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "None"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Plan a rustic area",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "None"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Design a formal sitting corner with manicured hedges",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "green"
+            ],
+            "Fragrant_Plant": "False",
+            "Fruit_Bearing": "False",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Grass"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "green"
+            ],
+            "Prompt": "Create a passive zone with minimalist design and green colors",
+            "Function": "Passive Zone"
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Bird"
+            ],
+            "Flower_Colour": [
+                "Purple"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a manicured playground with soft purple blooms",
+            "Function": "Playground"
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Purple",
+                "Blue",
+                "Yellow",
+                "Orange",
+                "Red",
+                "Pink",
+                "White"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "False",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a naturalistic butterfly garden",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Golden"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Plan a central garden in a naturalistic style with golden accent",
+            "Function": "Central Precinct Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "Red"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a manicured boundary with deep red flowers",
+            "Function": "Boundary"
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [],
+            "Flower_Colour": [
+                "Purple"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a butterfly garden with a naturalistic look and purple wildflowers",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Pink",
+                "Yellow"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a manicured passive zone with bright pink and yellow accents",
+            "Function": "Passive Zone"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "blue"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "None"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Design a naturalistic landscape with blue flowers",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "ivory",
+                "white"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "green"
+            ],
+            "Prompt": "Plan a sitting corner in manicured style with ivory and white blooms",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [],
+            "Flower_Colour": [
+                "Orange",
+                "Purple"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Orange",
+                "Purple"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Orange",
+                "Purple"
+            ],
+            "Prompt": "Create a naturalistic Active Zone with orange and purple foliage",
+            "Function": "Active Zone"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "White",
+                "Yellow",
+                "Pink"
+            ],
+            "Fragrant_Plant": "False",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Palm"
+            ],
+            "Trunk_Colour": [
+                "Brown"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a manicured boundary",
+            "Function": "Boundary"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "pink",
+                "red"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Plan a manicured landscape with pink and red blooms",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly"
+            ],
+            "Flower_Colour": [
+                "white"
+            ],
+            "Fragrant_Plant": "True",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Create a naturalistic butterfly garden with white flowers",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Yellow",
+                "Orange"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a manicured playground with bright yellow and orange accents",
+            "Function": "Playground"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Green",
+                "Purple"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Plan a naturalistic passive zone with lush green and purple plants",
+            "Function": "Passive Zone"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [],
+            "Flower_Colour": [
+                "pink"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [],
+            "Trunk_Texture": [],
+            "Young_Flush_Leaf_Colour": [],
+            "Prompt": "Create a manicured landscape with pink accents",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Red",
+                "White"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Plan a manicured Active Zone with red and white accents",
+            "Function": "Active Zone"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Lavender"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a central garden in naturalistic style with lavender accents",
+            "Function": "Central Precinct Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "None"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "True",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Grass",
+                "Creeper"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Plan a naturalistic future community garden",
+            "Function": "Future Community Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly"
+            ],
+            "Avoid_Animals": [],
+            "Flower_Colour": [
+                "Purple",
+                "Pink",
+                "Yellow",
+                "Blue",
+                "Red",
+                "Orange",
+                "White"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a manicured butterfly garden",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "None"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "None"
+            ],
+            "Plant_Type": [
+                "Palm",
+                "Herbaceous Plant",
+                "Grass",
+                "Epiphyte",
+                "Creeper",
+                "Climber"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Design a naturalistic landscape",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "None"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Palm"
+            ],
+            "Trunk_Colour": [
+                "Brown"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Plan a manicured boundary",
+            "Function": "Boundary"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Red",
+                "Yellow"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a naturalistic sitting area with red and yellow flowers",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "None"
+            ],
+            "Fragrant_Plant": "False",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Design a manicured passive zone",
+            "Function": "Passive Zone"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Yellow",
+                "Purple"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Plan a naturalistic Active Zone with warm yellow and purple accents",
+            "Function": "Active Zone"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "red",
+                "white"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "green"
+            ],
+            "Prompt": "Create a manicured playground with red and white flowers",
+            "Function": "Playground"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "violet",
+                "orange"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Creeper"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a naturalistic boundary with violet and orange blooms",
+            "Function": "Boundary"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "None"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Plan a manicured sitting area",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly"
+            ],
+            "Flower_Colour": [
+                "Pale Yellow"
+            ],
+            "Fragrant_Plant": "True",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Prompt": "Create a naturalistic butterfly garden with pale yellow flowers",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Yellow",
+                "Red",
+                "Pink",
+                "Blue",
+                "Purple"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a meadow-style playground",
+            "Function": "Playground"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [],
+            "Flower_Colour": [
+                "White",
+                "Pink",
+                "Purple"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "False",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Palm",
+                "Herbaceous Plant",
+                "Climber"
+            ],
+            "Trunk_Colour": [
+                "Grey"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create an ornamental boundary",
+            "Function": "Boundary"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "golden-yellow"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "golden-yellow"
+            ],
+            "Plant_Type": [
+                "Grass",
+                "Herbaceous Plant",
+                "Climber",
+                "Creeper"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "golden-yellow"
+            ],
+            "Prompt": "Design a rustic landscape with golden-yellow accents",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Lavender",
+                "White"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Create a picturesque space with lavender and white accents",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Blue"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "None"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Grass",
+                "Creeper",
+                "Climber"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Design a naturalistic landscape with blue flowers and native shrubs",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "cream",
+                "green"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "green"
+            ],
+            "Prompt": "Plan a minimalist sitting corner with muted green and cream accents",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "None"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Palm"
+            ],
+            "Trunk_Colour": [
+                "Grey",
+                "Brown"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a plantation-style Active Zone with tall palms",
+            "Function": "Active Zone"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "Red",
+                "White"
+            ],
+            "Fragrant_Plant": "False",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Palm"
+            ],
+            "Trunk_Colour": [
+                "Grey"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a formal garden boundary with a mix of red and white accents",
+            "Function": "Boundary"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "pink",
+                "lilac"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "string"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "string"
+            ],
+            "Trunk_Texture": [
+                "string"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "string"
+            ],
+            "Prompt": "Plan a manicured landscape with soft pink and lilac tones",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Bird"
+            ],
+            "Flower_Colour": [
+                "Yellow"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a meadow-style butterfly garden with warm yellow flowers",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "Yellow",
+                "Red",
+                "Orange",
+                "Pink",
+                "Purple"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green",
+                "Purple",
+                "Red"
+            ],
+            "Plant_Type": [
+                "Grass",
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a manicured playground with tall grasses and native blooms",
+            "Function": "Playground"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "string"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "string"
+            ],
+            "Plant_Type": [
+                "Palm",
+                "Herbaceous Plant",
+                "Grass",
+                "Epiphyte",
+                "Creeper",
+                "Climber"
+            ],
+            "Trunk_Colour": [
+                "string"
+            ],
+            "Trunk_Texture": [
+                "string"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "string"
+            ],
+            "Prompt": "Plan an ornamental area",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "White",
+                "Pink",
+                "Purple"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Palm",
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "Brown"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a naturalistic boundary area",
+            "Function": "Boundary"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "white"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "green"
+            ],
+            "Plant_Type": [
+                "Creeper",
+                "Climber"
+            ],
+            "Trunk_Colour": [
+                "brown"
+            ],
+            "Trunk_Texture": [
+                "rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "green"
+            ],
+            "Prompt": "Design a minimalist pavilion with white flowers",
+            "Function": "Pavilion"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "red",
+                "pink"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "green"
+            ],
+            "Prompt": "Plan a formal Active Zone with bright red and pink flowers",
+            "Function": "Active Zone"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "orange"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "brown"
+            ],
+            "Trunk_Texture": [
+                "rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "green"
+            ],
+            "Prompt": "Create a rustic space with orange accents",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly"
+            ],
+            "Avoid_Animals": [],
+            "Flower_Colour": [
+                "Purple",
+                "Blue",
+                "Pink",
+                "White",
+                "Yellow",
+                "Orange",
+                "Red"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "False",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a naturalistic butterfly garden",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Purple",
+                "Blue"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "None"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Plan a picturesque area with purple and blue flowers",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "deep blue"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "deep blue"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Grass"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "deep blue"
+            ],
+            "Prompt": "Create a formal future community garden with deep blue accents",
+            "Function": "Future Community Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "pink",
+                "white"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "string"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "string"
+            ],
+            "Trunk_Texture": [
+                "string"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "string"
+            ],
+            "Prompt": "Design a manicured area with pink and white blossoms",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Yellow"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Yellow"
+            ],
+            "Prompt": "Plan a rustic passive zone with vibrant green and yellow foliage",
+            "Function": "Passive Zone"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Red",
+                "Yellow",
+                "Orange",
+                "Purple",
+                "Pink",
+                "White"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green",
+                "Yellow",
+                "Red",
+                "Orange",
+                "Purple",
+                "Brown",
+                "Black"
+            ],
+            "Plant_Type": [
+                "Palm",
+                "Herbaceous Plant",
+                "Grass",
+                "Epiphyte",
+                "Creeper",
+                "Climber"
+            ],
+            "Trunk_Colour": [
+                "Brown",
+                "Grey",
+                "Black",
+                "White"
+            ],
+            "Trunk_Texture": [
+                "Smooth",
+                "Rough",
+                "Bark",
+                "Fibrous"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green",
+                "Yellow",
+                "Red",
+                "Orange",
+                "Purple",
+                "Brown",
+                "Black"
+            ],
+            "Prompt": "Create an ornamental landscape",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bee",
+                "Butterfly"
+            ],
+            "Avoid_Animals": [
+                "Bird"
+            ],
+            "Flower_Colour": [
+                "white",
+                "purple"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Climber",
+                "Creeper"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a naturalistic pavilion with white and purple wildflowers",
+            "Function": "Pavilion"
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Purple",
+                "Pink",
+                "Orange",
+                "Yellow",
+                "Red",
+                "White"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Creeper",
+                "Climber"
+            ],
+            "Trunk_Colour": [
+                "Brown"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Plan a plantation-style butterfly garden",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "cream",
+                "beige"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "cream"
+            ],
+            "Prompt": "Create a minimalist sitting corner with cream and beige tones",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [],
+            "Flower_Colour": [
+                "Yellow",
+                "Purple"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a picturesque boundary with yellow daisies and lavender",
+            "Function": "Boundary"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "orange"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Plan an ornamental Active Zone with vibrant orange flowers",
+            "Function": "Active Zone"
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "Red",
+                "Yellow",
+                "Pink",
+                "Purple"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a playground",
+            "Function": "Playground"
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly"
+            ],
+            "Flower_Colour": [
+                "white",
+                "yellow"
+            ],
+            "Fragrant_Plant": "True",
+            "Height": "Short",
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Prompt": "Design a naturalistic butterfly garden with white and yellow wildflowers",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "Red"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Plan a formal sitting corner with neatly trimmed hedges and bright red flowers",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "White",
+                "Green"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Palm"
+            ],
+            "Trunk_Colour": [
+                "Gray"
+            ],
+            "Trunk_Texture": [
+                "Smooth"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a minimalist boundary with soft gray and green accents",
+            "Function": "Boundary"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [],
+            "Flower_Colour": [
+                "White"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design an ornamental central garden",
+            "Function": "Central Precinct Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "Yellow",
+                "Red",
+                "Blue",
+                "Pink",
+                "Purple",
+                "Orange"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Grass"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a manicured playground",
+            "Function": "Playground"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "violet",
+                "yellow"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "None"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Grass"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Design a meadow-style area with clusters of violet and yellow flowers",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [],
+            "Flower_Colour": [
+                "White",
+                "Pink",
+                "Purple"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Climber"
+            ],
+            "Trunk_Colour": [
+                "Brown"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Plan a picturesque pergola area",
+            "Function": "Pergola"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "blue"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Creeper",
+                "Climber"
+            ],
+            "Trunk_Colour": [
+                "Brown"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a naturalistic pavilion surrounded by blue wildflowers",
+            "Function": "Pavilion"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "White",
+                "Pink",
+                "Red",
+                "Yellow",
+                "Purple",
+                "Orange"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Medium",
+                "Fine",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Palm",
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "Grey",
+                "Brown"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a plantation-style landscape",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "pink",
+                "purple"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "green"
+            ],
+            "Prompt": "Plan an ornamental Active Zone with pink and purple blooms",
+            "Function": "Active Zone"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Bird"
+            ],
+            "Flower_Colour": [
+                "White"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Palm"
+            ],
+            "Trunk_Colour": [
+                "Grey"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a formal space",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Bird"
+            ],
+            "Flower_Colour": [
+                "Lavender"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Grey-green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a rustic sitting corner with lavender plants and natural stones",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [],
+            "Flower_Colour": [],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Climber"
+            ],
+            "Trunk_Colour": [
+                "Brown"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a naturalistic-style boundary",
+            "Function": "Boundary"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "White"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Design a manicured pavilion area with small green shrubs and white flowers",
+            "Function": "Pavilion"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "pink",
+                "blue",
+                "white"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "None"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Palm",
+                "Creeper",
+                "Climber"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "None"
+            ],
+            "Prompt": "Plan a picturesque landscape with pink, blue, and white blossoms",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "beige",
+                "light green"
+            ],
+            "Fragrant_Plant": "False",
+            "Fruit_Bearing": "False",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "light green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Grass"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "light green"
+            ],
+            "Prompt": "Create a minimalist area with soft beige and light green tones",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "Red",
+                "Yellow",
+                "Blue",
+                "Orange",
+                "Pink"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a formal playground",
+            "Function": "Playground"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth"
+            ],
+            "Flower_Colour": [
+                "Red",
+                "White",
+                "Pink"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "Brown"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Red"
+            ],
+            "Prompt": "Plan an ornamental sitting corner",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "White",
+                "Pink",
+                "Yellow"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green",
+                "Dark Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant",
+                "Creeper",
+                "Climber"
+            ],
+            "Trunk_Colour": [
+                "Brown",
+                "Grey"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a rustic boundary",
+            "Function": "Boundary"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "None"
+            ],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "Tall",
+            "Leaf_Texture": [
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Palm",
+                "Creeper"
+            ],
+            "Trunk_Colour": [
+                "Grey"
+            ],
+            "Trunk_Texture": [
+                "Rough"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Design a plantation-style pergola area with large palms",
+            "Function": "Pergola"
+        },
+        {
+            "Attracted_Animals": [
+                "Butterfly"
+            ],
+            "Flower_Colour": [
+                "Yellow",
+                "White"
+            ],
+            "Fragrant_Plant": "True",
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Prompt": "Create a naturalistic butterfly garden with bright yellow and white flowers",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Avoid_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [],
+            "Fragrant_Plant": "None",
+            "Fruit_Bearing": "None",
+            "Height": "None",
+            "Leaf_Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Mature_Leaf_Colour": [],
+            "Plant_Type": [
+                "Grass"
+            ],
+            "Trunk_Colour": [],
+            "Trunk_Texture": [],
+            "Young_Flush_Leaf_Colour": [],
+            "Prompt": "Plan a minimalist landscape",
+            "Function": null
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid_Animals": [
+                "Caterpillar Moth",
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "pink",
+                "white"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Medium"
+            ],
+            "Mature_Leaf_Colour": [
+                "green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "green"
+            ],
+            "Prompt": "Design a manicured future community garden with pink and white roses",
+            "Function": "Future Community Garden"
+        },
+        {
+            "Attracted_Animals": [
+                "Bird",
+                "Butterfly",
+                "Bee",
+                "Caterpillar Moth"
+            ],
+            "Avoid_Animals": [
+                "Bat"
+            ],
+            "Flower_Colour": [
+                "Blue",
+                "Yellow"
+            ],
+            "Fragrant_Plant": "True",
+            "Fruit_Bearing": "None",
+            "Height": "Short",
+            "Leaf_Texture": [
+                "Fine"
+            ],
+            "Mature_Leaf_Colour": [
+                "Green"
+            ],
+            "Plant_Type": [
+                "Herbaceous Plant"
+            ],
+            "Trunk_Colour": [
+                "None"
+            ],
+            "Trunk_Texture": [
+                "None"
+            ],
+            "Young_Flush_Leaf_Colour": [
+                "Green"
+            ],
+            "Prompt": "Create a meadow-style area with blue and yellow wildflowers",
+            "Function": null
+        }
+    ]
+}
