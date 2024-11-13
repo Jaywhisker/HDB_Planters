@@ -73,7 +73,7 @@ class DataCleaningModel():
         # Clear any chat history
         llama_model.promptGenerator.clear_chat_history()
         for index, value in tqdm(self.data['Flower Colour'].items(), total=len(self.data['Flower Colour']), desc='Cleaning Flower Colour'):
-            if 'flower' in value.lower() or 'flowers' in value.lower() or 'spathe' in value.lower():
+            if 'flower' in value.lower() or 'flowers' in value.lower() or 'spathe' in value.lower() or "inflorescence" in value.lower():
                 #Llama QA
                 response = llama_model.question_answer("What are the colours of the flowers?", value)
                 try:

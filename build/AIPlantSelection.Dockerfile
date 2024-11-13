@@ -9,7 +9,8 @@ WORKDIR /hdb-plant-selection
 COPY hdb-plant-selection/requirements.txt .
 RUN pip uninstall -y -r requirements.txt --no-cache-dir
 RUN pip install -r requirements.txt --no-cache-dir
+RUN python -m nltk.downloader wordnet
 
 ADD hdb-plant-selection/src/ ./src
 ADD hdb-plant-selection/tests/ ./tests
-WORKDIR /src
+WORKDIR /hdb-plant-selection

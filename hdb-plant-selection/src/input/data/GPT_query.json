@@ -1,0 +1,2157 @@
+{
+    "GPT": [
+        {
+            "Plant Type": [
+                "Herbaceous Plant",
+                "Grass"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "lush green"
+            ],
+            "Young Flush Leaf Colour": [
+                "lush green"
+            ],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Prompt": "Create a central precinct garden with lush green accents and a meadow style",
+            "Function": "Central Precinct Garden"
+        },
+        {
+            "Plant Type": [
+                "Palm",
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a rustic boundary area",
+            "Function": "Boundary"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant",
+                "Creeper",
+                "Climber"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "True",
+            "Height": "None",
+            "Flower Colour": [
+                "Orange"
+            ],
+            "Attracted Animals": [
+                "Butterfly",
+                "Caterpillar Moth"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Medium",
+                "Coarse"
+            ],
+            "Prompt": "Plan a naturalistic butterfly garden with vibrant orange flowers",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a natural playground with wildflowers and native plants",
+            "Function": "Playground"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "soft green"
+            ],
+            "Young Flush Leaf Colour": [
+                "soft green"
+            ],
+            "Trunk Colour": [
+                "soft green"
+            ],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a minimalistic sitting corner with soft green hues",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [
+                "Lavender",
+                "Pink"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create an ornamental boundary with lavender and pink flowers",
+            "Function": "Boundary"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a landscape that is rustic",
+            "Function": null
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a plantation-style future community garden",
+            "Function": "Future Community Garden"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "red"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a natural sitting corner with a red accent",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "white"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a formal pavilion with elegant white blooms",
+            "Function": "Pavilion"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "False",
+            "Height": "None",
+            "Flower Colour": [
+                "soft yellow"
+            ],
+            "Attracted Animals": [
+                "Butterfly"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Prompt": "Create a meadow-style butterfly garden with soft yellow hues",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Plant Type": [
+                "Grass"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Design a passive zone with tall ornamental grasses",
+            "Function": "Passive Zone"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "True",
+            "Fragrant Plant": "True",
+            "Height": "None",
+            "Flower Colour": [
+                "green"
+            ],
+            "Attracted Animals": [
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "green"
+            ],
+            "Young Flush Leaf Colour": [
+                "green"
+            ],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Coarse"
+            ],
+            "Prompt": "Plan a rustic Active Zone with vibrant green foliage",
+            "Function": "Active Zone"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "False",
+            "Fragrant Plant": "False",
+            "Height": "Short",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a minimalist playground with simple flowers",
+            "Function": "Playground"
+        },
+        {
+            "Plant Type": [
+                "Palm",
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a landscape with picturesque style",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Creeper",
+                "Climber"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "blue"
+            ],
+            "Attracted Animals": [
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design an ornamental pergola space with rich blue flowers",
+            "Function": "Pergola"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant",
+                "Creeper",
+                "Climber"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "Pink",
+                "White"
+            ],
+            "Attracted Animals": [
+                "Butterfly"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Prompt": "Create a naturalistic butterfly garden with pink and white blooms",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant",
+                "Palm",
+                "Grass"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Coarse"
+            ],
+            "Prompt": "Plan a rustic area",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Short",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Design a formal sitting corner with manicured hedges",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Plant Type": [
+                "Palm"
+            ],
+            "Fruit Bearing": "True",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [
+                "Green"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "Green"
+            ],
+            "Young Flush Leaf Colour": [
+                "Green"
+            ],
+            "Trunk Colour": [
+                "Green"
+            ],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Medium"
+            ],
+            "Prompt": "Create a passive zone with minimalist design and green colors",
+            "Function": "Passive Zone"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "False",
+            "Fragrant Plant": "True",
+            "Height": "Short",
+            "Flower Colour": [
+                "soft purple"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Create a manicured playground with soft purple blooms",
+            "Function": "Playground"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant",
+                "Creeper"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [
+                "Butterfly",
+                "Bee",
+                "Bird"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a naturalistic butterfly garden",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant",
+                "Grass",
+                "Creeper",
+                "Climber"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [
+                "golden"
+            ],
+            "Attracted Animals": [
+                "Bird",
+                "Butterfly"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "golden"
+            ],
+            "Young Flush Leaf Colour": [
+                "golden"
+            ],
+            "Trunk Colour": [
+                "golden"
+            ],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine",
+                "Coarse"
+            ],
+            "Prompt": "Plan a central garden in a naturalistic style with golden accent",
+            "Function": "Central Precinct Garden"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [
+                "red"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a manicured boundary with deep red flowers",
+            "Function": "Boundary"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "purple"
+            ],
+            "Attracted Animals": [
+                "Butterfly"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a butterfly garden with a naturalistic look and purple wildflowers",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "True",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "Pink",
+                "Yellow"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a manicured passive zone with bright pink and yellow accents",
+            "Function": "Passive Zone"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "blue flowers"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a naturalistic landscape with blue flowers",
+            "Function": null
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "ivory",
+                "white"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a sitting corner in manicured style with ivory and white blooms",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "True",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "Orange",
+                "Purple"
+            ],
+            "Young Flush Leaf Colour": [
+                "Orange",
+                "Purple"
+            ],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a naturalistic Active Zone with orange and purple foliage",
+            "Function": "Active Zone"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a manicured boundary",
+            "Function": "Boundary"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "pink",
+                "red"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a manicured landscape with pink and red blooms",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant",
+                "Grass"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "white flowers"
+            ],
+            "Attracted Animals": [
+                "Butterfly"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a naturalistic butterfly garden with white flowers",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "False",
+            "Fragrant Plant": "True",
+            "Height": "Short",
+            "Flower Colour": [
+                "Yellow",
+                "Orange"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Design a manicured playground with bright yellow and orange accents",
+            "Function": "Playground"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "True",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "green",
+                "purple"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "green",
+                "purple"
+            ],
+            "Young Flush Leaf Colour": [
+                "green",
+                "purple"
+            ],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a naturalistic passive zone with lush green and purple plants",
+            "Function": "Passive Zone"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "pink"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "pink"
+            ],
+            "Young Flush Leaf Colour": [
+                "pink"
+            ],
+            "Trunk Colour": [
+                "pink"
+            ],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a manicured landscape with pink accents",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Short",
+            "Flower Colour": [
+                "red",
+                "white"
+            ],
+            "Attracted Animals": [
+                "Butterfly"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Plan a manicured Active Zone with red and white accents",
+            "Function": "Active Zone"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "True",
+            "Height": "None",
+            "Flower Colour": [
+                "lavender"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a central garden in naturalistic style with lavender accents",
+            "Function": "Central Precinct Garden"
+        },
+        {
+            "Plant Type": [
+                "Epiphyte",
+                "Creeper",
+                "Climber"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "False",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Prompt": "Plan a naturalistic future community garden",
+            "Function": "Future Community Garden"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "True",
+            "Height": "Short",
+            "Flower Colour": [],
+            "Attracted Animals": [
+                "Butterfly"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Create a manicured butterfly garden",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a naturalistic landscape",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Palm"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a manicured boundary",
+            "Function": "Boundary"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant",
+                "Creeper",
+                "Climber"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Short",
+            "Flower Colour": [
+                "Red",
+                "Yellow"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine",
+                "Medium",
+                "Coarse"
+            ],
+            "Prompt": "Create a naturalistic sitting area with red and yellow flowers",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "True",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Medium"
+            ],
+            "Prompt": "Design a manicured passive zone",
+            "Function": "Passive Zone"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "yellow",
+                "purple"
+            ],
+            "Attracted Animals": [
+                "Butterfly"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a naturalistic Active Zone with warm yellow and purple accents",
+            "Function": "Active Zone"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "True",
+            "Height": "None",
+            "Flower Colour": [
+                "red",
+                "white"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a manicured playground with red and white flowers",
+            "Function": "Playground"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [
+                "violet",
+                "orange"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "violet",
+                "orange"
+            ],
+            "Young Flush Leaf Colour": [
+                "violet",
+                "orange"
+            ],
+            "Trunk Colour": [
+                "violet",
+                "orange"
+            ],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a naturalistic boundary with violet and orange blooms",
+            "Function": "Boundary"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Short",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Plan a manicured sitting area",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "pale yellow"
+            ],
+            "Attracted Animals": [
+                "Butterfly"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a naturalistic butterfly garden with pale yellow flowers",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "True",
+            "Height": "Short",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Prompt": "Create a meadow-style playground",
+            "Function": "Playground"
+        },
+        {
+            "Plant Type": [
+                "Palm"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "False",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create an ornamental boundary",
+            "Function": "Boundary"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "golden-yellow"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "golden-yellow"
+            ],
+            "Young Flush Leaf Colour": [
+                "golden-yellow"
+            ],
+            "Trunk Colour": [
+                "golden-yellow"
+            ],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a rustic landscape with golden-yellow accents",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "Lavender",
+                "White"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a picturesque space with lavender and white accents",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "blue"
+            ],
+            "Attracted Animals": [
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid Animals": [
+                "Bat"
+            ],
+            "Mature Leaf Colour": [
+                "green"
+            ],
+            "Young Flush Leaf Colour": [
+                "green"
+            ],
+            "Trunk Colour": [
+                "brown"
+            ],
+            "Trunk Texture": [
+                "smooth"
+            ],
+            "Leaf Texture": [
+                "Fine",
+                "Medium"
+            ],
+            "Prompt": "Design a naturalistic landscape with blue flowers and native shrubs",
+            "Function": null
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "green",
+                "cream"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "green"
+            ],
+            "Young Flush Leaf Colour": [
+                "green"
+            ],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a minimalist sitting corner with muted green and cream accents",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Plant Type": [
+                "Palm"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a plantation-style Active Zone with tall palms",
+            "Function": "Active Zone"
+        },
+        {
+            "Plant Type": [
+                "Palm",
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [
+                "red",
+                "white"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "red",
+                "white"
+            ],
+            "Young Flush Leaf Colour": [
+                "red",
+                "white"
+            ],
+            "Trunk Colour": [
+                "red",
+                "white"
+            ],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Design a formal garden boundary with a mix of red and white accents",
+            "Function": "Boundary"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "pink",
+                "lilac"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a manicured landscape with soft pink and lilac tones",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "yellow"
+            ],
+            "Attracted Animals": [
+                "Butterfly"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Create a meadow-style butterfly garden with warm yellow flowers",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Plant Type": [
+                "Grass",
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a manicured playground with tall grasses and native blooms",
+            "Function": "Playground"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Short",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Plan an ornamental area",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Palm"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a naturalistic boundary area",
+            "Function": "Boundary"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "white"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a minimalist pavilion with white flowers",
+            "Function": "Pavilion"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "Red",
+                "Pink"
+            ],
+            "Attracted Animals": [
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a formal Active Zone with bright red and pink flowers",
+            "Function": "Active Zone"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "orange"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a rustic space with orange accents",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [
+                "Butterfly"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a naturalistic butterfly garden",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "purple",
+                "blue"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a picturesque area with purple and blue flowers",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "True",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "deep blue"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a formal future community garden with deep blue accents",
+            "Function": "Future Community Garden"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "pink",
+                "white"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a manicured area with pink and white blossoms",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Palm",
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "True",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "green",
+                "yellow"
+            ],
+            "Young Flush Leaf Colour": [
+                "green",
+                "yellow"
+            ],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a rustic passive zone with vibrant green and yellow foliage",
+            "Function": "Passive Zone"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create an ornamental landscape",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Climber"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "white",
+                "purple"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a naturalistic pavilion with white and purple wildflowers",
+            "Function": "Pavilion"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [
+                "Butterfly"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a plantation-style butterfly garden",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "cream",
+                "beige"
+            ],
+            "Young Flush Leaf Colour": [
+                "cream",
+                "beige"
+            ],
+            "Trunk Colour": [
+                "cream",
+                "beige"
+            ],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a minimalist sitting corner with cream and beige tones",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "False",
+            "Fragrant Plant": "True",
+            "Height": "Short",
+            "Flower Colour": [
+                "Yellow",
+                "Lavender"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Design a picturesque boundary with yellow daisies and lavender",
+            "Function": "Boundary"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant",
+                "Palm"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "Orange"
+            ],
+            "Attracted Animals": [
+                "Butterfly",
+                "Bee"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan an ornamental Active Zone with vibrant orange flowers",
+            "Function": "Active Zone"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "True",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a playground",
+            "Function": "Playground"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Short",
+            "Flower Colour": [
+                "white",
+                "yellow"
+            ],
+            "Attracted Animals": [
+                "Butterfly"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Design a naturalistic butterfly garden with white and yellow wildflowers",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Short",
+            "Flower Colour": [
+                "Red"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a formal sitting corner with neatly trimmed hedges and bright red flowers",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Plant Type": [
+                "Palm"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "gray",
+                "green"
+            ],
+            "Young Flush Leaf Colour": [
+                "gray",
+                "green"
+            ],
+            "Trunk Colour": [
+                "gray",
+                "green"
+            ],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a minimalist boundary with soft gray and green accents",
+            "Function": "Boundary"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant",
+                "Palm"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design an ornamental central garden",
+            "Function": "Central Precinct Garden"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant",
+                "Creeper"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "True",
+            "Height": "Short",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Create a manicured playground",
+            "Function": "Playground"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "violet",
+                "yellow"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a meadow-style area with clusters of violet and yellow flowers",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Creeper",
+                "Climber"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a picturesque pergola area",
+            "Function": "Pergola"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "blue"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a naturalistic pavilion surrounded by blue wildflowers",
+            "Function": "Pavilion"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a plantation-style landscape",
+            "Function": null
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "False",
+            "Height": "None",
+            "Flower Colour": [
+                "pink",
+                "purple"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan an ornamental Active Zone with pink and purple blooms",
+            "Function": "Active Zone"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a formal space",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "True",
+            "Height": "Short",
+            "Flower Colour": [
+                "Lavender"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Design a rustic sitting corner with lavender plants and natural stones",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Plant Type": [
+                "Palm"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a naturalistic-style boundary",
+            "Function": "Boundary"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Short",
+            "Flower Colour": [
+                "white"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "green"
+            ],
+            "Young Flush Leaf Colour": [
+                "green"
+            ],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Design a manicured pavilion area with small green shrubs and white flowers",
+            "Function": "Pavilion"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "pink",
+                "blue",
+                "white"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a picturesque landscape with pink, blue, and white blossoms",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "beige",
+                "light green"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [
+                "beige",
+                "light green"
+            ],
+            "Young Flush Leaf Colour": [
+                "beige",
+                "light green"
+            ],
+            "Trunk Colour": [
+                "beige",
+                "light green"
+            ],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Create a minimalist area with soft beige and light green tones",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "True",
+            "Height": "Short",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Prompt": "Design a formal playground",
+            "Function": "Playground"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan an ornamental sitting corner",
+            "Function": "Sitting Corner"
+        },
+        {
+            "Plant Type": [
+                "Palm",
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "False",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a rustic boundary",
+            "Function": "Boundary"
+        },
+        {
+            "Plant Type": [
+                "Palm",
+                "Creeper",
+                "Climber"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "Tall",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a plantation-style pergola area with large palms",
+            "Function": "Pergola"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "yellow",
+                "white"
+            ],
+            "Attracted Animals": [
+                "Butterfly"
+            ],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a naturalistic butterfly garden with bright yellow and white flowers",
+            "Function": "Butterfly Garden"
+        },
+        {
+            "Plant Type": [],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Plan a minimalist landscape",
+            "Function": null
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "True",
+            "Fragrant Plant": "True",
+            "Height": "Short",
+            "Flower Colour": [
+                "Pink",
+                "White"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Design a manicured future community garden with pink and white roses",
+            "Function": "Future Community Garden"
+        },
+        {
+            "Plant Type": [
+                "Herbaceous Plant"
+            ],
+            "Fruit Bearing": "None",
+            "Fragrant Plant": "None",
+            "Height": "None",
+            "Flower Colour": [
+                "blue",
+                "yellow"
+            ],
+            "Attracted Animals": [],
+            "Avoid Animals": [],
+            "Mature Leaf Colour": [],
+            "Young Flush Leaf Colour": [],
+            "Trunk Colour": [],
+            "Trunk Texture": [],
+            "Leaf Texture": [],
+            "Prompt": "Create a meadow-style area with blue and yellow wildflowers",
+            "Function": null
+        }
+    ]
+}

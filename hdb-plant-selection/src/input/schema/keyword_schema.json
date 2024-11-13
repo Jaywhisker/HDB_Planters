@@ -1,0 +1,48 @@
+{
+    "type": "json_schema",
+    "json_schema": {
+        "name": "response",
+        "schema": {
+            "type": "object",
+            "properties": {
+                "function": {
+                    "type": "string",
+                    "enum": [
+                        "Boundary",
+                        "Playground",
+                        "Active Zone",
+                        "Central Precinct Garden",
+                        "Passive Zone",
+                        "Sitting Corner",
+                        "Pavilion",
+                        "Pergola",
+                        "Future Community Garden",
+                        "Butterfly Garden",
+                        "None"
+                    ]
+                },
+                "style": {
+                    "type": "string",
+                    "enum": [
+                        "Naturalistic",
+                        "Manicured",
+                        "Meadow",
+                        "Ornamental",
+                        "Minimalist",
+                        "Formal",
+                        "Picturesque",
+                        "Rustic",
+                        "Plantation",
+                        "None"
+                    ]
+                }
+            },
+            "required": [
+                "function",
+                "style"
+            ],
+            "additionalProperties": false
+        },
+        "strict": true
+    }
+}
