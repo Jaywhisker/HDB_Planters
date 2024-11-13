@@ -34,4 +34,12 @@ password: ELASTIC_PASSWORD in your .env file
 you have successfully setup all microservices in docker
 
 
+# Starting Microservice
+To start each microservice, ensure that every docker container is running. ElasticSearch and Kibana will automatically run.
+
+To run **hdb-plant-selection** microservice, enter the docker container and run the following function:
+```
+uvicorn src.main:app --port=8000 --host=0.0.0.0 --reload
+```
+
 
