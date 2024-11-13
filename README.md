@@ -21,6 +21,7 @@ sudo docker ps -aqf "name=elasticsearch"
 ```
 Afterwhich, run the following command:
 ```
+docker exec -it <elastic container id> bash
 ./bin/elasticsearch-reset-password --username kibana_system -i 
 <enter the kibana_system Password which corresponds to ELASTIC_PASSWORD in your .env file>
 ```
