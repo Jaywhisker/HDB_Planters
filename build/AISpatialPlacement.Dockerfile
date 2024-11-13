@@ -12,4 +12,4 @@ RUN pip install -r requirements.txt --no-cache-dir
 
 ADD hdb-spatial-placement/src/ ./src
 ADD hdb-spatial-placement/tests/ ./tests
-WORKDIR /src
+WORKDIR /hdb-spatial-placement/src
