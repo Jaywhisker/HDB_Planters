@@ -1,0 +1,44 @@
+{
+    "Boundary": {
+        "Height": "Tall"
+    },
+    "Playground": {
+        "Fragrant Plant": true,
+        "Hazard": "N/A",
+        "Avoid Animals": ["Bee"]
+    },
+    "Active Zone": {
+        "Plant Type": ["Herbaceous Plant"],
+        "Fragrant Plant": true,
+        "Fruit Bearing": true,
+        "Hazard": "N/A",
+        "Avoid Animals": ["Bee"],
+        "Attracted Animals": ["Bird", "Butterfly", "Caterpillar Moth"]
+    },
+    "Central Precinct Garden": {
+
+    }, 
+    "Passive Zone": {
+        "Plant Type": ["Herbaceous Plant"]
+    },
+    "Sitting Corner": {
+        "Height": "Short",
+        "Hazard": "N/A",
+        "Avoid Animals": ["Bee"]
+    },
+    "Pavilion": {
+        "Plant Type": ["Creeper", "Climber"]
+    },
+    "Pergola": {
+        "Plant Type": ["Creeper", "Climber"]
+    },
+    "Future Community Garden": {
+        "Plant Type": ["Herbaceous Plant"],
+        "Fruit Bearing": true,
+        "Avoid Animals": ["Bee"]
+    },
+    "Butterfly Garden": {
+        "Attracted Animals": ["Butterfly", "Caterpillar Moth"],
+        "Avoid Animals": ["Bee"]
+    }
+}

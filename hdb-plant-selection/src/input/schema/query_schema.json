@@ -1,0 +1,132 @@
+{
+    "type": "json_schema",
+    "json_schema": {
+        "name": "result",
+        "schema": {
+            "type": "object",
+            "properties": {
+                "Plant Type": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "Palm",
+                            "Herbaceous Plant",
+                            "Grass",
+                            "Epiphyte",
+                            "Creeper",
+                            "Climber"
+                        ]
+                    }
+                },
+                "Fruit Bearing": {
+                    "type": "string",
+                    "enum": [
+                        "True",
+                        "False",
+                        "None"
+                    ]
+                },
+                "Fragrant Plant": {
+                    "type": "string",
+                    "enum": [
+                        "True",
+                        "False",
+                        "None"
+                    ]
+                },
+                "Height": {
+                    "type": "string",
+                    "enum": [
+                        "Tall",
+                        "Short",
+                        "None"
+                    ]
+                },
+                "Flower Colour": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "Attracted Animals": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "Bird",
+                            "Butterfly",
+                            "Bee",
+                            "Caterpillar Moth",
+                            "Bat"
+                        ]
+                    }
+                },
+                "Avoid Animals": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "Bird",
+                            "Butterfly",
+                            "Bee",
+                            "Caterpillar Moth",
+                            "Bat"
+                        ]
+                    }
+                },
+                "Mature Leaf Colour": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "Young Flush Leaf Colour": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "Trunk Colour": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "Trunk Texture": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "Leaf Texture": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "Fine",
+                            "Medium",
+                            "Coarse"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "Plant Type",
+                "Fruit Bearing",
+                "Fragrant Plant",
+                "Height",
+                "Flower Colour",
+                "Attracted Animals",
+                "Avoid Animals",
+                "Mature Leaf Colour",
+                "Young Flush Leaf Colour",
+                "Trunk Colour",
+                "Trunk Texture",
+                "Leaf Texture"
+            ],
+            "additionalProperties": false
+        },
+        "strict": true
+    }
+}

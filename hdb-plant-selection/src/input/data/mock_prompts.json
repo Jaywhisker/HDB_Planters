@@ -1,0 +1,703 @@
+[
+    {
+      "prompt": "Create a central precinct garden with lush green accents and a meadow style",
+      "function": "Central Precinct Garden",
+      "colour": "lush green",
+      "style": "Meadow",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a rustic boundary area",
+      "function": "Boundary",
+      "colour": null,
+      "style": "Rustic",
+      "surrounding": "Road"
+    },
+    {
+      "prompt": "Plan a naturalistic butterfly garden with vibrant orange flowers",
+      "function": "Butterfly Garden",
+      "colour": "orange flowers",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a natural playground with wildflowers and native plants",
+      "function": "Playground",
+      "colour": null,
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a minimalistic sitting corner with soft green hues",
+      "function": "Sitting Corner",
+      "colour": "soft green",
+      "style": "Minimalist",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create an ornamental boundary with lavender and pink flowers",
+      "function": "Boundary",
+      "colour": "lavender and pink flowers",
+      "style": "Ornamental",
+      "surrounding": "Road"
+    },
+    {
+      "prompt": "Design a landscape that is rustic",
+      "function": null,
+      "colour": null,
+      "style": "Rustic",
+      "surrounding": null
+    },
+    {
+      "prompt": "Design a plantation-style future community garden",
+      "function": "Future Community Garden",
+      "colour": null,
+      "style": "Plantation",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a natural sitting corner with a red accent",
+      "function": "Sitting Corner",
+      "colour": "red",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Plan a formal pavilion with elegant white blooms",
+      "function": "Pavilion",
+      "colour": "white blooms",
+      "style": "Formal",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a meadow-style butterfly garden with soft yellow hues",
+      "function": "Butterfly Garden",
+      "colour": "soft yellow",
+      "style": "Meadow",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a passive zone with tall ornamental grasses",
+      "function": "Passive Zone",
+      "colour": null,
+      "style": "Ornamental",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Plan a rustic Active Zone with vibrant green foliage",
+      "function": "Active Zone",
+      "colour": "green",
+      "style": "Rustic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a minimalist playground with simple flowers",
+      "function": "Playground",
+      "colour": null,
+      "style": "Minimalist",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a landscape with picturesque style",
+      "function": null,
+      "colour": null,
+      "style": "Picturesque",
+      "surrounding": null
+    },
+    {
+      "prompt": "Design an ornamental pergola space with rich blue flowers",
+      "function": "Pergola",
+      "colour": "blue flowers",
+      "style": "Ornamental",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a naturalistic butterfly garden with pink and white blooms",
+      "function": "Butterfly Garden",
+      "colour": "pink and white blooms",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Plan a rustic area",
+      "function": null,
+      "colour": null,
+      "style": "Rustic",
+      "surrounding": null
+    },
+    {
+      "prompt": "Design a formal sitting corner with manicured hedges",
+      "function": "Sitting Corner",
+      "colour": null,
+      "style": "Formal",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a passive zone with minimalist design and green colors",
+      "function": "Passive Zone",
+      "colour": "green",
+      "style": "Minimalist",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a manicured playground with soft purple blooms",
+      "function": "Playground",
+      "colour": "soft purple",
+      "style": "Manicured",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a naturalistic butterfly garden",
+      "function": "Butterfly Garden",
+      "colour": null,
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Plan a central garden in a naturalistic style with golden accent",
+      "function": "Central Precinct Garden",
+      "colour": "golden",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a manicured boundary with deep red flowers",
+      "function": "Boundary",
+      "colour": "red flowers",
+      "style": "Manicured",
+      "surrounding": "Road"
+    },
+    {
+      "prompt": "Design a butterfly garden with a naturalistic look and purple wildflowers",
+      "function": "Butterfly Garden",
+      "colour": "purple wildflowers",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a manicured passive zone with bright pink and yellow accents",
+      "function": "Passive Zone",
+      "colour": "pink and yellow accents",
+      "style": "Manicured",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a naturalistic landscape with blue flowers",
+      "function": null,
+      "colour": "blue flowers",
+      "style": "Naturalistic",
+      "surrounding": null
+    },
+    {
+      "prompt": "Plan a sitting corner in manicured style with ivory and white blooms",
+      "function": "Sitting Corner",
+      "colour": "ivory and white blooms",
+      "style": "Manicured",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a naturalistic Active Zone with orange and purple foliage",
+      "function": "Active Zone",
+      "colour": "orange and purple foliage",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a manicured boundary",
+      "function": "Boundary",
+      "colour": null,
+      "style": "Manicured",
+      "surrounding": "Road"
+    },
+    {
+      "prompt": "Plan a manicured landscape with pink and red blooms",
+      "function": null,
+      "colour": "pink and red blooms",
+      "style": "Manicured",
+      "surrounding": null
+    },
+    {
+      "prompt": "Create a naturalistic butterfly garden with white flowers",
+      "function": "Butterfly Garden",
+      "colour": "white flowers",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a manicured playground with bright yellow and orange accents",
+      "function": "Playground",
+      "colour": "yellow and orange",
+      "style": "Manicured",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Plan a naturalistic passive zone with lush green and purple plants",
+      "function": "Passive Zone",
+      "colour": "green and purple",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a manicured landscape with pink accents",
+      "function": null,
+      "colour": "pink",
+      "style": "Manicured",
+      "surrounding": null
+    },
+    {
+      "prompt": "Plan a manicured Active Zone with red and white accents",
+      "function": "Active Zone",
+      "colour": "red and white",
+      "style": "Manicured",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a central garden in naturalistic style with lavender accents",
+      "function": "Central Precinct Garden",
+      "colour": "lavender",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Plan a naturalistic future community garden",
+      "function": "Future Community Garden",
+      "colour": null,
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a manicured butterfly garden",
+      "function": "Butterfly Garden",
+      "colour": null,
+      "style": "Manicured",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a naturalistic landscape",
+      "function": null,
+      "colour": null,
+      "style": "Naturalistic",
+      "surrounding": null
+    },
+    {
+      "prompt": "Plan a manicured boundary",
+      "function": "Boundary",
+      "colour": null,
+      "style": "Manicured",
+      "surrounding": "Road"
+    },
+    {
+      "prompt": "Create a naturalistic sitting area with red and yellow flowers",
+      "function": "Sitting Corner",
+      "colour": "red and yellow flowers",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a manicured passive zone",
+      "function": "Passive Zone",
+      "colour": null,
+      "style": "Manicured",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Plan a naturalistic Active Zone with warm yellow and purple accents",
+      "function": "Active Zone",
+      "colour": "yellow and purple",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a manicured playground with red and white flowers",
+      "function": "Playground",
+      "colour": "red and white flowers",
+      "style": "Manicured",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a naturalistic boundary with violet and orange blooms",
+      "function": "Boundary",
+      "colour": "violet and orange",
+      "style": "Naturalistic",
+      "surrounding": "Road"
+    },
+    {
+      "prompt": "Plan a manicured sitting area",
+      "function": "Sitting Corner",
+      "colour": null,
+      "style": "Manicured",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a naturalistic butterfly garden with pale yellow flowers",
+      "function": "Butterfly Garden",
+      "colour": "pale yellow flower",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Create a meadow-style playground",
+        "function": "Playground",
+        "colour": null,
+        "style": "Meadow",
+        "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Create an ornamental boundary",
+        "function": "Boundary",
+        "colour": null,
+        "style": "Ornamental",
+        "surrounding": "Road"
+    },
+    {
+        "prompt": "Design a rustic landscape with golden-yellow accents",
+        "function": null,
+        "colour": "golden-yellow",
+        "style": "Rustic",
+        "surrounding": null
+    },
+    {
+        "prompt": "Create a picturesque space with lavender and white accents",
+        "function": null,
+        "colour": "lavender and white",
+        "style": "Picturesque",
+        "surrounding": null
+    },
+    {
+        "prompt": "Design a naturalistic landscape with blue flowers and native shrubs",
+        "function": null,
+        "colour": "blue flowers",
+        "style": "Naturalistic",
+        "surrounding": null
+    },
+    {
+        "prompt": "Plan a minimalist sitting corner with muted green and cream accents",
+        "function": "Sitting Corner",
+        "colour": "green and cream",
+        "style": "Minimalist",
+        "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Create a plantation-style Active Zone with tall palms",
+        "function": "Active Zone",
+        "colour": null,
+        "style": "Plantation",
+        "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Design a formal garden boundary with a mix of red and white accents",
+        "function": "Boundary",
+        "colour": "red and white",
+        "style": "Formal",
+        "surrounding": "Road"
+    },
+    {
+        "prompt": "Plan a manicured landscape with soft pink and lilac tones",
+        "function": null,
+        "colour": "pink and lilac",
+        "style": "Manicured",
+        "surrounding": null
+    },
+    {
+        "prompt": "Create a meadow-style butterfly garden with warm yellow flowers",
+        "function": "Butterfly Garden",
+        "colour": "yellow flowers",
+        "style": "Meadow",
+        "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Design a manicured playground with tall grasses and native blooms",
+        "function": "Playground",
+        "colour": null,
+        "style": "Manicured",
+        "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Plan an ornamental area",
+        "function": null,
+        "colour": null,
+        "style": "Ornamental",
+        "surrounding": null
+    },
+    {
+        "prompt": "Create a naturalistic boundary area",
+        "function": "Boundary",
+        "colour": null,
+        "style": "Naturalistic",
+        "surrounding": "Road"
+    },
+    {
+        "prompt": "Design a minimalist pavilion with white flowers",
+        "function": "Pavilion",
+        "colour": "white flowers",
+        "style": "Minimalist",
+        "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Plan a formal Active Zone with bright red and pink flowers",
+        "function": "Active Zone",
+        "colour": "red and pink flowers",
+        "style": "Formal",
+        "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Create a rustic space with orange accents",
+        "function": null,
+        "colour": "orange",
+        "style": "Rustic",
+        "surrounding": null
+    },
+    {
+        "prompt": "Design a naturalistic butterfly garden",
+        "function": "Butterfly Garden",
+        "colour": null,
+        "style": "Naturalistic",
+        "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Plan a picturesque area with purple and blue flowers",
+        "function": null,
+        "colour": "purple and blue flowers",
+        "style": "Picturesque",
+        "surrounding": null
+    },
+    {
+        "prompt": "Create a formal future community garden with deep blue accents",
+        "function": "Future Community Garden",
+        "colour": "deep blue",
+        "style": "Formal",
+        "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Design a manicured area with pink and white blossoms",
+        "function": null,
+        "colour": "pink and white blossoms",
+        "style": "Manicured",
+        "surrounding": null
+    },
+    {
+        "prompt": "Plan a rustic passive zone with vibrant green and yellow foliage",
+        "function": "Passive Zone",
+        "colour": "green and yellow foliage",
+        "style": "Rustic",
+        "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Create an ornamental landscape",
+        "function": null,
+        "colour": null,
+        "style": "Ornamental",
+        "surrounding": null
+    },
+    {
+        "prompt": "Design a naturalistic pavilion with white and purple wildflowers",
+        "function": "Pavilion",
+        "colour": "white and purple",
+        "style": "Naturalistic",
+        "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Plan a plantation-style butterfly garden",
+        "function": "Butterfly Garden",
+        "colour": null,
+        "style": "Plantation",
+        "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Create a minimalist sitting corner with cream and beige tones",
+        "function": "Sitting Corner",
+        "colour": "cream and beige",
+        "style": "Minimalist",
+        "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Design a picturesque boundary with yellow daisies and lavender",
+        "function": "Boundary",
+        "colour": "yellow daisies and lavender",
+        "style": "Picturesque",
+        "surrounding": "Road"
+    },
+    {
+        "prompt": "Plan an ornamental Active Zone with vibrant orange flowers",
+        "function": "Active Zone",
+        "colour": "orange flowers",
+        "style": "Ornamental",
+        "surrounding": "Walkway"
+    },
+    {
+        "prompt": "Create a playground",
+        "function": "Playground",
+        "colour": null,
+        "style": null,
+        "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a naturalistic butterfly garden with white and yellow wildflowers",
+      "function": "Butterfly Garden",
+      "colour": "white and yellow wildflowers",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Plan a formal sitting corner with neatly trimmed hedges and bright red flowers",
+      "function": "Sitting Corner",
+      "colour": "red flowers",
+      "style": "Formal",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a minimalist boundary with soft gray and green accents",
+      "function": "Boundary",
+      "colour": "gray and green",
+      "style": "Minimalist",
+      "surrounding": "Road"
+    },
+    {
+      "prompt": "Design an ornamental central garden",
+      "function": "Central Precinct Garden",
+      "colour": null,
+      "style": "Ornamental",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a manicured playground",
+      "function": "Playground",
+      "colour": null,
+      "style": "Manicured",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a meadow-style area with clusters of violet and yellow flowers",
+      "function": null,
+      "colour": "violet and yellow",
+      "style": "Meadow",
+      "surrounding": null
+    },
+    {
+      "prompt": "Plan a picturesque pergola area",
+      "function": "Pergola",
+      "colour": null,
+      "style": "Picturesque",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a naturalistic pavilion surrounded by blue wildflowers",
+      "function": "Pavilion",
+      "colour": "blue wildflowers",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a plantation-style landscape",
+      "function": null,
+      "colour": null,
+      "style": "Plantation",
+      "surrounding": null
+    },
+    {
+      "prompt": "Plan an ornamental Active Zone with pink and purple blooms",
+      "function": "Active Zone",
+      "colour": "pink and purple blooms",
+      "style": "Ornamental",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Design a formal space",
+      "function": null,
+      "colour": null,
+      "style": "Formal",
+      "surrounding": null
+    },
+    {
+      "prompt": "Design a rustic sitting corner with lavender plants and natural stones",
+      "function": "Sitting Corner",
+      "colour": "lavender",
+      "style": "Rustic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a naturalistic-style boundary",
+      "function": "Boundary",
+      "colour": null,
+      "style": "Naturalistic",
+      "surrounding": "Road"
+    },
+    {
+      "prompt": "Design a manicured pavilion area with small green shrubs and white flowers",
+      "function": "Pavilion",
+      "colour": "green shrubs and white flowers",
+      "style": "Manicured",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Plan a picturesque landscape with pink, blue, and white blossoms",
+      "function": null,
+      "colour": "pink, blue, and white blossoms",
+      "style": "Picturesque",
+      "surrounding": null
+    },
+    {
+      "prompt": "Create a minimalist area with soft beige and light green tones",
+      "function": null,
+      "colour": "beige and light green",
+      "style": "Minimalist",
+      "surrounding": null
+    },
+    {
+      "prompt": "Design a formal playground",
+      "function": "Playground",
+      "colour": null,
+      "style": "Formal",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Plan an ornamental sitting corner",
+      "function": "Sitting Corner",
+      "colour": null,
+      "style": "Ornamental",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a rustic boundary",
+      "function": "Boundary",
+      "colour": null,
+      "style": "Rustic",
+      "surrounding": "Road"
+    },
+    {
+      "prompt": "Design a plantation-style pergola area with large palms",
+      "function": "Pergola",
+      "colour": null,
+      "style": "Plantation",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a naturalistic butterfly garden with bright yellow and white flowers",
+      "function": "Butterfly Garden",
+      "colour": "yellow and white flowers",
+      "style": "Naturalistic",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Plan a minimalist landscape",
+      "function": null,
+      "colour": null,
+      "style": "Minimalist",
+      "surrounding": null
+    },
+    {
+      "prompt": "Design a manicured future community garden with pink and white roses",
+      "function": "Future Community Garden",
+      "colour": "pink and white roses",
+      "style": "Manicured",
+      "surrounding": "Walkway"
+    },
+    {
+      "prompt": "Create a meadow-style area with blue and yellow wildflowers",
+      "function": null,
+      "colour": "blue and yellow wildflowers",
+      "style": "Meadow",
+      "surrounding": null
+    }
+  ]
+  

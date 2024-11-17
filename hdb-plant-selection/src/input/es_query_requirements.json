@@ -1,0 +1,17 @@
+{
+    "Plant Type": "should",
+    "Light Preference" : "must", 
+    "Water Preference": "must", 
+    "Drought Tolerant": "must", 
+    "Attracted Animals": "should", 
+    "Hazard": "must", 
+    "Avoid Animals": "must_not",
+    "Fruit Bearing": "should",
+    "Fragrant Plant": "should", 
+    "Flower Colour": "should", 
+    "Mature Leaf Colour": "should", 
+    "Young Flush Leaf Colour": "should", 
+    "Trunk Colour": "should", 
+    "Trunk Texture": "should", 
+    "Leaf Texture": "should"
+}

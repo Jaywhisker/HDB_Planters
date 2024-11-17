@@ -1,1 +1,9 @@
-fastapi==0.112.0
+elasticsearch==8.16.0
+fastapi==0.115.5
+fuzzywuzzy==0.18.0
+nltk==3.9.1
+numpy==1.24.4
+openai==1.54.4
+pandas==2.2.3
+pydantic==2.9.2
+uvicorn==0.32.0

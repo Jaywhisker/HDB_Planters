@@ -1,12 +1,3 @@
-"""
-Python File to scrape Flora & Fauna Web before providing data cleaning with Llama2-7b 
-
-Note: 
-To download LLama2-7b from hugging face, you require access from meta.
-Once you have gotten access, please retrieve an authentication key from your own hugging face account.
-
-Get access here: https://huggingface.co/meta-llama/Llama-2-7b
-"""
 import argparse
 import os
 import logging
@@ -24,13 +15,13 @@ def parse_arguments():
     
     # Define the arguments
     parser.add_argument('--clean_data', type=bool, default=True, help='Run data cleaning with Llama2-7b? Defaults to True.')
-    parser.add_argument('--output_folder', type=str, default='./src/flora_data/', help='Dataset CSV output folder.')
-    parser.add_argument('--logs_folder', type=str, default='./src/flora_data/logs/', help='Logs output folder.')
+    parser.add_argument('--output_folder', type=str, default='./test/flora_data/', help='Dataset CSV output folder.')
+    parser.add_argument('--logs_folder', type=str, default='./test/flora_data/logs/', help='Logs output folder.')
 
     return parser.parse_args()
 
 
-def main():
+def test():
     args = parse_arguments()
 
     # Accessing the arguments
@@ -58,7 +49,7 @@ def main():
     """
     CSV_FILENAME = 'flora_species_links.csv'
     LINKS_CSV_FILE_PATH = os.path.join(DATA_FOLDER, CSV_FILENAME)
-    link_scrapper = FloraLinksScraper(DATA_FOLDER, LINKS_CSV_FILE_PATH)
+    link_scrapper = FloraLinksScraper(DATA_FOLDER, LINKS_CSV_FILE_PATH, items_count=100)
     link_scrapper.scrape_flora_data()
     print("Links scrapped, scrapping flora details.")
 
@@ -67,7 +58,7 @@ def main():
     """    
     CSV_FILENAME = 'flora_species_attributes.csv'
     ATTRIBUTES_CSV_FILE_PATH = os.path.join(DATA_FOLDER, CSV_FILENAME)
-    attr_scrapper = FloraAttributesScraper(DATA_FOLDER, LINKS_CSV_FILE_PATH, ATTRIBUTES_CSV_FILE_PATH)
+    attr_scrapper = FloraAttributesScraper(DATA_FOLDER, LINKS_CSV_FILE_PATH, ATTRIBUTES_CSV_FILE_PATH, end_row=100)
     attr_scrapper.scrape()
     print("Attributes scrapped.")
 
@@ -80,6 +71,3 @@ def main():
         dataset_cleaner.clean_data(os.path.join(DATA_FOLDER, 'cleaned_flora_species.csv'))
     
     print("Flora Dataset Successfully Created.")
-
-if __name__ == "__main__":
-    main()

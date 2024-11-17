@@ -1,12 +1,3 @@
-"""
-Python File to randomly generate a dataset and upload to ElasticSearch database
-
-Note: 
-Ensure that you have a functioning ElastiSearch Database instance. 
-Update the os environment variables with your docker container name and port
-
-To update dataset schema, please do so in this file.
-"""
 import argparse
 import os
 import logging
@@ -17,10 +8,10 @@ from src.utils.ES_manager import ESManager
 """
 TO UPDATE
 """
-os.environ['ELASTIC_PORT'] = os.environ['ELASTIC_HOST_PORT']
-os.environ['ELASTIC_HOST'] = 'elasticsearch' # Docker container name, if running locally please change to localhost
+os.environ['ELASTIC_PORT'] = '9200'
+os.environ['ELASTIC_HOST'] = 'localhost' #If using docker, please use your docker container name here
 os.environ['ELASTIC_USERNAME'] = 'elastic'
-# os.environ['ELASTIC_PASSWORD'] = '' # uncomment and fill if running locally
+os.environ['ELASTIC_PASSWORD'] = '' # To be filled
 
 def parse_arguments():
     """
@@ -30,17 +21,17 @@ def parse_arguments():
     
     # Define the arguments
     parser.add_argument('--filter_data', type=bool, default=True, help='Filter through dataset to ensure that only clean data was uploaded to ElasticSearch. Defaults to True.')
-    parser.add_argument('--dataset_size', type=int, default=30, help='Number of randomly selected sample to upload to database. Use None if upload entire dataset. Defaults to 30.')
+    parser.add_argument('--dataset_size', type=int, default=10, help='Number of randomly selected sample to upload to database. Use None if upload entire dataset. Defaults to 30.')
     parser.add_argument('--seed', type=int, default=None, help='Seed to randomly select dataset.')
-    parser.add_argument('--dataset_filepath', type=str, default='./src/flora_data/cleaned_flora_species.csv', help='Filepath to csv file containing data to be injested to ElasticSearch.')
+    parser.add_argument('--dataset_filepath', type=str, default='./test/flora_data/cleaned_flora_species.csv', help='Filepath to csv file containing data to be injested to ElasticSearch.')
     parser.add_argument('--collection_name', type=str, default='flora', help='Collection name for dataset in ElastiSearch. Defaults to flora.')
-    parser.add_argument('--output_folder', type=str, default='./src/flora_data/', help='Dataset CSV output folder.')
-    parser.add_argument('--logs_folder', type=str, default='./src/flora_data/logs/', help='Logs output folder.')
+    parser.add_argument('--output_folder', type=str, default='./test/flora_data/', help='Dataset CSV output folder.')
+    parser.add_argument('--logs_folder', type=str, default='./test/flora_data/logs/', help='Logs output folder.')
 
     return parser.parse_args()
 
 
-def ingest_dataset(csv_filepath:str, esManager:ESManager, collection_name:str, include_canopy_radius:bool=False):
+def ingest_dataset(csv_filepath:str, esManager:ESManager, collection_name:str):
     """
     Function to ingest flora csv dataset file into elasticsearch
 
@@ -48,7 +39,6 @@ def ingest_dataset(csv_filepath:str, esManager:ESManager, collection_name:str, i
         csv_filepath (str): filepath to csv file
         esManager (ESManager): ESManager instance
         collection_name (str): Collection Name to ingest data
-        include_canopy_radius (bool, Optional): Dataset include canopy_radius? Defaults to False
     """
 
     dataset = pd.read_csv(csv_filepath, sep=',', header=0)
@@ -64,9 +54,6 @@ def ingest_dataset(csv_filepath:str, esManager:ESManager, collection_name:str, i
     int_column = ["Species ID"]
     float_column = ["Maximum Height"]
     keyword_column = ["Plant Type", "Light Preference", "Water Preference", "Growth Rate", 'Leaf Texture']
-
-    if include_canopy_radius:
-        int_column.append("Canopy Radius")
 
     all_documents = []
     headers = dataset.columns
@@ -87,10 +74,10 @@ def ingest_dataset(csv_filepath:str, esManager:ESManager, collection_name:str, i
             if attribute in false_column and data == 'N/A':
                 data = None
             
-            if attribute in int_column and data != "N/A":
+            if attribute in int_column:
                 data = int(data)
             
-            if attribute in float_column and data != "N/A":
+            if attribute in float_column:
                 data = float(data)
                 attribute = "Maximum Height (m)"
 
@@ -108,7 +95,7 @@ def ingest_dataset(csv_filepath:str, esManager:ESManager, collection_name:str, i
     return esManager.create_document(collection_name, all_documents)
 
 
-def main(include_canopy_radius:bool=False):
+def test():
     args = parse_arguments()
 
     # Accessing the arguments
@@ -198,9 +185,6 @@ def main(include_canopy_radius:bool=False):
         }
     }
 
-    if include_canopy_radius:
-        dataset_schema["mappings"]["properties"]["Canopy Radius"] = {"type": "int"}
-
     # Create collection
     resp = esManager.create_collection(collection_name, dataset_schema)
     if resp['response'] != "200":
@@ -210,7 +194,7 @@ def main(include_canopy_radius:bool=False):
     
     # Upload documents to database
     logging.info("Injesting documents into ElasticSearch.")
-    resp = ingest_dataset(CSV_FILE_PATH, esManager, collection_name, include_canopy_radius)
+    resp = ingest_dataset(CSV_FILE_PATH, esManager, collection_name)
     if resp['response'] != "200":
         logging.error(f"Ingesting failed. {resp}")
     else:
@@ -219,10 +203,7 @@ def main(include_canopy_radius:bool=False):
 
 
 if __name__ == "__main__":
-    # By default, not including canopy_radius
-    # If you have updated the dataset to have Canopy Radius, set to True
-    # Ensure that you are still using dataset.csv as your filename with Canopy Radius
-    main(include_canopy_radius=False)
+    test()
 
 
     
