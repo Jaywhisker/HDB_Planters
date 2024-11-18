@@ -21,6 +21,7 @@ sudo docker ps -aqf "name=elasticsearch"
 ```
 Afterwhich, run the following command:
 ```
+docker exec -it <elastic container id> bash
 ./bin/elasticsearch-reset-password --username kibana_system -i 
 <enter the kibana_system Password which corresponds to ELASTIC_PASSWORD in your .env file>
 ```
@@ -33,5 +34,13 @@ password: ELASTIC_PASSWORD in your .env file
 ```
 you have successfully setup all microservices in docker
 
+
+# Starting Microservice
+To start each microservice, ensure that every docker container is running. ElasticSearch and Kibana will automatically run.
+
+To run **hdb-plant-selection** microservice, enter the docker container and run the following function:
+```
+uvicorn src.main:app --port=8000 --host=0.0.0.0 --reload
+```
 
 
