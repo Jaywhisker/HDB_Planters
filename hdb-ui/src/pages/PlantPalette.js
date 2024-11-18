@@ -1,4 +1,5 @@
-import { React, useState } from "react";
+import React, { useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import AddIcon from "@mui/icons-material/Add";
@@ -28,119 +29,60 @@ import {
   DialogTitle
 } from "@mui/material";
 
-// Hardcoded plant data for testing
-const plantData = [
-  {
-    id: 2381,
-    scientificName: "Radermachera 'Kunming'",
-    commonName: "Dwarf Tree Jasmine",
-    link: "https://www.nparks.gov.sg/florafaunaweb/flora/2/7/2727",
-    plantType: ["Shrub", "Herbaceous Plant"],
-    lightPreference: ["Full Sun", "Semi Shade"],
-    mediaUrl: "https://via.placeholder.com/150",
-    attractedAnimals: ["Bee-Attracting", "Butterfly-Attracting (Flower Nectar)"],
-    droughtTolerant: true,
-    nativeToSG: true,
-    fragrant: true,
-    fruitBearing: false,
-    waterPreference: ["Occasional Misting"],
-  },
-  {
-    id: 2727,
-    scientificName: "Ardisia elliptica Thunb.",
-    commonName: "Seashore Ardisia",
-    link: "https://www.nparks.gov.sg/florafaunaweb/flora/2/7/2727",
-    plantType: ["Shrub", "Tree"],
-    lightPreference: ["Full Sun", "Semi Shade"],
-    mediaUrl: "https://via.placeholder.com/150",
-    waterPreference: ["Lots of Water", "Moderate Water"],
-    droughtTolerant: false,
-    fragrant: true,
-    nativeToSG: false,
-    fruitBearing: true,
-    attractedAnimals: [
-      "Bird-Attracting",
-      "Butterfly Host Plant (Leaves, Associated with: Abisara saturata kausambioides (de Nicéville, 1896), Taxila haquinus haquinus (Fabricius, 1793))",
-      "Caterpillar Moth Food Plant",
-      "Bee-Attracting"
-    ],
-    nativeHabitat: "Terrestrial (Coastal Forest), Shoreline (Mangrove Forest, Backshore, Sandy Beach)",
-    leafColor: "Green",
-    flowerColor: "Red",
-    leafAreaIndex: "3.0 (Tree - Intermediate Canopy)",
-    growthRate: "Moderate",
-
-  },
-  {
-    id: 1593,
-    scientificName: "Citrus sinensis",
-    commonName: "Sweet Orange",
-    plantType: ["Tree"],
-    lightPreference: ["Full Shade"],
-    mediaUrl: "https://via.placeholder.com/150",
-    attractedAnimals: ["Bird-Attracting"],
-    droughtTolerant: false,
-    fragrant: true,
-    nativeToSG: true,
-    fruitBearing: true,
-    waterPreference: "High"
-  },
-];
-
 const getAttributeChip = (plant) => {
   const chips = [];
 
   // Check for attracted animals
-  if (plant.attractedAnimals.includes("Bee-attracting")) {
+  if (plant["Attracted Animals"].includes("Bee-attracting")) {
     chips.push(<Chip label="Bee Attracting" key="bee" color="primary" variant="outlined" size="small" />);
   }
-  if (plant.attractedAnimals.includes("Bird-attracting")) {
+  if (plant["Attracted Animals"].includes("Bird-attracting")) {
     chips.push(<Chip label="Bird Attracting" key="bird" color="primary" variant="outlined" size="small" />);
   }
-  if (plant.attractedAnimals.includes("Butterfly-attracting")) {
+  if (plant["Attracted Animals"].includes("Butterfly-attracting")) {
     chips.push(<Chip label="Butterfly Attracting" key="butterfly" color="primary" variant="outlined" size="small" />);
   }
-  if (plant.attractedAnimals.includes("Butterfly Host Plant")) {
+  if (plant["Attracted Animals"].includes("Butterfly Host Plant")) {
     chips.push(<Chip label="Butterfly Host Plant" key="butterfly-host" color="primary" variant="outlined" size="small" />);
   }
 
   // Check for drought tolerance
-  if (plant.droughtTolerant) {
+  if (plant["Drought Tolerant"]) {
     chips.push(<Chip label="Drought Tolerant" key="droughtTolerant" color="primary" variant="outlined" size="small" />);
   }
 
   // Check for fragrance
-  if (plant.fragrant) {
+  if (plant["Fragrant Plant"]) {
     chips.push(<Chip label="Fragrant" key="fragrant" color="primary" variant="outlined" size="small" />);
   }
 
   // Check for fruit bearing
-  if (plant.fruitBearing) {
+  if (plant["Fruit Bearing"]) {
     chips.push(<Chip label="Fruit Bearing" key="fruitBearing" color="primary" variant="outlined" size="small" />);
   }
 
   // Check for native to sg
-  if (plant.nativeToSG) {
+  if (plant["Native to SG"]) {
     chips.push(<Chip label="Native to SG" key="nativeToSG" color="primary" variant="outlined" size="small" />);
   }
 
   // Check for water preference
-  if (plant.waterPreference.includes("Lots of Water")) {
+  if (plant["Water Preference"].includes("Lots of Water")) {
     chips.push(<Chip label="Lots of Water" key="lotsOfWater" color="primary" variant="outlined" size="small" />);
-  } else if (plant.waterPreference.includes("Moderate Water")) {
+  } else if (plant["Water Preference"].includes("Moderate Water")) {
     chips.push(<Chip label="Moderate Water" key="moderateWater" color="primary" variant="outlined" size="small" />);
-  } else if (plant.waterPreference.includes("Occasional Misting")) {
+  } else if (plant["Water Preference"].includes("Occasional Misting")) {
     chips.push(<Chip label="Occasional Misting" key="occasionalMisting" color="primary" variant="outlined" size="small" />);
-  } else if (plant.waterPreference.includes("Little Water")) {
+  } else if (plant["Water Preference"].includes("Little Water")) {
     chips.push(<Chip label="Little Water" key="littleWater" color="primary" variant="outlined" size="small" />);
   }
 
   // Check for light preference
-  if (plant.lightPreference.includes("Full Sun")) {
+  if (plant["Light Preference"].includes("Full Sun")) {
     chips.push(<Chip label="Full Sun" key="fullSun" color="primary" variant="outlined" size="small" />);
-  } else if (plant.lightPreference.includes("Semi Shade")) {
+  } else if (plant["Light Preference"].includes("Semi Shade")) {
     chips.push(<Chip label="Semi Shade" key="semiShade" color="primary" variant="outlined" size="small" />);
-  } else if (plant.lightPreference.includes("Full Shade")) {
+  } else if (plant["Light Preference"].includes("Full Shade")) {
     chips.push(<Chip label="Full Shade" key="fullShade" color="primary" variant="outlined" size="small" />);
   }
 
@@ -151,10 +93,22 @@ const getAttributeChip = (plant) => {
 const PlantPalette = () => {
   const [filename, setFilename] = useState("DreamScape");
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedPlants, setSelectedPlants] = useState([3740]);
-  const [searchQuery, setSearchQuery] = useState("");
+  
   const [selectedPlantInfo, setSelectedPlantInfo] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const location = useLocation();
+  const { plantData } = location.state || {};
+  const [selectedPlants, setSelectedPlants] = useState(plantData?.plant_palette || []);
+  const all_plants = plantData?.all_plants || [];
 
+  console.log(selectedPlants)
+  console.log(all_plants)
+
+  if (!plantData) {
+    return <p>No plant data available. Please generate a palette first.</p>;
+  }
 
   const handleFilenameChange = (event) => {
     setFilename(event.target.value);
@@ -353,6 +307,78 @@ const PlantPalette = () => {
           </Typography>
         </Box>
 
+        <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+            {all_plants
+              .filter((plant) => selectedPlants.includes(plant["Species ID"]))
+              .map((plant) => (
+                <Card
+                  key={plant["Species ID"]}
+                  sx={{
+                    width: 270,
+                    minheight: 325,
+                    margin: 1,
+                    position: "relative",
+                    backgroundColor: "#EBE7E6", // Selected card color
+                    display: "flex",
+                    flexDirection: "column",
+                  }}
+                >
+                  <CardActions sx={{
+                    position: "absolute",
+                    top: 0,
+                    right: 0,
+                    zIndex: 1,
+                    justifyContent: "flex-end"
+                  }}>
+                    {selectedPlants.includes(plant["Species ID"]) ? (
+                      <Button
+                        variant="outlined"
+                        color="primary"
+                        onClick={() => togglePlantSelection(plant["Species ID"])}
+                        size="small"
+                      >
+                        Unselect
+                      </Button>
+                    ) : (
+                      <Button
+                        variant="contained"
+                        color="primary"
+                        onClick={() => togglePlantSelection(plant["Species ID"])}
+                        size="small"
+                      >
+                        Select
+                      </Button>
+                    )}
+                  </CardActions>
+                  <CardMedia
+                    component="img"
+                    image="https://via.placeholder.com/150" 
+                    alt={plant["Scientific Name"]}
+                    sx={{ height: "150", width: "100%" }}
+                  />
+                  <CardContent sx={{ flexGrow: 1 }}>
+                    <Typography variant="h6">{plant["Scientific Name"]}</Typography>
+                    <Typography variant="body2">Species ID: {plant["Species ID"]}</Typography>
+                    <Typography variant="body2">
+                        Plant Type: {Array.isArray(plant["Plant Type"]) && plant["Plant Type"].length > 0
+                        ? plant["Plant Type"].join(", ")
+                        : "Not specified"
+                      }</Typography>
+                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                      {getAttributeChip(plant)}
+                    </Box>
+                  </CardContent>
+                  <CardActions sx={{ justifyContent: "flex-end", marginTop: "auto" }}>
+                    <Button onClick={() => handleMoreInfo(plant)}>
+                      More Info
+                    </Button>
+                  </CardActions>
+                </Card>
+              ))}
+          </Box>
+          <Divider sx={{ mt: 2, mb: 2 }} />
+          
+
         {/* Plant Selector */}
         <Box>
           <TextField
@@ -376,85 +402,20 @@ const PlantPalette = () => {
               ),
             }}
           />
-          <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-            {plantData
-              .filter((plant) => selectedPlants.includes(plant.id))
-              .map((plant) => (
-                <Card
-                  key={plant.id}
-                  sx={{
-                    width: 270,
-                    minheight: 325,
-                    margin: 1,
-                    position: "relative",
-                    backgroundColor: "#EBE7E6", // Selected card color
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <CardActions sx={{
-                    position: "absolute",
-                    top: 0,
-                    right: 0,
-                    zIndex: 1,
-                    justifyContent: "flex-end"
-                  }}>
-                    {selectedPlants.includes(plant.id) ? (
-                      <Button
-                        variant="outlined"
-                        color="primary"
-                        onClick={() => togglePlantSelection(plant.id)}
-                        size="small"
-                      >
-                        Unselect
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => togglePlantSelection(plant.id)}
-                        size="small"
-                      >
-                        Select
-                      </Button>
-                    )}
-                  </CardActions>
-                  <CardMedia
-                    component="img"
-                    image={plant.mediaUrl}
-                    alt={plant.scientificName}
-                    sx={{ height: "50%", width: "100%" }}
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography variant="h6">{plant.scientificName}</Typography>
-                    <Typography variant="body2">Species ID: {plant.id}</Typography>
-                    <Typography variant="body2">Plant Type: {plant.plantType.join(", ")}</Typography>
-                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
-                      {getAttributeChip(plant)}
-                    </Box>
-                  </CardContent>
-                  <CardActions sx={{ justifyContent: "flex-end", marginTop: "auto"}}>
-                    <Button onClick={() => handleMoreInfo(plant)}>
-                      More Info
-                    </Button>
-                  </CardActions>
-                </Card>
-              ))}
-          </Box>
-          <Divider sx={{ mt: 2, mb: 2 }} />
+          
           {/* Unselected Cards */}
           <Box>
-            <Box sx={{ display: "flex", flexWrap: "wrap", maxHeight: 800, overflowY: "auto" }}>
-              {plantData
+            <Box sx={{ display: "flex", flexWrap: "wrap", width: "80vw", maxHeight: 800, overflowY: "auto" }}>
+              {all_plants
                 .filter(
                   (plant) =>
-                    !selectedPlants.includes(plant.id) &&
-                    (plant.commonName.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                      plant.scientificName.toLowerCase().includes(searchQuery.toLowerCase()))
+                    !selectedPlants.includes(plant["Species ID"]) &&
+                    ((plant["Scientific Name"] ?? "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+                    (plant["Common Name"] ?? "").toLowerCase().includes(searchQuery.toLowerCase()))
                 )
                 .map((plant) => (
                   <Card
-                    key={plant.id}
+                    key={plant["Species ID"]}
                     sx={{
                       width: 270,
                       minheight: 325,
@@ -472,11 +433,11 @@ const PlantPalette = () => {
                       zIndex: 1,
                       justifyContent: "flex-end"
                     }}>
-                      {selectedPlants.includes(plant.id) ? (
+                      {selectedPlants.includes(plant["Species ID"]) ? (
                         <Button
                           variant="outlined"
                           color="primary"
-                          onClick={() => togglePlantSelection(plant.id)}
+                          onClick={() => togglePlantSelection(plant["Species ID"])}
                           size="small"
                         >
                           Unselect
@@ -485,7 +446,7 @@ const PlantPalette = () => {
                         <Button
                           variant="contained"
                           color="primary"
-                          onClick={() => togglePlantSelection(plant.id)}
+                          onClick={() => togglePlantSelection(plant["Species ID"])}
                           size="small"
                         >
                           Select
@@ -494,19 +455,23 @@ const PlantPalette = () => {
                     </CardActions>
                     <CardMedia
                       component="img"
-                      image={plant.mediaUrl}
-                      alt={plant.scientificName}
-                      sx={{ height: "50%", width: "100%" }}
+                      image="https://via.placeholder.com/150" 
+                      alt={plant["Scientific Name"]}
+                      sx={{ height: "150", width: "100%" }}
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
-                      <Typography variant="h6">{plant.scientificName}</Typography>
-                      <Typography variant="body2">Species ID: {plant.id}</Typography>
-                      <Typography variant="body2">Plant Type: {plant.plantType.join(", ")}</Typography>
+                      <Typography variant="h6">{plant["Scientific Name"]}</Typography>
+                      <Typography variant="body2">Species ID: {plant["Species ID"]}</Typography>
+                      <Typography variant="body2">
+                        Plant Type: {Array.isArray(plant["Plant Type"]) && plant["Plant Type"].length > 0
+                        ? plant["Plant Type"].join(", ")
+                        : "Not specified"
+                      }</Typography>
                       <Box sx={{ display: "flex", mt: 1, flexWrap: "wrap", gap: 1 }}>
                         {getAttributeChip(plant)}
                       </Box>
                     </CardContent>
-                    <CardActions sx={{ justifyContent: "flex-end", marginTop: "auto"}}>
+                    <CardActions sx={{ justifyContent: "flex-end", marginTop: "auto" }}>
                       <Button onClick={() => handleMoreInfo(plant)}>
                         More Info
                       </Button>
@@ -542,8 +507,8 @@ const PlantPalette = () => {
               {selectedPlantInfo.mediaUrl && (
                 <CardMedia
                   component="img"
-                  image={selectedPlantInfo.mediaUrl}
-                  alt={selectedPlantInfo.scientificName || "Plant Image"}
+                  image="https://via.placeholder.com/150"
+                  alt={selectedPlantInfo["scientificName"] || "Plant Image"}
                   sx={{ marginBottom: 2 }}
                 />
               )}

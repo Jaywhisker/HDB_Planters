@@ -1,6 +1,9 @@
 import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import RemoveIcon from "@mui/icons-material/Remove";
+import axios from "axios";
+import { useNavigate } from "react-router-dom"; 
+import React, { useState } from "react";
 
 import {
   AppBar,
@@ -23,7 +26,7 @@ import {
   FormControl,
   InputLabel
 } from "@mui/material";
-import React, { useState } from "react";
+
 
 const LandscapeDesignForm = () => {
   const [sunlightIntensity, setSunlightIntensity] = useState(50);
@@ -31,12 +34,54 @@ const LandscapeDesignForm = () => {
   const [waterPreference, setWaterPreference] = useState("");
   const [faunaAttracted, setFaunaAttracted] = useState([]);
   const [nativePercentage, setNativePercentage] = useState(0.5);
+  const [prompt, setPrompt] = useState("");
+  const navigate = useNavigate();
 
+  const handleGenerate = async () => {
+    // Construct the data object to send to the backend
+    const data = {
+      prompt: prompt,
+      maximum_plant_count: maxPlantCount,
+      light_preference:
+        sunlightIntensity === 100
+          ? "Full Sun"
+          : sunlightIntensity === 50
+          ? "Semi Shade"
+          : "Full Shade",
+      water_preference: waterPreference,
+      drought_tolerant: false, // Update if you want to make this dynamic
+      fauna_attracted: faunaAttracted.map((fauna) => fauna.toLowerCase()),
+      ratio_native: nativePercentage,
+    };
+
+    try {
+      // Debugging: log data object to ensure correctness
+      console.log("Sending Data to Backend:", data);
+
+      // Send a POST request to the backend API
+      const response = await axios.post(
+        "http://localhost:8000/generate_palette",
+        data
+      );
+
+      // Extract plant data from the backend response
+      const plantData = response.data;
+      console.log("Received Plant Data:", plantData);
+
+      // Navigate to the second page with plant data as state
+      navigate("/plant-palette", {
+        state: { plantData },
+      });
+    } catch (error) {
+      console.error("Error sending data to the backend:", error);
+    }
+  };
+  
   const handleSliderChange = (event, newValue) => setSunlightIntensity(newValue);
 
   const handleNativePercentageChange = (event, newValue) => setNativePercentage(newValue);
 
-  const isFormValid = sunlightIntensity && waterPreference && faunaAttracted;
+  const isFormValid = prompt && waterPreference && faunaAttracted;
 
   const handleChange = (event) => {
     const {
@@ -222,6 +267,8 @@ const LandscapeDesignForm = () => {
             multiline
             maxRows={4}
             variant="filled"
+            value={prompt}
+            onChange={(e) => setPrompt(e.target.value)} 
             InputProps={{
               endAdornment: (
                 <InputAdornment
@@ -232,7 +279,7 @@ const LandscapeDesignForm = () => {
                     right: "1rem",
                   }}
                 >
-                  <IconButton>
+                  <IconButton onClick={() => setPrompt('')}>
                     <CloseIcon />
                   </IconButton>
                 </InputAdornment>
@@ -388,10 +435,10 @@ const LandscapeDesignForm = () => {
                 sx={{ textAlign: "left" }}
               >
 
-                <MenuItem value="Low" sx={{ textAlign: "left" }} >Little Water</MenuItem>
-                <MenuItem value="Medium" sx={{ textAlign: "left" }} >Occasional Misting</MenuItem>
-                <MenuItem value="High" sx={{ textAlign: "left" }} >Moderate Water</MenuItem>
-                <MenuItem value="Very High" sx={{ textAlign: "left" }} >Lots of Water</MenuItem>
+                <MenuItem value="Little Water" sx={{ textAlign: "left" }} >Little Water</MenuItem>
+                <MenuItem value="Occasional Misting" sx={{ textAlign: "left" }} >Occasional Misting</MenuItem>
+                <MenuItem value="Moderate Water" sx={{ textAlign: "left" }} >Moderate Water</MenuItem>
+                <MenuItem value="Lots of Water" sx={{ textAlign: "left" }} >Lots of Water</MenuItem>
               </Select>
             </FormControl>
           </Box>
@@ -434,7 +481,7 @@ const LandscapeDesignForm = () => {
           <Button
             variant="contained"
             color="primary"
-            onClick={() => console.log("Form Submitted")}
+            onClick={handleGenerate}
             disabled={!isFormValid}
             sx={{ px: 4, py: 1.5, mb: 4 }}
           >
