@@ -1,0 +1,789 @@
+{
+    "plant_palette": [
+        2381,
+        1593,
+        3740,
+        3739,
+        3052,
+        3138
+    ],
+    "all_plants": [
+        {
+            "Scientific Name": "Radermachera 'Kunming'",
+            "Common Name": "Dwarf Tree Jasmine",
+            "Species ID": 2381,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/2/3/2381",
+            "Plant Type": [
+                "Shrub"
+            ],
+            "Light Preference": [
+                "Full Sun",
+                "Semi Shade"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": false,
+            "Fragrant Plant": true,
+            "Maximum Height (m)": 1.8,
+            "Flower Colour": "Pink",
+            "Hazard": "N/A",
+            "Attracted Animals": "Butterfly-Attracting",
+            "Native habitat": "Terrestrial",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "Green, Green - Light Green",
+            "Leaf Area Index": "4.5 (Shrub & Groundcover - Dicot)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "N/A",
+            "Trunk Colour": "N/A",
+            "Leaf Texture": [
+                "Medium"
+            ],
+            "Canopy Radius": "N/A"
+        },
+        {
+            "Scientific Name": "Acalypha wilkesiana 'Mosaica'",
+            "Common Name": "Fire Fiji Plant",
+            "Species ID": 1593,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/1/5/1593",
+            "Plant Type": [
+                "Shrub"
+            ],
+            "Light Preference": [
+                "Full Sun",
+                "Semi Shade"
+            ],
+            "Water Preference": [
+                "Lots of Water",
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 2.0,
+            "Flower Colour": "Red Yellow Pink Purple",
+            "Hazard": "N/A",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial",
+            "Mature Leaf Colour": "Green, Purple, Red",
+            "Young Flush Leaf Colour": "Orange, Red, Green - Light Green",
+            "Leaf Area Index": "4.5 (Shrub & Groundcover - Dicot)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "N/A",
+            "Trunk Colour": "N/A",
+            "Leaf Texture": [
+                "Coarse"
+            ],
+            "Canopy Radius": "N/A"
+        },
+        {
+            "Scientific Name": "Sterculia macrophylla Vent.",
+            "Common Name": "Broad-leaved Sterculia",
+            "Species ID": 3138,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/3/1/3138",
+            "Plant Type": [
+                "Tree"
+            ],
+            "Light Preference": [
+                "Full Sun"
+            ],
+            "Water Preference": [
+                "Lots of Water",
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": true,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 40.0,
+            "Flower Colour": "Yellow / Golden, Pink",
+            "Hazard": "N/A",
+            "Attracted Animals": "Bird-Attracting",
+            "Native habitat": "Terrestrial (Primary Rainforest, Secondary Rainforest, Freshwater Swamp Forest)",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "Red",
+            "Leaf Area Index": "3.0 (Tree - Intermediate Canopy)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "smooth",
+            "Trunk Colour": "light grey",
+            "Leaf Texture": [
+                "N/A"
+            ],
+            "Canopy Radius": 25
+        },
+        {
+            "Scientific Name": "Cassia grandis L. f.",
+            "Common Name": "Horse Cassia",
+            "Species ID": 2788,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/2/7/2788",
+            "Plant Type": [
+                "Tree"
+            ],
+            "Light Preference": [
+                "Full Sun"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 25.0,
+            "Flower Colour": "Orange, Pink, Red",
+            "Hazard": "N/A",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial (Riverine)",
+            "Mature Leaf Colour": "Green, Purple",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "2.5 (Tree - Open Canopy)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "Smooth",
+            "Trunk Colour": "Light grey",
+            "Leaf Texture": [
+                "N/A"
+            ],
+            "Canopy Radius": 17
+        },
+        {
+            "Scientific Name": "Parkia speciosa Hassk.",
+            "Common Name": "Petai",
+            "Species ID": 3052,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/3/0/3052",
+            "Plant Type": [
+                "Tree"
+            ],
+            "Light Preference": [
+                "Full Sun"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": true,
+            "Fruit Bearing": true,
+            "Fragrant Plant": true,
+            "Maximum Height (m)": 45.0,
+            "Flower Colour": "Cream / Off-White, White, Yellow / Golden",
+            "Hazard": "N/A",
+            "Attracted Animals": "Bird-Attracting, Butterfly Host Plant, Bat Food",
+            "Native habitat": "Terrestrial (Primary Rainforest, Secondary Rainforest, Riverine)",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "2.5 (Tree - Open Canopy)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "smooth",
+            "Trunk Colour": "reddish-brown",
+            "Leaf Texture": [
+                "N/A"
+            ],
+            "Canopy Radius": 19
+        },
+        {
+            "Scientific Name": "Arrhenatherum elatius subsp. bulbosum 'Variegatum'",
+            "Common Name": "Striped Tuber Oat Grass",
+            "Species ID": 3427,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/3/4/3427",
+            "Plant Type": [
+                "Grass or Grass-like Plant",
+                "Shrub"
+            ],
+            "Light Preference": [
+                "Full Sun",
+                "Semi Shade"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 0.5,
+            "Flower Colour": "Cream / Off-White, Green, Purple",
+            "Hazard": "N/A",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial (Grassland / Savannah/ Scrubland)",
+            "Mature Leaf Colour": "Cream / Off-White, Green, White",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "3.5 (Shrub & Groundcover - Monocot)",
+            "Growth Rate": [
+                "Slow"
+            ],
+            "Trunk Texture": "N/A",
+            "Trunk Colour": "N/A",
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Canopy Radius": "N/A"
+        },
+        {
+            "Scientific Name": "Aglaonema simplex (Blume) Blume",
+            "Common Name": "Malayan Sword",
+            "Species ID": 3740,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/3/7/3740",
+            "Plant Type": [
+                "Herbaceous Plant",
+                "Shrub"
+            ],
+            "Light Preference": [
+                "Full Shade",
+                "Semi Shade"
+            ],
+            "Water Preference": [
+                "Lots of Water",
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": true,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 1.2,
+            "Flower Colour": "Cream / Off-White, White",
+            "Hazard": "N/A",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial (Primary Rainforest, Secondary Rainforest, Monsoon Forest, Freshwater Swamp Forest)",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "3.5 (Shrub & Groundcover - Monocot)",
+            "Growth Rate": [
+                "Slow"
+            ],
+            "Trunk Texture": "N/A",
+            "Trunk Colour": "N/A",
+            "Leaf Texture": [
+                "Coarse"
+            ],
+            "Canopy Radius": "N/A"
+        },
+        {
+            "Scientific Name": "Carludovica palmata",
+            "Common Name": "Panama Hat Palm",
+            "Species ID": 1783,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/1/7/1783",
+            "Plant Type": [
+                "Shrub"
+            ],
+            "Light Preference": [
+                "Full Sun",
+                "Semi Shade"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": true,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 4.0,
+            "Flower Colour": "Yellow",
+            "Hazard": "N/A",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "3.5 (Shrub & Groundcover - Monocot)",
+            "Growth Rate": [
+                "Fast to Moderate"
+            ],
+            "Trunk Texture": "N/A",
+            "Trunk Colour": "N/A",
+            "Leaf Texture": [
+                "Coarse"
+            ],
+            "Canopy Radius": "N/A"
+        },
+        {
+            "Scientific Name": "Horsfieldia irya (Gaertn.) Warb.",
+            "Common Name": "Pianggu",
+            "Species ID": 2964,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/2/9/2964",
+            "Plant Type": [
+                "Tree"
+            ],
+            "Light Preference": [
+                "Full Sun"
+            ],
+            "Water Preference": [
+                "Lots of Water",
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": true,
+            "Fruit Bearing": true,
+            "Fragrant Plant": true,
+            "Maximum Height (m)": 30.0,
+            "Flower Colour": "Orange, Yellow / Golden",
+            "Hazard": "N/A",
+            "Attracted Animals": "Bird-Attracting (Fruits)",
+            "Native habitat": "Terrestrial (Primary Rainforest, Coastal Forest, Riverine, Secondary Rainforest, Freshwater Swamp Forest), Shoreline (Mangrove Forest)",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "3.0 (Tree - Intermediate Canopy)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "Fissured, Cracked",
+            "Trunk Colour": "red",
+            "Leaf Texture": [
+                "N/A"
+            ],
+            "Canopy Radius": 15
+        },
+        {
+            "Scientific Name": "Nymphanthus glaucescens (Miq.) R.W.Bouman",
+            "Common Name": "N/A",
+            "Species ID": 5062,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/5/0/5062",
+            "Plant Type": [
+                "Shrub"
+            ],
+            "Light Preference": [
+                "Full Sun",
+                "Semi Shade"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 1.5,
+            "Flower Colour": "Pink",
+            "Hazard": "N/A",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "4.5 (Shrub & Groundcover - Dicot)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "N/A",
+            "Trunk Colour": "N/A",
+            "Leaf Texture": [
+                "Medium"
+            ],
+            "Canopy Radius": "N/A"
+        },
+        {
+            "Scientific Name": "Cratoxylum cochinchinense (Lour.) Blume",
+            "Common Name": "Derum Selunchor",
+            "Species ID": 2829,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/2/8/2829",
+            "Plant Type": [
+                "Shrub",
+                "Tree"
+            ],
+            "Light Preference": [
+                "Full Sun",
+                "Semi Shade"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": true,
+            "Fruit Bearing": false,
+            "Fragrant Plant": true,
+            "Maximum Height (m)": 30.0,
+            "Flower Colour": "Red, Orange, Pink",
+            "Hazard": "N/A",
+            "Attracted Animals": "Butterfly Host Plant (Leaves, Associated with: Eurema  hecabe contubernalis (Moore, 1886), Lexias pardalis), Bee-Attracting",
+            "Native habitat": "Terrestrial (Secondary Rainforest, Primary Rainforest, Freshwater Swamp Forest)",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "Red",
+            "Leaf Area Index": "3.0 (Tree - Intermediate Canopy)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "Peeling / Flaking / Papery, Smooth",
+            "Trunk Colour": "Reddish-brown",
+            "Leaf Texture": [
+                "Medium"
+            ],
+            "Canopy Radius": 17
+        },
+        {
+            "Scientific Name": "Corymbia ptychocarpa (F. Muell.) K. D. Hill & L. A. S. Johnson",
+            "Common Name": "Spring Bloodwood",
+            "Species ID": 2887,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/2/8/2887",
+            "Plant Type": [
+                "Tree"
+            ],
+            "Light Preference": [
+                "Full Sun"
+            ],
+            "Water Preference": [
+                "Lots of Water",
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 20.0,
+            "Flower Colour": "Pink, Red",
+            "Hazard": "N/A",
+            "Attracted Animals": "Bird-Attracting",
+            "Native habitat": "Terrestrial (Secondary Rainforest, Riverine)",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "3.0 (Tree - Intermediate Canopy)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "Fissured",
+            "Trunk Colour": "Reddish-brown to greyish-brown",
+            "Leaf Texture": [
+                "N/A"
+            ],
+            "Canopy Radius": 14
+        },
+        {
+            "Scientific Name": "Cola gigantea A.Chev.",
+            "Common Name": "Giant Cola",
+            "Species ID": 2821,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/2/8/2821",
+            "Plant Type": [
+                "Tree"
+            ],
+            "Light Preference": [
+                "Full Sun"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 35.0,
+            "Flower Colour": "Purple",
+            "Hazard": "N/A",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "3.0 (Tree - Intermediate Canopy)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "brown",
+            "Trunk Colour": "brown",
+            "Leaf Texture": [
+                "N/A"
+            ],
+            "Canopy Radius": 20
+        },
+        {
+            "Scientific Name": "Erythrina fusca Lour.",
+            "Common Name": "Coral Tree",
+            "Species ID": 2879,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/2/8/2879",
+            "Plant Type": [
+                "Tree"
+            ],
+            "Light Preference": [
+                "Full Sun"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": true,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 15.0,
+            "Flower Colour": "Orange, Red",
+            "Hazard": "Spines/Thorns - Stem/Branch, Spines/Thorns - Trunk, Toxic Upon Ingestion",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial (Coastal Forest, Riverine), Shoreline (Sandy Beach)",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "3.0 (Tree - Intermediate Canopy)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "Peeling / Flaking / Papery",
+            "Trunk Colour": "Brownish grey, brown",
+            "Leaf Texture": [
+                "N/A"
+            ],
+            "Canopy Radius": 13
+        },
+        {
+            "Scientific Name": "Samanea saman (Jacq.) Merr.",
+            "Common Name": "Rain Tree",
+            "Species ID": 3106,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/3/1/3106",
+            "Plant Type": [
+                "Tree"
+            ],
+            "Light Preference": [
+                "Full Sun"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 30.0,
+            "Flower Colour": "Pink, White",
+            "Hazard": "N/A",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial (Primary Rainforest, Grassland / Savannah/ Scrubland)",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "2.5 (Tree - Open Canopy)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "Fissured",
+            "Trunk Colour": "Dark brown",
+            "Leaf Texture": [
+                "N/A"
+            ],
+            "Canopy Radius": 18
+        },
+        {
+            "Scientific Name": "Strophanthus preussii Engl. & Pax.",
+            "Common Name": "Corkscrew Flower",
+            "Species ID": 1507,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/1/5/1507",
+            "Plant Type": [
+                "Climber",
+                "Shrub"
+            ],
+            "Light Preference": [
+                "Full Sun",
+                "Semi Shade"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": false,
+            "Fragrant Plant": true,
+            "Maximum Height (m)": 4.0,
+            "Flower Colour": "Cream / Off-White, Purple, Red, White",
+            "Hazard": "Toxic Upon Ingestion",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial (Secondary Rainforest, Monsoon Forest)",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "4.5 (Shrub & Groundcover - Dicot)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "N/A",
+            "Trunk Colour": "Reddish-brown, purplish-brown",
+            "Leaf Texture": [
+                "Coarse"
+            ],
+            "Canopy Radius": "N/A"
+        },
+        {
+            "Scientific Name": "Oncosperma tigillarium",
+            "Common Name": "Nibung",
+            "Species ID": 2659,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/2/6/2659",
+            "Plant Type": [
+                "Palm"
+            ],
+            "Light Preference": [
+                "Full Sun"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": true,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 30.0,
+            "Flower Colour": "Yellow / Golden",
+            "Hazard": "Spines/Thorns - Trunk",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "4.0 (Palm - Cluster)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "-",
+            "Trunk Colour": "black",
+            "Leaf Texture": [
+                "N/A"
+            ],
+            "Canopy Radius": 12
+        },
+        {
+            "Scientific Name": "Xanthostemon chrysanthus (F.Muell.) Benth.",
+            "Common Name": "Golden Penda",
+            "Species ID": 3200,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/3/2/3200",
+            "Plant Type": [
+                "Tree"
+            ],
+            "Light Preference": [
+                "Full Sun"
+            ],
+            "Water Preference": [
+                "Lots of Water",
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 40.0,
+            "Flower Colour": "Yellow / Golden",
+            "Hazard": "N/A",
+            "Attracted Animals": "Bird-Attracting, Butterfly-Attracting, Bee-Attracting",
+            "Native habitat": "Terrestrial (Primary Rainforest, Secondary Rainforest)",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "Red",
+            "Leaf Area Index": "3.0 (Tree - Intermediate Canopy)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "Scaly, Smooth",
+            "Trunk Colour": "Brown",
+            "Leaf Texture": [
+                "N/A"
+            ],
+            "Canopy Radius": 19
+        },
+        {
+            "Scientific Name": "Stelechocarpus burahol (Blume) Hook. f. & Thomson",
+            "Common Name": "Kepel",
+            "Species ID": 3344,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/3/3/3344",
+            "Plant Type": [
+                "Tree"
+            ],
+            "Light Preference": [
+                "Full Sun"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": true,
+            "Fragrant Plant": true,
+            "Maximum Height (m)": 25.0,
+            "Flower Colour": "Cream / Off-White, White",
+            "Hazard": "N/A",
+            "Attracted Animals": "Butterfly-Attracting",
+            "Native habitat": "Terrestrial (Secondary Rainforest)",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "Red",
+            "Leaf Area Index": "4.0 (Tree - Dense Canopy)",
+            "Growth Rate": [
+                "Slow"
+            ],
+            "Trunk Texture": "Peeling / Flaking / Papery, Scaly",
+            "Trunk Colour": "Brown",
+            "Leaf Texture": [
+                "N/A"
+            ],
+            "Canopy Radius": 14
+        },
+        {
+            "Scientific Name": "Ixora 'Dwarf Yellow'",
+            "Common Name": "N/A",
+            "Species ID": 2132,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/2/1/2132",
+            "Plant Type": [
+                "Shrub"
+            ],
+            "Light Preference": [
+                "Full Sun"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": true,
+            "Fragrant Plant": true,
+            "Maximum Height (m)": 1.0,
+            "Flower Colour": "Yellow / Golden",
+            "Hazard": "N/A",
+            "Attracted Animals": "Bird-Attracting, Butterfly Host Plant",
+            "Native habitat": "Terrestrial",
+            "Mature Leaf Colour": "Green, Yellow / Golden",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "4.5 (Shrub & Groundcover - Dicot)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "N/A",
+            "Trunk Colour": "N/A",
+            "Leaf Texture": [
+                "Medium"
+            ],
+            "Canopy Radius": "N/A"
+        },
+        {
+            "Scientific Name": "Acrotrema costatum Jack",
+            "Common Name": "Yellow Jungle Star",
+            "Species ID": 3739,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/3/7/3739",
+            "Plant Type": [
+                "Creeper",
+                "Herbaceous Plant",
+                "Shrub"
+            ],
+            "Light Preference": [
+                "Full Shade",
+                "Semi Shade"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 0.3,
+            "Flower Colour": "Yellow / Golden",
+            "Hazard": "N/A",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial (Secondary Rainforest, Monsoon Forest)",
+            "Mature Leaf Colour": "Green, Silver / Grey",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "4.5 (Shrub & Groundcover - Dicot)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "N/A",
+            "Trunk Colour": "N/A",
+            "Leaf Texture": [
+                "Coarse"
+            ],
+            "Canopy Radius": "N/A"
+        }
+    ]
+}
