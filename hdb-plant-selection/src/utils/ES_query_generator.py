@@ -174,6 +174,7 @@ class ESPlantQueryGenerator():
         - Plant Type: list[str] (Palm, Herbaceous Plants)
         - Fruit Bearing: str (True, False, None)
         - Fragrant Plant: str (True, False, None)
+        - Maximum Height (m): int 
         - Height: str (Tall, Short, None)
         - Flower Colour: list[str]
         - Attracted Animals: list[str] (Bird, Butterfly, Bee, Caterpillar Moth, Bat)
@@ -270,6 +271,20 @@ class ESPlantQueryGenerator():
             # Ignore non querying terms
             if key == "Plant Type" or key == "Height":
                 pass
+
+            # Maximum height, Prioritise the gpt response > preset function requirements
+            elif key == "Maximum Height (m)":
+                function_value = function_requirements.get(key, 0)
+                # If there is a height constraint
+                if function_value != 0 or items != 0:
+                    height_constraints = items if items != 0 else function_value
+                    query["bool"][self.es_query_requirements[key]].append({
+                        "range": {
+                            "Maximum Height (m)": {
+                                "lt": height_constraints
+                            }
+                        }
+                    })
 
             # Boolean Terms, Prioritise the gpt response > preset function requirements
             elif key == "Fruit Bearing" or key == "Fragrant Plant":
