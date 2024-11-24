@@ -6,6 +6,7 @@ import PlantPalette from './pages/PlantPalette';
 import SelectConfiguration from './pages/SelectConfiguration';
 import EditConfiguration from './pages/EditConfiguration';
 import LoadingScreen from './pages/LoadingScreen';
+import DownloadPage from './pages/2dDownloadTest';
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="/test" element={<LoadingScreen />} />
         <Route path="/test-1" element={<SelectConfiguration />} />
         <Route path="/test-2" element={<EditConfiguration />} />
+        <Route path="/1" element={<DownloadPage />} />
       </Routes>
     </Router>
   );

@@ -21,7 +21,7 @@ const LandscapeModel = ({
 
     useEffect(() => {
         // Create layer data
-        if (layersData[index].length === 0) {
+        if (layersData.length === 0) {
             // No layers data, need to be created
             // TODO: Create Layers Data and use updateLayersData to update for the specific index
             // Array of layers, each layerData = {layerID:a, speciesID:b, coordinate:(x,y)}
