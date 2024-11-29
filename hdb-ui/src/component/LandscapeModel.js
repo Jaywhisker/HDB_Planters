@@ -1,4 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import * as THREE from "three";
+import { Canvas, useThree } from "@react-three/fiber";
+import { OrbitControls } from "@react-three/drei";
+import GrassAndConcrete from './GrassAndConcrete';
+import ModelLoader from "./ModelLoader";
+import { Html } from "@react-three/drei"
+import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
+
 
 const LandscapeModel = ({
     index,
@@ -15,9 +23,25 @@ const LandscapeModel = ({
     updateSelectedLayer,
     downloadModel
 }) => {
-
     // TODO:
     // 1. Render the 3D model using gridArray, coordinatesObject and plantModels
+    const  scene  = new THREE.Scene();
+    scene.background = new THREE.Color(0xffffff); // Set background to white
+
+  // Extract grid and coordinates from JSON
+
+  useEffect(() => {
+    // Add ambient and directional lighting
+    const ambientLight = new THREE.AmbientLight(0x404040, 2);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(50, 100, 50);
+    scene.add(ambientLight, directionalLight);
+
+    return () => {
+        scene.remove(ambientLight, directionalLight);
+    };
+}, [scene]);
+    
 
     useEffect(() => {
         // Create layer data
@@ -51,12 +75,24 @@ const LandscapeModel = ({
         // Add a return statement to REMOVE event listeners upon unmount
     }, [])
 
-
+    const sceneRef = useRef(null);
     useEffect(() => {
+        console.log("Download Model State in LandscapeModel:", downloadModel);
         if (downloadModel) {
-            // TODO: Function to download the 3D object model
+            console.log("Exporting Model...");
+            if (sceneRef.current) {
+                const exporter = new GLTFExporter();
+                exporter.parse(sceneRef.current, (result) => {
+                    const blob = new Blob([result], { type: 'model/gltf-binary' });
+                    const link = document.createElement('a');
+                    link.href = URL.createObjectURL(blob);
+                    link.download = 'scene.glb';
+                    link.click();
+                    URL.revokeObjectURL(link.href);
+                });
+            }
         }
-    }, [downloadModel])
+    }, [downloadModel]);
 
 
     useEffect(() => {
@@ -67,11 +103,36 @@ const LandscapeModel = ({
 
 
     return (
-        <div>
-            
-        </div>
-    )
+        <Html
+            fullscreen // Ensures the Html wrapper fills the screen
+            style={{
+                width: '100vw',
+                height: '100vh',
+                position: 'relative', // Ensure proper positioning
+                overflow: 'hidden', // Prevents scrollbars
+            }}
+        >
+            <Canvas ref={sceneRef} shadows camera={{ position: [0, 150, 150], fov: 60 }}>
+                <OrbitControls
+                    enableDamping
+                    dampingFactor={0.25}
+                    screenSpacePanning={false}
+                    maxPolarAngle={Math.PI / 2}
+                />
+                <ambientLight intensity={0.5} />
+                <directionalLight position={[50, 100, 50]} intensity={2.5} />
+                
+                {/* Grass and Concrete */}
+                <GrassAndConcrete grid={gridArray} surroundingContext={surroundingContext} />
 
+                {/* 3D Model Loader */}
+                <ModelLoader
+                    coordinates={coordinatesObject}
+                    preloadedModels={plantModels}
+                />
+            </Canvas>
+        </Html>
+    );
 }
 
-export default LandscapeModel
+export default LandscapeModel;

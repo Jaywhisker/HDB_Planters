@@ -1,67 +1,78 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import compositionData from '../data/mock_compositions.json'
+import { useNavigate } from 'react-router-dom';
+import compositionData from '../data/mock_compositions.json';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import { usePreload } from '../context/preloadContext';
 
 const LoadingScreen = () => {
+  const [plantCompositionData, setPlantCompositionData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
-    // PlantCompositionData contains the data returned from the backend
-    const [plantCompositionData, setPlantCompositionData] = useState(null)
+  const { updateModels } = usePreload()
 
-    // preloadedSpeciesID contains an ARRAY of all the speciesID to preload (plantPalette)
-    // TODO: Update to retrieve plant palette IDs from location
-    const preloadedSpeciesID = [... new Set(Object.values(compositionData['data'][0]['coordinates']))]
+  useEffect(() => {
+    const setupComposition = async () => {
+      try {
+        // Retrieve composition data
+        const retrieveCompositions = async () => {
+          setPlantCompositionData(compositionData['data'].slice(0, 3));
+        };
 
-    // plantModels contains all the dynamically loaded models from the 3d
-    const [plantModels, setPlantModels] = useState(null)
+        await retrieveCompositions();
 
-    const [loading, setLoading] = useState(true)
-    const navigate = useNavigate();
-    
-    // UseEffect will call backend and also dynamically load models
-    useEffect(() =>{
-        const setupComposition = async () => {
-            try {
-                // TODO: Call backend
-                const retrieveCompositions = async () => {
-                    setPlantCompositionData(compositionData['data'].slice(0,3))
-                }
+        // Preload all unique models
+        const preloadedSpeciesID = [...new Set(Object.values(compositionData['data'][0]['coordinates']))];
+        const loader = new GLTFLoader();
+        const uniqueModels = preloadedSpeciesID.map((id) => `/models/${id}.glb`);
+        const loadedModelsArray = await Promise.all(
+          uniqueModels.map(
+            (path) =>
+              new Promise((resolve, reject) => {
+                loader.load(
+                  path,
+                  (gltf) => resolve(gltf.scene),
+                  undefined,
+                  (error) => reject(error)
+                );
+              })
+          )
+        );
 
-                // TODO: Dynamically load the plant palette
-                // TODO: Tentatively I setting the preloaded IDS to just be the species id from compositionData
-                // MUST update to be the plant palette, PlantPalette.js to send the speciesID pls
-                const preloadModels = async () => {
-                    // since this is an async function, you might need to make Promise
-                    var preloadedModels = preloadedSpeciesID
-                    setPlantModels(preloadedModels)
-                }
-                await Promise.all([retrieveCompositions(), preloadModels()]);
-            
-            } catch (error) {
-                console.log(error)
-            } finally {
-                setLoading(false)
-            }
-        }
-        setupComposition()
+        // Map models by species ID
+        const modelMap = Object.fromEntries(
+          uniqueModels.map((path, index) => [path.split('/').pop().replace('.glb', ''), loadedModelsArray[index]])
+        );
 
-    }, [])
+        updateModels(modelMap);
+        //console.log('Models and compositions preloaded:', modelMap);
+      } catch (error) {
+        console.error('Error during setupComposition:', error);
+      } finally {
+        setLoading(false); // Set loading to false after all operations
+      }
+    };
 
-    // Move to next page
-    useEffect(() => {
-        // Loading is false, move to next page and pass plantModels and compositionData
-        if (!loading) {
-            // TODO: Update navigation route
-            navigate('/test-1', { state: { plantCompositionData, plantModels } })
+    setupComposition();
+  }, []);
 
-        }
-    }, [loading])
+  useEffect(() => {
+    if (!loading && plantCompositionData !== null) {
+      const timer = setTimeout(() => {
+        //console.log('Navigation triggered');
+        console.log(plantCompositionData)
+        navigate('/test-1', { state: { plantCompositionData } });
+      }, 1); // buffer
 
+      return () => clearTimeout(timer); // Clean up timeout if component unmounts
+    }
+  }, [loading, plantCompositionData]);
 
-    return (
-        <p>Loading</p>
-    )
-
-
-}
+  return (
+    <div>
+      {loading ? <p>Loading...</p> : <p>Data Loaded.</p>}
+    </div>
+  );
+};
 
 export default LoadingScreen;

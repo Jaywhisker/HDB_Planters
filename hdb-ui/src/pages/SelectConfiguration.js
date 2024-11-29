@@ -1,59 +1,91 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-
+import { Canvas } from '@react-three/fiber';
 import LandscapeModel from '../component/LandscapeModel';
+import { usePreload } from '../context/preloadContext';
 
 const SelectConfiguration = () => {
-
-    // PlantCompositionData and PlantModels from location props
     const location = useLocation();
-    const { plantCompositionData, plantModels } = location.state || {};
-    console.log(plantCompositionData)    
-    console.log(plantModels)
+    const { plantCompositionData } = location.state || {};
+    const { plantModels } = usePreload();
 
-    // LayersData that will be an array of array
-    // [ [layers data for composition 1], [layers data for composition 2], [layers data for composition 3] ]
+    const [downloadModel, setDownloadModel] = useState(false);
+    const [currentIndex, setCurrentIndex] = useState(0);
     const [layersData, setLayersData] = useState(
-        Array.from({ length: plantCompositionData.length }, () => ([]))
+        plantCompositionData?.length > 0
+            ? Array.from({ length: plantCompositionData.length }, () => ([]))
+            : []
     );
-
-    // Current index to show
-    const [currentIndex, setCurrentIndex] = useState(0)
-
-    // Navigate to next page 
     const navigate = useNavigate();
+
+    const triggerDownload = () => {
+        console.log("Download button clicked"); // Should log immediately when button is clicked
+        setDownloadModel(true);
+        setTimeout(() => setDownloadModel(false), 1000); // Reset state
+    };
+    
+
     const handleNavigation = () => {
-        navigate('/test-2', { 
-            state: { 
-                compositionData: plantCompositionData[currentIndex], 
-                plantModels, 
-                compositionLayerData: layersData[currentIndex] 
-                } 
+        if (plantCompositionData[currentIndex]) {
+            navigate('/test-2', {
+                state: {
+                    compositionData: plantCompositionData[currentIndex],
+                    compositionLayerData: layersData[currentIndex],
+                },
             });
-        };
+        }
+    };
+
+    // If no composition data, render an error message
+    if (!plantCompositionData || !plantCompositionData.length) {
+        return <p>No composition data available. Please return to the previous step.</p>;
+    }
 
     return (
-        <div>
-            {
-                plantCompositionData.map((compositionData, index) => (
-                    currentIndex === index 
-                    // Only show LandscapeModel if currentIndex = index
-                    ? <LandscapeModel 
-                        index = {index}
-                        plantModels = {plantModels}
-                        gridArray = {compositionData['grid']}
-                        coordinatesObject = {compositionData['coordinates']}
-                        surroundingContext = {compositionData['surrounding_context']}
-                        layersData = {layersData[index]}
-                        updateLayersData = {(newData) => setLayersData(newData)}
-                        allowInteraction = {false} 
-                        /> 
-                    : null
-                ))
-            }
-            <button onClick={handleNavigation}>navigate to next page</button>
+        <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
+            {plantCompositionData.map((compositionData, index) =>
+                currentIndex === index ? (
+                    <Canvas
+                        shadows
+                        style={{ width: '100%', height: '100%' }}
+                        camera={{
+                            position: [100, 100, 100],
+                            fov: 50,
+                        }}
+                        key={index}
+                    >
+                        <LandscapeModel
+                            index={index}
+                            plantModels={plantModels}
+                            gridArray={compositionData['grid']}
+                            coordinatesObject={compositionData['coordinates']}
+                            surroundingContext={compositionData['surrounding_context']}
+                            layersData={layersData[index]}
+                            updateLayersData={(newData) => {
+                                const updatedLayers = [...layersData];
+                                updatedLayers[index] = newData;
+                                setLayersData(updatedLayers);
+                            }}
+                            allowInteraction={false}
+                            downloadModel={downloadModel}
+                        />
+                    </Canvas>
+                ) : null
+            )}
+        <button
+            style={{ position: 'absolute', bottom: '10px', left: '10px', zIndex: 10 }}
+            onClick={triggerDownload}
+        >
+            Download Scene
+        </button>
+            <button
+                style={{ position: 'absolute', bottom: '10px', left: '50%' }}
+                onClick={handleNavigation}
+            >
+                Navigate to next page
+            </button>
         </div>
     );
-}
+};
 
 export default SelectConfiguration;
