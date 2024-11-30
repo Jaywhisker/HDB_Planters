@@ -9,6 +9,9 @@ const EditConfiguration = () => {
   const { compositionData, compositionLayerData } = location.state || {};
   const { plantModels } = usePreload();
 
+  const [downloadModel, setDownloadModel] = useState(false);
+  const [loading, setLoading] = useState(false);
+
   const [hoveredLayerID, setHoveredLayerID] = useState(null);
   const [selectedLayerID, setSelectedLayerID] = useState(null);
   const [editedCompositionCoordinates, setEditedCompositionCoordinates] =
@@ -59,6 +62,16 @@ const EditConfiguration = () => {
     }
   };
 
+  const handleDownloadClick = () => {
+    setDownloadModel(true);
+    setLoading(true);
+  };
+
+  const handleDownloadComplete = () => {
+    setDownloadModel(false); // Reset download trigger
+    setLoading(false); // Reset loading state
+  };
+
   return (
     <div style={{ display: "flex", height: "100vh" }}>
       <div
@@ -70,6 +83,23 @@ const EditConfiguration = () => {
           padding: "10px",
         }}
       >
+
+<button
+          onClick={handleDownloadClick}
+          disabled={loading}
+          style={{
+            padding: "10px",
+            backgroundColor: loading ? "#aaaaaa" : "#4CAF50",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            cursor: loading ? "not-allowed" : "pointer",
+            marginBottom: "20px",
+          }}
+        >
+          {loading ? "Downloading..." : "Download 3D Model"}
+        </button>
+
         <div style={{ marginBottom: "20px" }}>
           <input
             type="text"
@@ -150,6 +180,8 @@ const EditConfiguration = () => {
             updateHoveredLayer={setHoveredLayerID}
             selectedLayer={selectedLayerID}
             updateSelectedLayer={handleLayerHighlight}
+            downloadModel={downloadModel}
+            onDownloadComplete={handleDownloadComplete}
           />
         </Canvas>
       </div>

@@ -4,6 +4,9 @@ import { useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import GrassAndConcrete from "./GrassAndConcrete";
 import ModelLoader from "./ModelLoader";
+import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter";
+
+
 
 const LandscapeModel = ({
   index,
@@ -19,11 +22,12 @@ const LandscapeModel = ({
   selectedLayer,
   updateSelectedLayer,
   downloadModel,
+  onDownloadComplete, // Callback to notify download is complete
+
 }) => {
   // TODO:
   // 1. Render the 3D model using gridArray, coordinatesObject and plantModels
-  const scene = new THREE.Scene();
-  const { camera } = useThree();
+  const { scene, camera, gl } = useThree();
   scene.background = new THREE.Color(0xffffff); // Set background to white
 
   const raycaster = useRef(new THREE.Raycaster());
@@ -101,20 +105,21 @@ const LandscapeModel = ({
         const rect = event.target.getBoundingClientRect();
         mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
+      
         raycaster.current.setFromCamera(mouse.current, camera);
-
-        const intersects = raycaster.current.intersectObjects(
-          scene.children,
-          true
-        );
+      
+        const intersects = raycaster.current.intersectObjects(scene.children, true);
+      
         if (intersects.length > 0) {
           const object = intersects[0].object;
-
+      
+          // Convert THREE.Vector3 to array for comparison
+          const objectPosition = [object.position.x, object.position.y, object.position.z];
+      
           const layer = layersData.find(
-            (layer) => layer.coordinate.join() === object.position.join()
+            (layer) => layer.coordinate.join() === objectPosition.join()
           );
-
+      
           if (layer) {
             updateSelectedLayer(
               layer.layerID === selectedLayer ? null : layer.layerID
@@ -134,35 +139,45 @@ const LandscapeModel = ({
     }
   }, [layersData, selectedLayer, updateSelectedLayer, scene, camera]);
 
-  useEffect(() => {
-    const handleClick = (event) => {
-      const rect = event.target.getBoundingClientRect();
-      mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-      mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-      raycaster.current.setFromCamera(mouse.current, camera); // Use the extracted camera
-
-      const intersects = raycaster.current.intersectObjects(
-        scene.children,
-        true
-      );
-      if (intersects.length > 0) {
-        const object = intersects[0].object;
-
-        // Find the corresponding layerID
-        const layer = layersData.find(
-          (layer) => layer.coordinate.join() === object.position.join()
-        );
-
-        if (layer) {
-          updateSelectedLayer(layer.layerID);
-        }
+  const handleClick = (event) => {
+    const rect = event.target.getBoundingClientRect();
+    mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+  
+    raycaster.current.setFromCamera(mouse.current, camera);
+  
+    const intersects = raycaster.current.intersectObjects(scene.children, true);
+  
+    if (intersects.length > 0) {
+      const object = intersects[0].object;
+  
+      // Convert THREE.Vector3 to array for comparison
+      const objectPosition = [
+        object.position.x.toFixed(2), // Convert to fixed precision for accuracy
+        object.position.y.toFixed(2),
+        object.position.z.toFixed(2),
+      ];
+  
+      const layer = layersData.find((layer) => {
+        const layerPosition = [
+          layer.coordinate[0].toFixed(2),
+          layer.coordinate[1].toFixed(2),
+          0, // Assuming z = 0 for layer coordinates, adjust as needed
+        ];
+        return layerPosition.join() === objectPosition.join();
+      });
+  
+      if (layer) {
+        updateSelectedLayer(layer.layerID === selectedLayer ? null : layer.layerID);
       }
-    };
+    } else {
+      // Deselect layer if clicking on a blank space
+      updateSelectedLayer(null);
+    }
+  };
+  
 
-    window.addEventListener("click", handleClick);
-    return () => window.removeEventListener("click", handleClick);
-  }, [layersData, updateSelectedLayer, scene, camera]);
+
 
   useEffect(() => {
     if (downloadModel) {
@@ -219,9 +234,49 @@ const LandscapeModel = ({
 
   useEffect(() => {
     if (downloadModel) {
-        // TODO: Function to download the 3D object model
+      const exporter = new GLTFExporter();
+
+      try {
+        // Log scene contents for debugging
+        console.log("Scene contents:", scene);
+
+        // Validate scene initialization
+        if (!scene || !(scene instanceof THREE.Scene)) {
+          throw new Error("Scene is not properly initialized or is invalid.");
+        }
+
+        // Filter unsupported lights and skip undefined objects
+        scene.traverse((child) => {
+          if (!child) {
+            console.warn("Encountered undefined child in scene.");
+            return;
+          }
+          if (child.isLight && !(child.isDirectionalLight || child.isPointLight || child.isSpotLight)) {
+            console.warn(`Removing unsupported light: ${child.type}`);
+            scene.remove(child);
+          }
+        });
+
+        // Export the filtered scene
+        exporter.parse(
+          scene,
+          (result) => {
+            const blob = new Blob([result], { type: "model/gltf-binary" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "landscape_model.glb";
+            link.click();
+
+            onDownloadComplete();
+          },
+          { binary: true }
+        );
+      } catch (error) {
+        console.error("Error during model export:", error);
+        onDownloadComplete();
+      }
     }
-}, [downloadModel])
+  }, [downloadModel, onDownloadComplete, scene]);
 
 
 
