@@ -1,69 +1,134 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
 import { usePreload } from '../context/preloadContext';
-
 import LandscapeModel from '../component/LandscapeModel';
 
 const EditConfiguration = () => {
-
-    // compositonData and PlantModels and Layers data from location props
     const location = useLocation();
     const { compositionData, compositionLayerData } = location.state || {};
-    const { plantModels } = usePreload()
+    const { plantModels } = usePreload();
 
-    // Hovered index
-    const [hoveredLayeredID, setHoveredLayerID] = useState(null)
-    // Selected index
-    const [selectedLayerID, setSelectedLayerID] = useState(null)
+    const [hoveredLayeredID, setHoveredLayerID] = useState(null);
+    const [selectedLayerID, setSelectedLayerID] = useState(null);
+    const [editedCompositionCoordinates, setEditedCompositionCoordinates] = useState(
+        JSON.parse(JSON.stringify(compositionData['coordinates']))
+    );
+    const [editedCompositionLayerData, setEditedCompositionLayerData] = useState(
+        JSON.parse(JSON.stringify(compositionLayerData))
+    );
 
-    // Deep Copy coordinate & layer data so that we can edit them
-    const [editedCompositionCoordinates, setEditedCompositionCoordinates] = useState(JSON.parse(JSON.stringify(compositionData['coordinates'])))
-    const [editedCompositionLayerData, setEditedCompositionLayerData] = useState(JSON.parse(JSON.stringify(compositionLayerData)))
+    const [newModelID, setNewModelID] = useState(""); // Track user input
+    const [error, setError] = useState(""); // Track validation errors
 
-    // Determines to download the model
-    const [download3DModel, setDownload3DModel] = useState(false)
-
-    // TODO: Function to update the species ID in the composition coordinates & layer data 
-    // Utilise the selectedLayerID
-    const swapPlants = (newSpeciesID) => {
+    const handleModelSwap = () => {
         if (selectedLayerID !== null) {
-            const updatedLayerData = editedCompositionLayerData.map((layer) =>
-                layer.layerID === selectedLayerID ? { ...layer, speciesID: newSpeciesID } : layer
+            const selectedLayerIndex = editedCompositionLayerData.findIndex(
+                (layer) => layer.layerID === selectedLayerID
             );
-            setEditedCompositionLayerData(updatedLayerData);
+
+            if (selectedLayerIndex !== -1) {
+                const selectedLayer = editedCompositionLayerData[selectedLayerIndex];
+                const selectedCoordinateKey = `(${selectedLayer.coordinate[1]}, ${selectedLayer.coordinate[0]})`;
+
+                // Validate model ID
+                if (!plantModels[newModelID]) {
+                    setError("Invalid model ID. Please provide a valid one.");
+                    return;
+                }
+
+                // Update coordinates object
+                const updatedCoordinates = { ...editedCompositionCoordinates };
+                updatedCoordinates[selectedCoordinateKey] = parseInt(newModelID);
+                setEditedCompositionCoordinates(updatedCoordinates);
+
+                // Update layer data
+                const updatedLayers = [...editedCompositionLayerData];
+                updatedLayers[selectedLayerIndex] = {
+                    ...selectedLayer,
+                    speciesID: parseInt(newModelID),
+                };
+                setEditedCompositionLayerData(updatedLayers);
+
+                setError(""); // Clear errors
+            }
+        } else {
+            setError("No model is currently selected. Select a layer first.");
         }
     };
-    
-
-    const handleLayerClick = (layerID) => setSelectedLayerID(layerID);
 
     return (
         <div style={{ display: 'flex', height: '100vh' }}>
-            <div style={{ width: '20%', overflowY: 'scroll', backgroundColor: '#f4f4f4' }}>
+            {/* Sidebar for Layers and Model Swap */}
+            <div
+                style={{
+                    width: '20%',
+                    overflowY: 'scroll',
+                    backgroundColor: '#333',
+                    color: '#fff',
+                    padding: '10px',
+                }}
+            >
+                {/* Swap Model Input (Now at the Top) */}
+                <div style={{ marginBottom: '20px' }}>
+                    <input
+                        type="text"
+                        value={newModelID}
+                        onChange={(e) => setNewModelID(e.target.value)}
+                        placeholder="Enter new model ID"
+                        style={{
+                            width: '80%',
+                            padding: '5px',
+                            marginBottom: '10px',
+                            borderRadius: '4px',
+                            border: '1px solid #ccc',
+                        }}
+                    />
+                    <button
+                        onClick={handleModelSwap}
+                        style={{
+                            width: '100%',
+                            padding: '10px',
+                            backgroundColor: '#4CAF50',
+                            color: '#fff',
+                            border: 'none',
+                            borderRadius: '4px',
+                            cursor: 'pointer',
+                        }}
+                    >
+                        Swap Model
+                    </button>
+                    {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+                </div>
+
+                {/* Layers List */}
                 {editedCompositionLayerData.map((layer) => (
                     <div
                         key={layer.layerID}
-                        onClick={() => handleLayerClick(layer.layerID)}
+                        onClick={() => setSelectedLayerID(layer.layerID)}
                         style={{
                             padding: '10px',
                             cursor: 'pointer',
-                            backgroundColor: selectedLayerID === layer.layerID ? '#d0f0c0' : 'transparent'
+                            backgroundColor: selectedLayerID === layer.layerID ? '#8BBD8B' : 'transparent',
+                            borderRadius: '5px',
+                            marginBottom: '5px',
                         }}
                     >
                         Layer {layer.layerID}: Species {layer.speciesID}
                     </div>
                 ))}
             </div>
+
+            {/* 3D Canvas */}
             <div style={{ width: '80%', position: 'relative' }}>
-            <Canvas
-                        shadows
-                        style={{ width: '100%', height: '100%' }}
-                        camera={{
-                            position: [100, 100, 100],
-                            fov: 50,
-                        }}
-                    >
+                <Canvas
+                    shadows
+                    style={{ width: '100%', height: '100%' }}
+                    camera={{
+                        position: [100, 100, 100],
+                        fov: 50,
+                    }}
+                >
                     <LandscapeModel
                         plantModels={plantModels}
                         gridArray={compositionData['grid']}
@@ -74,8 +139,7 @@ const EditConfiguration = () => {
                         hoveredLayer={hoveredLayeredID}
                         updateHoveredLayer={setHoveredLayerID}
                         selectedLayer={selectedLayerID}
-                        updateSelectedLayer={(layerID) => setSelectedLayerID(layerID)}
-                        downloadModel={download3DModel}
+                        updateSelectedLayer={setSelectedLayerID}
                     />
                 </Canvas>
             </div>
