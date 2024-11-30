@@ -101,29 +101,37 @@ useEffect(() => {
         };
 
         const onMouseDown = (event) => {
-        if (hoveredLayer !== null) {
-            updateSelectedLayer(
-            hoveredLayer === selectedLayer ? null : hoveredLayer
-            );
-        }
-        };
+          const rect = event.target.getBoundingClientRect();
+          mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+          mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+  
+          raycaster.current.setFromCamera(mouse.current, camera);
+  
+          const intersects = raycaster.current.intersectObjects(scene.children, true);
+          if (intersects.length > 0) {
+              const object = intersects[0].object;
+  
+              const layer = layersData.find((layer) =>
+                  layer.coordinate.join() === object.position.join()
+              );
+  
+              if (layer) {
+                  updateSelectedLayer(layer.layerID === selectedLayer ? null : layer.layerID);
+              }
+          } else {
+              // Deselect layer if clicking on a blank space
+              updateSelectedLayer(null);
+          }
+      };
 
-        window.addEventListener("mousemove", onMouseMove);
-        window.addEventListener("mousedown", onMouseDown);
 
-        return () => {
-        window.removeEventListener("mousemove", onMouseMove);
-        window.removeEventListener("mousedown", onMouseDown);
+      window.addEventListener("mousedown", onMouseDown);
+
+      return () => {
+          window.removeEventListener("mousedown", onMouseDown);
         };
     }
-    }, [
-    allowInteraction,
-    layersData,
-    hoveredLayer,
-    selectedLayer,
-    updateHoveredLayer,
-    updateSelectedLayer,
-    ]);
+  }, [layersData, selectedLayer, updateSelectedLayer, scene, camera]);
 
 
     useEffect(() => {

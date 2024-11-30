@@ -22,8 +22,9 @@ const EditConfiguration = () => {
     const [error, setError] = useState(""); // Track validation errors
 
     const handleLayerHighlight = (layerID) => {
-        setSelectedLayerID(layerID);
-    };
+      setSelectedLayerID((prevLayerID) => (prevLayerID === layerID ? null : layerID));
+  };
+  
     
 
     const handleModelSwap = () => {
