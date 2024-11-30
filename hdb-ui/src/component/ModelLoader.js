@@ -1,7 +1,16 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import * as THREE from 'three';
 
-const ModelLoader = ({ coordinates, preloadedModels, highlightedModelKey, layersData, updateSelectedLayer }) => {
+const ModelLoader = ({
+    coordinates,
+    preloadedModels,
+    highlightedModelKey,
+    hoveredLayer,
+    selectedLayer, // Add selectedLayer here
+    layersData,
+    updateSelectedLayer,
+}) => {
+
     const [scales, setScales] = useState({});
     const [instances, setInstances] = useState({}); // Store model instances keyed by coordinates
 
@@ -61,39 +70,45 @@ const ModelLoader = ({ coordinates, preloadedModels, highlightedModelKey, layers
     }, [coordinates, preloadedModels, scales]);
 
     // Render model instances with highlight logic
-    return (
-        <group>
-            {Object.entries(instances).map(([key, instance]) => {
-                const { object, position } = instance;
-                object.position.set(...position);
-                // Apply highlight logic only to the selected model
-                object.traverse((node) => {
-                    if (node.isMesh) {
-                        node.material.emissive = key === highlightedModelKey
-                            ? new THREE.Color(0xff0000) // Highlighted
-                            : new THREE.Color(0x000000); // Reset
-                    }
-                });
+// Render model instances with highlight logic
+return (
+    <group>
+        {Object.entries(instances).map(([key, instance]) => {
+            const { object, position } = instance;
+            object.position.set(...position);
+            object.traverse((node) => {
+                if (node.isMesh) {
+                    node.material.emissive = key === highlightedModelKey
+                        ? new THREE.Color(0xff0000) // Red for selected
+                        : key === `(${hoveredLayer?.coordinate[1]}, ${hoveredLayer?.coordinate[0]})`
+                        ? new THREE.Color(0x00ff00) // Green for hovered
+                        : key === `(${selectedLayer?.coordinate[1]}, ${selectedLayer?.coordinate[0]})`
+                        ? new THREE.Color(0xffa500) // Orange for clicked in sidebar
+                        : new THREE.Color(0x000000); // Default
+                }
+            });
+            
+            
 
-                return (
-                    <primitive
-                        key={key}
-                        object={object}
-                        position={position}
-                        onClick={() => {
-                            // Update layer selection when model is clicked
-                            const layer = layersData.find((layer) =>
-                                layer.coordinate.join() === [position[0] + 50, -position[2] + 50].join()
-                            );
-                            if (layer) {
-                                updateSelectedLayer(layer.layerID);
-                            }
-                        }}
-                    />
-                );
-            })}
-        </group>
-    );
+            return (
+                <primitive
+                    key={key}
+                    object={object}
+                    position={position}
+                    onClick={() => {
+                        const layer = layersData.find((layer) =>
+                            layer.coordinate.join() === [position[0] + 50, -position[2] + 50].join()
+                        );
+                        if (layer) {
+                            updateSelectedLayer(layer.layerID);
+                        }
+                    }}
+                />
+            );
+        })}
+    </group>
+);
+
 };
 
 export default ModelLoader;

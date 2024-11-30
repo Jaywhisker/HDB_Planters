@@ -258,12 +258,15 @@ useEffect(() => {
 
         {/* 3D Model Loader */}
         <ModelLoader
-          coordinates={coordinatesObject}
-          preloadedModels={plantModels}
-          highlightedModelKey={highlightedModelKey}
-          layersData={layersData} // Pass layersData
-          updateSelectedLayer={updateSelectedLayer} // Pass updateSelectedLayer
-        />
+    coordinates={coordinatesObject}
+    preloadedModels={plantModels}
+    highlightedModelKey={highlightedModelKey}
+    hoveredLayer={layersData.find((layer) => layer.layerID === hoveredLayer)} // Match hovered layer
+    selectedLayer={layersData.find((layer) => layer.layerID === selectedLayer)} // Match selected layer
+    layersData={layersData}
+    updateSelectedLayer={updateSelectedLayer}
+/>
+
       </>
     );
 }
