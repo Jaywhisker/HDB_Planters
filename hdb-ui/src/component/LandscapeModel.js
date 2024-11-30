@@ -115,7 +115,6 @@ const LandscapeModel = ({
         }}
       >
         <Canvas
-          ref={sceneRef}
           shadows
           camera={{ position: [0, 150, 150], fov: 60 }}
         >
