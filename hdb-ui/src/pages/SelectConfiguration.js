@@ -9,7 +9,6 @@ const SelectConfiguration = () => {
     const { plantCompositionData } = location.state || {};
     const { plantModels } = usePreload();
 
-    const [downloadModel, setDownloadModel] = useState(false);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [layersData, setLayersData] = useState(
         plantCompositionData?.length > 0
@@ -17,12 +16,6 @@ const SelectConfiguration = () => {
             : []
     );
     const navigate = useNavigate();
-
-    const triggerDownload = () => {
-        console.log("Download button clicked"); // Should log immediately when button is clicked
-        setDownloadModel(true);
-        setTimeout(() => setDownloadModel(false), 1000); // Reset state
-    };
     
 
     const handleNavigation = () => {
@@ -67,17 +60,11 @@ const SelectConfiguration = () => {
                                 setLayersData(updatedLayers);
                             }}
                             allowInteraction={false}
-                            downloadModel={downloadModel}
                         />
                     </Canvas>
                 ) : null
             )}
-        <button
-            style={{ position: 'absolute', bottom: '10px', left: '10px', zIndex: 10 }}
-            onClick={triggerDownload}
-        >
-            Download Scene
-        </button>
+
             <button
                 style={{ position: 'absolute', bottom: '10px', left: '50%' }}
                 onClick={handleNavigation}

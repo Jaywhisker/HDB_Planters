@@ -5,7 +5,7 @@ import { OrbitControls } from "@react-three/drei";
 import GrassAndConcrete from './GrassAndConcrete';
 import ModelLoader from "./ModelLoader";
 import { Html } from "@react-three/drei"
-import { GLTFExporter } from 'three/examples/jsm/exporters/GLTFExporter';
+
 
 
 const LandscapeModel = ({
@@ -91,25 +91,11 @@ const LandscapeModel = ({
         // Add a return statement to REMOVE event listeners upon unmount
     }, [])
 
-    const sceneRef = useRef(null);
     useEffect(() => {
-        console.log("Download Model State in LandscapeModel:", downloadModel);
         if (downloadModel) {
-            console.log("Exporting Model...");
-            if (sceneRef.current) {
-                const exporter = new GLTFExporter();
-                exporter.parse(sceneRef.current, (result) => {
-                    const blob = new Blob([result], { type: 'model/gltf-binary' });
-                    const link = document.createElement('a');
-                    link.href = URL.createObjectURL(blob);
-                    link.download = 'scene.glb';
-                    link.click();
-                    URL.revokeObjectURL(link.href);
-                });
-            }
+            // TODO: Function to download the 3D object model
         }
-    }, [downloadModel]);
-
+    }, [downloadModel])
 
     useEffect(() => {
         if (selectedLayer) {
