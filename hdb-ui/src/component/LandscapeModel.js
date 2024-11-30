@@ -32,13 +32,29 @@ const LandscapeModel = ({
 
   useEffect(() => {
     // Add ambient and directional lighting
-    const ambientLight = new THREE.AmbientLight(0x404040, 2);
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
-    directionalLight.position.set(50, 100, 50);
-    scene.add(ambientLight, directionalLight);
+    const ambientLight = new THREE.AmbientLight(0x404040, 5 ); // Slightly dimmer
+    scene.add(ambientLight);
+    
+    const light = new THREE.DirectionalLight(0xffffff, 2.5);
+    light.position.set(50, 100, 50);
+    light.castShadow = true;
+    light.shadow.mapSize.width = 4096;
+    light.shadow.mapSize.height = 4096;
+    light.shadow.camera.left = -200;
+    light.shadow.camera.right = 200;
+    light.shadow.camera.top = 200;
+    light.shadow.camera.bottom = -200;
+    light.shadow.camera.near = 0.5;
+    light.shadow.camera.far = 500;
+    light.shadow.bias = -0.0005; // Adjust bias to avoid shadow artifacts
+    scene.add(light);
+
+    const hemisphereLight = new THREE.HemisphereLight(0x87ceeb, 0x444444, 0.6); // Sky and ground colors
+    scene.add(hemisphereLight);
+
 
     return () => {
-        scene.remove(ambientLight, directionalLight);
+        scene.remove(ambientLight, light, hemisphereLight);
     };
 }, [scene]);
     
@@ -103,35 +119,60 @@ const LandscapeModel = ({
 
 
     return (
-        <Html
-            fullscreen // Ensures the Html wrapper fills the screen
-            style={{
-                width: '100vw',
-                height: '100vh',
-                position: 'relative', // Ensure proper positioning
-                overflow: 'hidden', // Prevents scrollbars
-            }}
+      <Html
+        fullscreen // Ensures the Html wrapper fills the screen
+        style={{
+          width: "100vw",
+          height: "100vh",
+          position: "relative", // Ensure proper positioning
+          overflow: "hidden", // Prevents scrollbars
+        }}
+      >
+        <Canvas
+          ref={sceneRef}
+          shadows
+          camera={{ position: [0, 150, 150], fov: 60 }}
         >
-            <Canvas ref={sceneRef} shadows camera={{ position: [0, 150, 150], fov: 60 }}>
-                <OrbitControls
-                    enableDamping
-                    dampingFactor={0.25}
-                    screenSpacePanning={false}
-                    maxPolarAngle={Math.PI / 2}
-                />
-                <ambientLight intensity={0.5} />
-                <directionalLight position={[50, 100, 50]} intensity={2.5} />
-                
-                {/* Grass and Concrete */}
-                <GrassAndConcrete grid={gridArray} surroundingContext={surroundingContext} />
+          <OrbitControls
+            enableDamping
+            dampingFactor={0.25}
+            screenSpacePanning={false}
+            maxPolarAngle={Math.PI / 2}
+          />
+          <ambientLight intensity={5} color={0x404040} />
+          <directionalLight
+            intensity={2.5}
+            position={[50, 100, 50]}
+            castShadow
+            shadow-mapSize-width={4096}
+            shadow-mapSize-height={4096}
+            shadow-camera-left={-200}
+            shadow-camera-right={200}
+            shadow-camera-top={200}
+            shadow-camera-bottom={-200}
+            shadow-camera-near={0.5}
+            shadow-camera-far={500}
+            shadow-bias={-0.0005}
+          />
+          <hemisphereLight
+            intensity={0.6}
+            skyColor={0x87ceeb}
+            groundColor={0x444444}
+          />
 
-                {/* 3D Model Loader */}
-                <ModelLoader
-                    coordinates={coordinatesObject}
-                    preloadedModels={plantModels}
-                />
-            </Canvas>
-        </Html>
+          {/* Grass and Concrete */}
+          <GrassAndConcrete
+            grid={gridArray}
+            surroundingContext={surroundingContext}
+          />
+
+          {/* 3D Model Loader */}
+          <ModelLoader
+            coordinates={coordinatesObject}
+            preloadedModels={plantModels}
+          />
+        </Canvas>
+      </Html>
     );
 }
 

@@ -28,30 +28,35 @@ const ModelLoader = ({ coordinates, preloadedModels }) => {
     return (
         <group>
             {Object.entries(coordinates).map(([key, value]) => {
-                const [y, x] = key.replace(/[()]/g, '').split(',').map(Number);
-                const modelName = `${value}.glb`; // Match JSON naming convention
-                const model = preloadedModels[value];
+              const [y, x] = key.replace(/[()]/g, "").split(",").map(Number);
+              const modelName = `${value}.glb`; // Match JSON naming convention
+              const model = preloadedModels[value];
 
-                if (!model) return null;
+              if (!model) return null;
 
-                // Clone the model and apply transformations
-                const clonedModel = model.clone();
-                const scale = scales[modelName] || { x: 1, y: 1, z: 1 }; // Default to no scaling
-                clonedModel.scale.set(scale.x, scale.y, scale.z);
-                clonedModel.traverse((node) => {
-                    if (node.isMesh) {
-                        node.castShadow = true;
-                        node.receiveShadow = true;
-                    }
-                });
+              // Clone the model and apply transformations
+              const clonedModel = model.clone();
+              const scale = scales[modelName] || { x: 1, y: 1, z: 1 }; // Default to no scaling
+              clonedModel.scale.set(scale.x, scale.y, scale.z);
 
-                return (
-                    <primitive
-                        key={`${x}-${y}`}
-                        object={clonedModel}
-                        position={[x - 50, 0, -(y - 50)]}
-                    />
-                );
+              // Apply random Y-axis rotation
+              const randomYRotation = Math.random() * Math.PI * 2; // Random rotation between 0 and 2π
+              clonedModel.rotation.set(0, randomYRotation, 0); // Set rotation on the Y-axis
+
+              clonedModel.traverse((node) => {
+                if (node.isMesh) {
+                  node.castShadow = true;
+                  node.receiveShadow = true;
+                }
+              });
+
+              return (
+                <primitive
+                  key={`${x}-${y}`}
+                  object={clonedModel}
+                  position={[x - 50, 0, -(y - 50)]}
+                />
+              );
             })}
         </group>
     );
