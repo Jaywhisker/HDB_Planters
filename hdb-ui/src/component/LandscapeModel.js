@@ -216,6 +216,15 @@ const LandscapeModel = ({
     return null;
   }, [selectedLayer, layersData]);
 
+
+  useEffect(() => {
+    if (downloadModel) {
+        // TODO: Function to download the 3D object model
+    }
+}, [downloadModel])
+
+
+
   return (
     <>
       <OrbitControls
