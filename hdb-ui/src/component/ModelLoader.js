@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import * as THREE from 'three';
 
-const ModelLoader = ({ coordinates, preloadedModels, highlightedModelKey }) => {
+const ModelLoader = ({ coordinates, preloadedModels, highlightedModelKey, layersData, updateSelectedLayer }) => {
     const [scales, setScales] = useState({});
     const [instances, setInstances] = useState({}); // Store model instances keyed by coordinates
 
@@ -65,7 +65,7 @@ const ModelLoader = ({ coordinates, preloadedModels, highlightedModelKey }) => {
         <group>
             {Object.entries(instances).map(([key, instance]) => {
                 const { object, position } = instance;
-
+                object.position.set(...position);
                 // Apply highlight logic only to the selected model
                 object.traverse((node) => {
                     if (node.isMesh) {
@@ -80,6 +80,15 @@ const ModelLoader = ({ coordinates, preloadedModels, highlightedModelKey }) => {
                         key={key}
                         object={object}
                         position={position}
+                        onClick={() => {
+                            // Update layer selection when model is clicked
+                            const layer = layersData.find((layer) =>
+                                layer.coordinate.join() === [position[0] + 50, -position[2] + 50].join()
+                            );
+                            if (layer) {
+                                updateSelectedLayer(layer.layerID);
+                            }
+                        }}
                     />
                 );
             })}

@@ -25,6 +25,7 @@ const LandscapeModel = ({
     // TODO:
     // 1. Render the 3D model using gridArray, coordinatesObject and plantModels
     const  scene  = new THREE.Scene();
+    const { camera } = useThree();
     scene.background = new THREE.Color(0xffffff); // Set background to white
 
 
@@ -124,15 +125,22 @@ useEffect(() => {
     updateSelectedLayer,
     ]);
 
+
     useEffect(() => {
         const handleClick = (event) => {
+            const rect = event.target.getBoundingClientRect();
+            mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    
+            raycaster.current.setFromCamera(mouse.current, camera); // Use the extracted camera
+    
             const intersects = raycaster.current.intersectObjects(scene.children, true);
             if (intersects.length > 0) {
                 const object = intersects[0].object;
     
                 // Find the corresponding layerID
                 const layer = layersData.find((layer) =>
-                    layer.coordinate.join() === object.position.join() // Match coordinate
+                    layer.coordinate.join() === object.position.join()
                 );
     
                 if (layer) {
@@ -143,7 +151,9 @@ useEffect(() => {
     
         window.addEventListener('click', handleClick);
         return () => window.removeEventListener('click', handleClick);
-    }, [layersData, updateSelectedLayer]);
+    }, [layersData, updateSelectedLayer, scene, camera]);
+    
+    
     
 
 
@@ -204,46 +214,48 @@ useEffect(() => {
 
 
     return (
-        <>
-          <OrbitControls
-            enableDamping
-            dampingFactor={0.25}
-            screenSpacePanning={false}
-            maxPolarAngle={Math.PI / 2}
-          />
-          <ambientLight intensity={5} color={0x404040} />
-          <directionalLight
-            intensity={2.5}
-            position={[50, 100, 50]}
-            castShadow
-            shadow-mapSize-width={4096}
-            shadow-mapSize-height={4096}
-            shadow-camera-left={-200}
-            shadow-camera-right={200}
-            shadow-camera-top={200}
-            shadow-camera-bottom={-200}
-            shadow-camera-near={0.5}
-            shadow-camera-far={500}
-            shadow-bias={-0.0005}
-          />
-          <hemisphereLight
-            intensity={0.6}
-            skyColor={0x87ceeb}
-            groundColor={0x444444}
-          />
+      <>
+        <OrbitControls
+          enableDamping
+          dampingFactor={0.25}
+          screenSpacePanning={false}
+          maxPolarAngle={Math.PI / 2}
+        />
+        <ambientLight intensity={5} color={0x404040} />
+        <directionalLight
+          intensity={2.5}
+          position={[50, 100, 50]}
+          castShadow
+          shadow-mapSize-width={4096}
+          shadow-mapSize-height={4096}
+          shadow-camera-left={-200}
+          shadow-camera-right={200}
+          shadow-camera-top={200}
+          shadow-camera-bottom={-200}
+          shadow-camera-near={0.5}
+          shadow-camera-far={500}
+          shadow-bias={-0.0005}
+        />
+        <hemisphereLight
+          intensity={0.6}
+          skyColor={0x87ceeb}
+          groundColor={0x444444}
+        />
 
-          {/* Grass and Concrete */}
-          <GrassAndConcrete
-            grid={gridArray}
-            surroundingContext={surroundingContext}
-          />
+        {/* Grass and Concrete */}
+        <GrassAndConcrete
+          grid={gridArray}
+          surroundingContext={surroundingContext}
+        />
 
-          {/* 3D Model Loader */}
-          <ModelLoader
-                coordinates={coordinatesObject}
-                preloadedModels={plantModels}
-                highlightedModelKey={highlightedModelKey} // Pass the highlighted key
-            />
+        {/* 3D Model Loader */}
+        <ModelLoader
+          coordinates={coordinatesObject}
+          preloadedModels={plantModels}
+          highlightedModelKey={highlightedModelKey}
+          layersData={layersData} // Pass layersData
+          updateSelectedLayer={updateSelectedLayer} // Pass updateSelectedLayer
+        />
       </>
     );
 }
