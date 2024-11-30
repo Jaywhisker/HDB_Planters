@@ -105,19 +105,7 @@ const LandscapeModel = ({
 
 
     return (
-      <Html
-        fullscreen // Ensures the Html wrapper fills the screen
-        style={{
-          width: "100vw",
-          height: "100vh",
-          position: "relative", // Ensure proper positioning
-          overflow: "hidden", // Prevents scrollbars
-        }}
-      >
-        <Canvas
-          shadows
-          camera={{ position: [0, 150, 150], fov: 60 }}
-        >
+        <>
           <OrbitControls
             enableDamping
             dampingFactor={0.25}
@@ -156,8 +144,7 @@ const LandscapeModel = ({
             coordinates={coordinatesObject}
             preloadedModels={plantModels}
           />
-        </Canvas>
-      </Html>
+      </>
     );
 }
 

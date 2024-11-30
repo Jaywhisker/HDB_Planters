@@ -66,7 +66,7 @@ const SelectConfiguration = () => {
             )}
 
             <button
-                style={{ position: 'absolute', bottom: '10px', left: '50%' }}
+                style={{ position: 'absolute', bottom: '10px', left: '50%', zIndex:999 }}
                 onClick={handleNavigation}
             >
                 Navigate to next page
