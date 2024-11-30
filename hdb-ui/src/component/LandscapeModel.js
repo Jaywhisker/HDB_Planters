@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef , useMemo } from 'react';
 import * as THREE from "three";
-import { Canvas, useThree } from "@react-three/fiber";
-import { OrbitControls } from "@react-three/drei";
+import { Canvas, useThree, useFrame } from "@react-three/fiber";
+import { OrbitControls, Html } from "@react-three/drei";
 import GrassAndConcrete from './GrassAndConcrete';
 import ModelLoader from "./ModelLoader";
-import { Html } from "@react-three/drei"
 
 
 
@@ -27,6 +26,11 @@ const LandscapeModel = ({
     // 1. Render the 3D model using gridArray, coordinatesObject and plantModels
     const  scene  = new THREE.Scene();
     scene.background = new THREE.Color(0xffffff); // Set background to white
+
+
+    const raycaster = useRef(new THREE.Raycaster());
+    const mouse = useRef(new THREE.Vector2());
+    const hoveredObjectRef = useRef(null);
 
   // Extract grid and coordinates from JSON
 
@@ -52,44 +56,97 @@ const LandscapeModel = ({
     const hemisphereLight = new THREE.HemisphereLight(0x87ceeb, 0x444444, 0.6); // Sky and ground colors
     scene.add(hemisphereLight);
 
-
     return () => {
         scene.remove(ambientLight, light, hemisphereLight);
     };
 }, [scene]);
     
 
-    useEffect(() => {
-        // Create layer data
-        if (layersData.length === 0) {
-            // No layers data, need to be created
-            // TODO: Create Layers Data and use updateLayersData to update for the specific index
-            // Array of layers, each layerData = {layerID:a, speciesID:b, coordinate:(x,y)}
-        }
-    })
+useEffect(() => {
+    if (layersData.length === 0) {
+        const newLayersData = Object.entries(coordinatesObject).map(([coord, speciesID], idx) => {
+            const [y, x] = coord.replace(/[()]/g, "").split(",").map(Number); // Parse coordinates
+            return { layerID: idx, speciesID, coordinate: [x, y] }; // Ensure coordinate matches [x, y]
+        });
+        updateLayersData(newLayersData);
+    }
+}, [coordinatesObject, layersData, updateLayersData]);
 
-    
-    useEffect(() => {
-        if (allowInteraction) {
-            const hoverOverPlants = () => {
-                // TODO: Hover function to update with new hover layer ID
-                // Use updateLayersData to retrieve the layer_id and updateHoveredLayer to update
-                // If not near Plants, make sure to update to null
-            } 
-            // Event listener for mouse move for hoverOverPlants
 
-            const selectPlants = () => {
-                // TODO: Mouse down function to update select layer
-                // Use updateLayersData to retrieve the layer_id and updateSelectedLayer to update
-                // Allow select, unselecting etc
-                // Make sure you do not override any button click function (aka if your mouse is far away from the plants, invalidate the action so that we can click buttons)
+    useEffect(() => {
+    if (allowInteraction) {
+        const onMouseMove = (event) => {
+        const rect = event.target.getBoundingClientRect();
+        mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+        mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+        const intersects = raycaster.current.intersectObjects(
+            scene.children,
+            true
+        );
+        if (intersects.length > 0) {
+            const object = intersects[0].object;
+            if (object !== hoveredObjectRef.current) {
+            hoveredObjectRef.current = object;
+            const layer = layersData.find(
+                (layer) => layer.coordinate.join() === object.position.join()
+            );
+            updateHoveredLayer(layer ? layer.layerID : null);
             }
-            // Event listener for mouse down for selectPlants
-            
+        } else {
+            hoveredObjectRef.current = null;
+            updateHoveredLayer(null);
         }
+        };
 
-        // Add a return statement to REMOVE event listeners upon unmount
-    }, [])
+        const onMouseDown = (event) => {
+        if (hoveredLayer !== null) {
+            updateSelectedLayer(
+            hoveredLayer === selectedLayer ? null : hoveredLayer
+            );
+        }
+        };
+
+        window.addEventListener("mousemove", onMouseMove);
+        window.addEventListener("mousedown", onMouseDown);
+
+        return () => {
+        window.removeEventListener("mousemove", onMouseMove);
+        window.removeEventListener("mousedown", onMouseDown);
+        };
+    }
+    }, [
+    allowInteraction,
+    layersData,
+    hoveredLayer,
+    selectedLayer,
+    updateHoveredLayer,
+    updateSelectedLayer,
+    ]);
+
+    useEffect(() => {
+        const handleClick = (event) => {
+            const intersects = raycaster.current.intersectObjects(scene.children, true);
+            if (intersects.length > 0) {
+                const object = intersects[0].object;
+    
+                // Find the corresponding layerID
+                const layer = layersData.find((layer) =>
+                    layer.coordinate.join() === object.position.join() // Match coordinate
+                );
+    
+                if (layer) {
+                    updateSelectedLayer(layer.layerID);
+                }
+            }
+        };
+    
+        window.addEventListener('click', handleClick);
+        return () => window.removeEventListener('click', handleClick);
+    }, [layersData, updateSelectedLayer]);
+    
+
+
 
     useEffect(() => {
         if (downloadModel) {
@@ -97,11 +154,53 @@ const LandscapeModel = ({
         }
     }, [downloadModel])
 
-    useEffect(() => {
-        if (selectedLayer) {
-            // TODO: Function to make the specific selected layer_id plant to have an outline
+
+
+useEffect(() => {
+    // Reset highlights for all models
+    Object.entries(coordinatesObject).forEach(([coord, speciesID]) => {
+        const [y, x] = coord.replace(/[()]/g, "").split(",").map(Number);
+        const modelName = `${speciesID}.glb`;
+        const model = plantModels[speciesID]?.clone();
+
+        if (model) {
+            model.traverse((node) => {
+                if (node.isMesh) {
+                    node.material.emissive = new THREE.Color(0x000000); // Reset highlight
+                }
+            });
         }
-    }, [selectedLayer])
+    });
+
+    // Apply highlight to the selected model
+    if (selectedLayer !== null && layersData[selectedLayer]) {
+        const { coordinate, speciesID } = layersData[selectedLayer];
+        const [x, y] = coordinate;
+
+        Object.entries(coordinatesObject).forEach(([coord, id]) => {
+            const [cy, cx] = coord.replace(/[()]/g, "").split(",").map(Number);
+            if (id === speciesID && x === cx && y === cy) {
+                const model = plantModels[speciesID]?.clone();
+                if (model) {
+                    model.traverse((node) => {
+                        if (node.isMesh) {
+                            node.material.emissive = new THREE.Color(0xff0000); // Red highlight
+                        }
+                    });
+                }
+            }
+        });
+    }
+}, [selectedLayer, layersData, coordinatesObject, plantModels]);
+
+        // Determine the key of the highlighted model
+        const highlightedModelKey = useMemo(() => {
+            if (selectedLayer !== null && layersData[selectedLayer]) {
+                const { coordinate } = layersData[selectedLayer];
+                return `(${coordinate[1]}, ${coordinate[0]})`; // Match the coordinate format in the JSON
+            }
+            return null;
+        }, [selectedLayer, layersData]);
 
 
     return (
@@ -141,9 +240,10 @@ const LandscapeModel = ({
 
           {/* 3D Model Loader */}
           <ModelLoader
-            coordinates={coordinatesObject}
-            preloadedModels={plantModels}
-          />
+                coordinates={coordinatesObject}
+                preloadedModels={plantModels}
+                highlightedModelKey={highlightedModelKey} // Pass the highlighted key
+            />
       </>
     );
 }

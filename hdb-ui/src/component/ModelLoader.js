@@ -1,7 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
+import * as THREE from 'three';
 
-const ModelLoader = ({ coordinates, preloadedModels }) => {
+const ModelLoader = ({ coordinates, preloadedModels, highlightedModelKey }) => {
     const [scales, setScales] = useState({});
+    const [instances, setInstances] = useState({}); // Store model instances keyed by coordinates
 
     // Load scaling data
     useEffect(() => {
@@ -24,39 +26,62 @@ const ModelLoader = ({ coordinates, preloadedModels }) => {
         fetchScales();
     }, []);
 
-    // Render models
+    // Generate model instances only once
+    useEffect(() => {
+        const newInstances = {};
+        Object.entries(coordinates).forEach(([key, value]) => {
+            const [y, x] = key.replace(/[()]/g, "").split(",").map(Number);
+            const modelName = `${value}.glb`;
+            const model = preloadedModels[value]?.clone();
+
+            if (!model) return;
+
+            // Clone materials for each instance to isolate them
+            model.traverse((node) => {
+                if (node.isMesh) {
+                    node.material = node.material.clone(); // Clone the material
+                    node.castShadow = true;
+                    node.receiveShadow = true;
+                }
+            });
+
+            // Apply random rotation and scaling
+            const randomYRotation = Math.random() * Math.PI * 2; // Random rotation
+            const scale = scales[modelName] || { x: 1, y: 1, z: 1 }; // Default scaling
+            model.rotation.set(0, randomYRotation, 0);
+            model.scale.set(scale.x, scale.y, scale.z);
+
+            // Store the instance with its position
+            newInstances[key] = {
+                object: model,
+                position: [x - 50, 0, -(y - 50)], // Adjust position based on grid
+            };
+        });
+        setInstances(newInstances);
+    }, [coordinates, preloadedModels, scales]);
+
+    // Render model instances with highlight logic
     return (
         <group>
-            {Object.entries(coordinates).map(([key, value]) => {
-              const [y, x] = key.replace(/[()]/g, "").split(",").map(Number);
-              const modelName = `${value}.glb`; // Match JSON naming convention
-              const model = preloadedModels[value];
+            {Object.entries(instances).map(([key, instance]) => {
+                const { object, position } = instance;
 
-              if (!model) return null;
+                // Apply highlight logic only to the selected model
+                object.traverse((node) => {
+                    if (node.isMesh) {
+                        node.material.emissive = key === highlightedModelKey
+                            ? new THREE.Color(0xff0000) // Highlighted
+                            : new THREE.Color(0x000000); // Reset
+                    }
+                });
 
-              // Clone the model and apply transformations
-              const clonedModel = model.clone();
-              const scale = scales[modelName] || { x: 1, y: 1, z: 1 }; // Default to no scaling
-              clonedModel.scale.set(scale.x, scale.y, scale.z);
-
-              // Apply random Y-axis rotation
-              const randomYRotation = Math.random() * Math.PI * 2; // Random rotation between 0 and 2π
-              clonedModel.rotation.set(0, randomYRotation, 0); // Set rotation on the Y-axis
-
-              clonedModel.traverse((node) => {
-                if (node.isMesh) {
-                  node.castShadow = true;
-                  node.receiveShadow = true;
-                }
-              });
-
-              return (
-                <primitive
-                  key={`${x}-${y}`}
-                  object={clonedModel}
-                  position={[x - 50, 0, -(y - 50)]}
-                />
-              );
+                return (
+                    <primitive
+                        key={key}
+                        object={object}
+                        position={position}
+                    />
+                );
             })}
         </group>
     );

@@ -26,42 +26,61 @@ const EditConfiguration = () => {
 
     // TODO: Function to update the species ID in the composition coordinates & layer data 
     // Utilise the selectedLayerID
-    const swapPlants = () => {
-
-    }
-
-
-return (
-    <div style={{ width: '100vw', height: '100vh', position: 'relative' }}>
-        <Canvas
-            shadows
-            style={{ width: '100%', height: '100%' }} // Ensure Canvas fills its parent
-            camera={{
-                position: [100, 100, 100], // Set an isometric position
-                fov: 50, // Field of view
-            }}
-        >
-            <LandscapeModel 
-                index={null}
-                plantModels={plantModels}
-                gridArray={compositionData['grid']}
-                coordinatesObject={editedCompositionCoordinates}
-                surroundingContext={compositionData['surrounding_context']}
-                layersData={editedCompositionLayerData}
-                allowInteraction={true}
-                hoveredLayer={hoveredLayeredID}
-                updateHoveredLayer={(newID) => setHoveredLayerID(newID)}
-                selectedLayer={selectedLayerID}
-                updateSelectedLayer={(newID) => setSelectedLayerID(newID)}
-                downloadModel={download3DModel}
-            /> 
-        </Canvas>
-    </div>
-);
-
+    const swapPlants = (newSpeciesID) => {
+        if (selectedLayerID !== null) {
+            const updatedLayerData = editedCompositionLayerData.map((layer) =>
+                layer.layerID === selectedLayerID ? { ...layer, speciesID: newSpeciesID } : layer
+            );
+            setEditedCompositionLayerData(updatedLayerData);
+        }
+    };
     
 
-    
-}
+    const handleLayerClick = (layerID) => setSelectedLayerID(layerID);
+
+    return (
+        <div style={{ display: 'flex', height: '100vh' }}>
+            <div style={{ width: '20%', overflowY: 'scroll', backgroundColor: '#f4f4f4' }}>
+                {editedCompositionLayerData.map((layer) => (
+                    <div
+                        key={layer.layerID}
+                        onClick={() => handleLayerClick(layer.layerID)}
+                        style={{
+                            padding: '10px',
+                            cursor: 'pointer',
+                            backgroundColor: selectedLayerID === layer.layerID ? '#d0f0c0' : 'transparent'
+                        }}
+                    >
+                        Layer {layer.layerID}: Species {layer.speciesID}
+                    </div>
+                ))}
+            </div>
+            <div style={{ width: '80%', position: 'relative' }}>
+            <Canvas
+                        shadows
+                        style={{ width: '100%', height: '100%' }}
+                        camera={{
+                            position: [100, 100, 100],
+                            fov: 50,
+                        }}
+                    >
+                    <LandscapeModel
+                        plantModels={plantModels}
+                        gridArray={compositionData['grid']}
+                        coordinatesObject={editedCompositionCoordinates}
+                        surroundingContext={compositionData['surrounding_context']}
+                        layersData={editedCompositionLayerData}
+                        allowInteraction={true}
+                        hoveredLayer={hoveredLayeredID}
+                        updateHoveredLayer={setHoveredLayerID}
+                        selectedLayer={selectedLayerID}
+                        updateSelectedLayer={(layerID) => setSelectedLayerID(layerID)}
+                        downloadModel={download3DModel}
+                    />
+                </Canvas>
+            </div>
+        </div>
+    );
+};
 
 export default EditConfiguration;
