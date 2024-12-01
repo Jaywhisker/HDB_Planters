@@ -3,11 +3,16 @@ import { useLocation } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
 import { usePreload } from "../context/preloadContext";
 import LandscapeModel from "../component/LandscapeModel";
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"; // Import GLTFLoader
+
+
 
 const EditConfiguration = () => {
   const location = useLocation();
   const { compositionData, compositionLayerData } = location.state || {};
-  const { plantModels } = usePreload();
+  const { plantModels, updateModels } = usePreload();
+
+
 
   const [downloadModel, setDownloadModel] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -29,7 +34,7 @@ const EditConfiguration = () => {
     );
   };
 
-  const handleModelSwap = () => {
+  const handleModelSwap = async () => {
     if (selectedLayerID !== null) {
       const selectedLayerIndex = editedCompositionLayerData.findIndex(
         (layer) => layer.layerID === selectedLayerID
@@ -40,10 +45,28 @@ const EditConfiguration = () => {
         const selectedCoordinateKey = `(${selectedLayer.coordinate[1]}, ${selectedLayer.coordinate[0]})`;
 
         if (!plantModels[newModelID]) {
-          setError("Invalid model ID. Please provide a valid one.");
-          return;
+          try {
+            const loader = new GLTFLoader();
+            const modelPath = `/models/${newModelID}.glb`;
+
+            const newModel = await new Promise((resolve, reject) => {
+              loader.load(
+                modelPath,
+                (gltf) => resolve(gltf.scene),
+                undefined,
+                (error) => reject(error)
+              );
+            });
+
+            // Update models dynamically using updateModels
+            updateModels({ ...plantModels, [newModelID]: newModel });
+          } catch (error) {
+            setError(`Failed to load model ${newModelID}. Check if the file exists.`);
+            return;
+          }
         }
 
+        // Update the composition with the new model ID
         const updatedCoordinates = { ...editedCompositionCoordinates };
         updatedCoordinates[selectedCoordinateKey] = parseInt(newModelID);
         setEditedCompositionCoordinates(updatedCoordinates);
@@ -61,6 +84,10 @@ const EditConfiguration = () => {
       setError("No model is currently selected. Select a layer first.");
     }
   };
+
+
+
+
 
   const handleDownloadClick = () => {
     setDownloadModel(true);
