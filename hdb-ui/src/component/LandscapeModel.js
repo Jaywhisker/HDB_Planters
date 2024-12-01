@@ -234,39 +234,63 @@ const LandscapeModel = ({
 
   useEffect(() => {
     if (downloadModel) {
+      if (!scene || !(scene instanceof THREE.Scene)) {
+        console.error("Scene is not properly initialized or unavailable.");
+        onDownloadComplete();
+        return;
+      }
+  
       const exporter = new GLTFExporter();
-
+  
       try {
-        // Log scene contents for debugging
-        console.log("Scene contents:", scene);
-
-        // Validate scene initialization
-        if (!scene || !(scene instanceof THREE.Scene)) {
-          throw new Error("Scene is not properly initialized or is invalid.");
+        // Clone the scene to avoid modifying the original
+        const filteredScene = scene.clone();
+  
+        // Validate the cloned scene
+        if (!filteredScene || !(filteredScene instanceof THREE.Scene)) {
+          console.error("Filtered scene cloning failed.");
+          onDownloadComplete();
+          return;
         }
-
-        // Filter unsupported lights and skip undefined objects
-        scene.traverse((child) => {
+  
+        // Safely traverse the filtered scene
+        filteredScene.traverse((child) => {
           if (!child) {
-            console.warn("Encountered undefined child in scene.");
+            console.warn("Encountered undefined child in scene during traversal.");
             return;
           }
-          if (child.isLight && !(child.isDirectionalLight || child.isPointLight || child.isSpotLight)) {
+  
+          // Remove only unsupported lights
+          if (
+            child.isLight &&
+            !(child.isDirectionalLight || child.isPointLight || child.isSpotLight || child.isAmbientLight || child.isHemisphereLight)
+          ) {
             console.warn(`Removing unsupported light: ${child.type}`);
-            scene.remove(child);
+            filteredScene.remove(child);
           }
         });
-
+  
         // Export the filtered scene
         exporter.parse(
-          scene,
+          filteredScene,
           (result) => {
             const blob = new Blob([result], { type: "model/gltf-binary" });
+            const url = URL.createObjectURL(blob);
+  
+            // Create and trigger a download link
             const link = document.createElement("a");
-            link.href = URL.createObjectURL(blob);
+            link.href = url;
             link.download = "landscape_model.glb";
             link.click();
-
+  
+            // Revoke Blob URL after download
+            URL.revokeObjectURL(url);
+  
+            // Notify download completion
+            onDownloadComplete();
+          },
+          (error) => {
+            console.error("Error exporting the model:", error);
             onDownloadComplete();
           },
           { binary: true }
@@ -277,9 +301,7 @@ const LandscapeModel = ({
       }
     }
   }, [downloadModel, onDownloadComplete, scene]);
-
-
-
+  
   return (
     <>
       <OrbitControls
