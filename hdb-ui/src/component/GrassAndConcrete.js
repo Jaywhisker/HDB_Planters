@@ -9,6 +9,8 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
     const grassGltf = useLoader(GLTFLoader, '/models/grass.glb');
 
     const [grassModel, setGrassModel] = useState(null);
+    const [initializedGrid, setInitializedGrid] = useState(null); // Track initialization
+
 
     useEffect(() => {
         if (concreteTexture) {
@@ -36,7 +38,19 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
         }
     }, [grassGltf]);
 
-    if (!grassModel) return null;
+    useEffect(() => {
+        if (grid && !initializedGrid) {
+            const gridWithRotations = grid.map((row, x) =>
+                row.map((cell, y) => ({
+                    cell,
+                    rotation: cell === 1 ? Math.random() * Math.PI * 2 : 0, // Random rotation only once
+                }))
+            );
+            setInitializedGrid(gridWithRotations);
+        }
+    }, [grid, initializedGrid]);
+
+    if (!grassModel || !initializedGrid) return null;
 
     return (
         <>
@@ -48,17 +62,16 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
 
             {/* Grass Layer */}
             <group>
-                {grid.map((row, x) =>
-                    row.map((cell, y) => {
+                {initializedGrid.map((row, x) =>
+                    row.map(({ cell, rotation }, y) => {
                         if (cell === 1) {
-                            const randomYRotation = Math.random() * Math.PI * 2; // Random rotation in radians
                             return (
                                 <primitive
                                     key={`${x}-${y}`}
                                     object={grassModel.clone()}
                                     position={[x - grid.length / 2 + 0.5, 0.2, -(y - grid.length / 2 + 0.5)]}
                                     scale={[5, 5, 10]}
-                                    rotation={[0, randomYRotation, 0]}
+                                    rotation={[0, rotation, 0]}
                                     castShadow
                                     receiveShadow
                                 />
