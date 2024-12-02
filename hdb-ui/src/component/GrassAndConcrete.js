@@ -1,31 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 const GrassAndConcrete = ({ grid, surroundingContext }) => {
-
-    // Preload the texture context
-    const concreteTexture = useLoader(THREE.TextureLoader, '/textures/concrete.jpeg');
-    const roadTexture = useLoader(THREE.TextureLoader, '/textures/road.jpeg');
     const grassGltf = useLoader(GLTFLoader, '/models/grass.glb');
 
-    const [grassModel, setGrassModel] = useState(null);
-
-    // Load the texture and wrap around the mesh
-    useEffect(() => {
-        if (concreteTexture) {
-            concreteTexture.wrapS = concreteTexture.wrapT = THREE.RepeatWrapping;
-            concreteTexture.repeat.set(4, 4);
-        }
-
-        if (roadTexture) {
+    const selectedTexture = useMemo(() => {
+        const loader = new THREE.TextureLoader();
+        if (surroundingContext === 'Road') {
+            const roadTexture = loader.load('/textures/road.jpeg');
             roadTexture.wrapS = roadTexture.wrapT = THREE.RepeatWrapping;
             roadTexture.repeat.set(2, 2);
+            return roadTexture;
+        } else {
+            const concreteTexture = loader.load('/textures/concrete.jpeg');
+            concreteTexture.wrapS = concreteTexture.wrapT = THREE.RepeatWrapping;
+            concreteTexture.repeat.set(4, 4);
+            return concreteTexture;
         }
-    }, [concreteTexture, roadTexture]);
+    }, [surroundingContext]);
 
-    // Load the grass model
+    const [grassModel, setGrassModel] = useState(null);
+    const [initializedGrid, setInitializedGrid] = useState(null); // Track initialization
+
     useEffect(() => {
         if (grassGltf && grassGltf.scene) {
             const grassTemplate = grassGltf.scene.clone();
@@ -40,7 +38,19 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
         }
     }, [grassGltf]);
 
-    if (!grassModel) return null;
+    useEffect(() => {
+        if (grid && !initializedGrid) {
+            const gridWithRotations = grid.map((row, x) =>
+                row.map((cell, y) => ({
+                    cell,
+                    rotation: cell === 1 ? Math.random() * Math.PI * 2 : 0, // Random rotation only once
+                }))
+            );
+            setInitializedGrid(gridWithRotations);
+        }
+    }, [grid, initializedGrid]);
+
+    if (!grassModel || !initializedGrid) return null;
 
     return (
         <>
@@ -48,22 +58,21 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
             {/*TODO: Future optimisation could preload just the selected instead*/}
             <mesh receiveShadow position={[0, -5, 0]}>
                 <boxGeometry args={[100, 10, 100]} />
-                <meshStandardMaterial map={surroundingContext === 'Road' ? roadTexture : concreteTexture} />
+                <meshStandardMaterial map={selectedTexture} />
             </mesh>
 
             {/* Grass Layer */}
             <group>
-                {grid.map((row, x) =>
-                    row.map((cell, y) => {
+                {initializedGrid.map((row, x) =>
+                    row.map(({ cell, rotation }, y) => {
                         if (cell === 1) {
-                            const randomYRotation = Math.random() * Math.PI * 2; // Random rotation in radians
                             return (
                                 <primitive
                                     key={`${x}-${y}`}
                                     object={grassModel.clone()}
                                     position={[x - grid.length / 2 + 0.5, 0.2, -(y - grid.length / 2 + 0.5)]}
                                     scale={[5, 5, 10]}
-                                    rotation={[0, randomYRotation, 0]}
+                                    rotation={[0, rotation, 0]}
                                     castShadow
                                     receiveShadow
                                 />
