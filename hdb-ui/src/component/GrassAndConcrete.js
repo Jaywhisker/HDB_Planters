@@ -57,7 +57,7 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
                                     key={`${x}-${y}`}
                                     object={grassModel.clone()}
                                     position={[x - grid.length / 2 + 0.5, 0.2, -(y - grid.length / 2 + 0.5)]}
-                                    scale={[5, 5, 2]}
+                                    scale={[5, 5, 10]}
                                     rotation={[0, randomYRotation, 0]}
                                     castShadow
                                     receiveShadow
