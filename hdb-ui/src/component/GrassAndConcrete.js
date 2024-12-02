@@ -11,6 +11,18 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
     const [grassModel, setGrassModel] = useState(null);
 
     useEffect(() => {
+        if (concreteTexture) {
+            concreteTexture.wrapS = concreteTexture.wrapT = THREE.RepeatWrapping;
+            concreteTexture.repeat.set(4, 4);
+        }
+
+        if (roadTexture) {
+            roadTexture.wrapS = roadTexture.wrapT = THREE.RepeatWrapping;
+            roadTexture.repeat.set(2, 2);
+        }
+    }, [concreteTexture, roadTexture]);
+
+    useEffect(() => {
         if (grassGltf && grassGltf.scene) {
             const grassTemplate = grassGltf.scene.clone();
             grassTemplate.traverse((node) => {
@@ -39,12 +51,14 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
                 {grid.map((row, x) =>
                     row.map((cell, y) => {
                         if (cell === 1) {
+                            const randomYRotation = Math.random() * Math.PI * 2; // Random rotation in radians
                             return (
                                 <primitive
                                     key={`${x}-${y}`}
                                     object={grassModel.clone()}
                                     position={[x - grid.length / 2 + 0.5, 0.2, -(y - grid.length / 2 + 0.5)]}
                                     scale={[5, 5, 2]}
+                                    rotation={[0, randomYRotation, 0]}
                                     castShadow
                                     receiveShadow
                                 />
