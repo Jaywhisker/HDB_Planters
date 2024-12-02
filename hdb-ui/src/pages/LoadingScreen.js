@@ -1,20 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import compositionData from '../data/mock_compositions.json';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { usePreload } from '../context/preloadContext';
+import compositionData from '../data/mock_compositions.json';
+
 
 const LoadingScreen = () => {
   const [plantCompositionData, setPlantCompositionData] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
+  // Global Context
   const { updateModels } = usePreload()
+  // TODO: Consider making the plant palette a global context as well
 
+  // API Call and Preload Functions
   useEffect(() => {
     const setupComposition = async () => {
       try {
         // Retrieve composition data
+        // TODO: Update with backend call
         const retrieveCompositions = async () => {
           setPlantCompositionData(compositionData['data'].slice(0, 3));
         };
@@ -22,7 +27,8 @@ const LoadingScreen = () => {
         await retrieveCompositions();
 
         // Preload all unique models
-        const preloadedSpeciesID = [...new Set(Object.values(compositionData['data'][0]['coordinates']))];
+        // TODO: Update preloadedSpeciesID with the PLANT PALETTE SPECIES ID
+        const preloadedSpeciesID = [...new Set(Object.values(compositionData['data'][0]['coordinates']))]; //Must be updated, currently for simplicity only preloading first mock data models, but for future integration look into preloading everything else
         const loader = new GLTFLoader();
         const uniqueModels = preloadedSpeciesID.map((id) => `/models/${id}.glb`);
         const loadedModelsArray = await Promise.all(
@@ -44,6 +50,7 @@ const LoadingScreen = () => {
           uniqueModels.map((path, index) => [path.split('/').pop().replace('.glb', ''), loadedModelsArray[index]])
         );
 
+        // Update global context
         updateModels(modelMap);
         //console.log('Models and compositions preloaded:', modelMap);
       } catch (error) {
@@ -56,15 +63,11 @@ const LoadingScreen = () => {
     setupComposition();
   }, []);
 
+
+  // Navigate to next page after loading is complete
   useEffect(() => {
     if (!loading && plantCompositionData !== null) {
-      const timer = setTimeout(() => {
-        //console.log('Navigation triggered');
-        console.log(plantCompositionData)
-        navigate('/test-1', { state: { plantCompositionData } });
-      }, 1); // buffer
-
-      return () => clearTimeout(timer); // Clean up timeout if component unmounts
+      navigate('/test-1', { state: { plantCompositionData } });
     }
   }, [loading, plantCompositionData]);
 

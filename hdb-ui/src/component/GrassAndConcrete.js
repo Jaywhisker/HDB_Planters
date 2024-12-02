@@ -4,12 +4,15 @@ import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 const GrassAndConcrete = ({ grid, surroundingContext }) => {
+
+    // Preload the texture context
     const concreteTexture = useLoader(THREE.TextureLoader, '/textures/concrete.jpeg');
     const roadTexture = useLoader(THREE.TextureLoader, '/textures/road.jpeg');
     const grassGltf = useLoader(GLTFLoader, '/models/grass.glb');
 
     const [grassModel, setGrassModel] = useState(null);
 
+    // Load the texture and wrap around the mesh
     useEffect(() => {
         if (concreteTexture) {
             concreteTexture.wrapS = concreteTexture.wrapT = THREE.RepeatWrapping;
@@ -22,6 +25,7 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
         }
     }, [concreteTexture, roadTexture]);
 
+    // Load the grass model
     useEffect(() => {
         if (grassGltf && grassGltf.scene) {
             const grassTemplate = grassGltf.scene.clone();
@@ -41,6 +45,7 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
     return (
         <>
             {/* Concrete or Road Layer */}
+            {/*TODO: Future optimisation could preload just the selected instead*/}
             <mesh receiveShadow position={[0, -5, 0]}>
                 <boxGeometry args={[100, 10, 100]} />
                 <meshStandardMaterial map={surroundingContext === 'Road' ? roadTexture : concreteTexture} />

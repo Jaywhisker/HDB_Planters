@@ -1,4 +1,4 @@
-export default function download2DPlantingGrid (treeCanvasRef, shrubCanvasRef, plantingGrid, plantingCoords, scale=5) {
+export default function download2DPlantingGrid (treeCanvasRef, shrubCanvasRef, plantingGrid, plantingCoords, plantPaletteDetails, scale=5) {
     // Tree Colour Map
     const treeColourMap = [
         'rgba(228, 236, 138, 0.75)',

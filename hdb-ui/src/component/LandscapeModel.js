@@ -2,11 +2,10 @@ import React, { useEffect, useRef, useMemo } from "react";
 import * as THREE from "three";
 import { useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
-import GrassAndConcrete from "./GrassAndConcrete";
-import ModelLoader from "./ModelLoader";
 import { GLTFExporter } from "three/examples/jsm/exporters/GLTFExporter";
 
-
+import GrassAndConcrete from "./GrassAndConcrete";
+import ModelLoader from "./ModelLoader";
 
 const LandscapeModel = ({
   index,
@@ -23,18 +22,15 @@ const LandscapeModel = ({
   updateSelectedLayer,
   downloadModel,
   onDownloadComplete, // Callback to notify download is complete
-
 }) => {
-  // TODO:
-  // 1. Render the 3D model using gridArray, coordinatesObject and plantModels
+
+  // Model Setup, background mouse and raycaster
   const { scene, camera, gl } = useThree();
-  scene.background = new THREE.Color(0xffffff); // Set background to white
+  scene.background = new THREE.Color(0xffffff);
 
   const raycaster = useRef(new THREE.Raycaster());
   const mouse = useRef(new THREE.Vector2());
   const hoveredObjectRef = useRef(null);
-
-  // Extract grid and coordinates from JSON
 
   useEffect(() => {
     // Add ambient and directional lighting
@@ -63,6 +59,7 @@ const LandscapeModel = ({
     };
   }, [scene]);
 
+  // Create layers data
   useEffect(() => {
     if (layersData.length === 0) {
       const newLayersData = Object.entries(coordinatesObject).map(
@@ -75,8 +72,10 @@ const LandscapeModel = ({
     }
   }, [coordinatesObject, layersData, updateLayersData]);
 
+  // Select Trees data
   useEffect(() => {
     if (allowInteraction) {
+      // Hover (Not used due to computational resources used)
       const onMouseMove = (event) => {
         const rect = event.target.getBoundingClientRect();
         mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
@@ -101,25 +100,24 @@ const LandscapeModel = ({
         }
       };
 
+      // Selecting plant
       const onMouseDown = (event) => {
+        // Retrieve current mouse data
         const rect = event.target.getBoundingClientRect();
         mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-      
+        // Retrieve the selected object
         raycaster.current.setFromCamera(mouse.current, camera);
-      
         const intersects = raycaster.current.intersectObjects(scene.children, true);
       
         if (intersects.length > 0) {
           const object = intersects[0].object;
-      
           // Convert THREE.Vector3 to array for comparison
           const objectPosition = [object.position.x, object.position.y, object.position.z];
-      
+          // Update selected layer
           const layer = layersData.find(
             (layer) => layer.coordinate.join() === objectPosition.join()
           );
-      
           if (layer) {
             updateSelectedLayer(
               layer.layerID === selectedLayer ? null : layer.layerID
@@ -130,66 +128,17 @@ const LandscapeModel = ({
           updateSelectedLayer(null);
         }
       };
-
       window.addEventListener("mousedown", onMouseDown);
-
+      // Remove the event listening on unmount
       return () => {
         window.removeEventListener("mousedown", onMouseDown);
       };
     }
   }, [layersData, selectedLayer, updateSelectedLayer, scene, camera]);
 
-  const handleClick = (event) => {
-    const rect = event.target.getBoundingClientRect();
-    mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-  
-    raycaster.current.setFromCamera(mouse.current, camera);
-  
-    const intersects = raycaster.current.intersectObjects(scene.children, true);
-  
-    if (intersects.length > 0) {
-      const object = intersects[0].object;
-  
-      // Convert THREE.Vector3 to array for comparison
-      const objectPosition = [
-        object.position.x.toFixed(2), // Convert to fixed precision for accuracy
-        object.position.y.toFixed(2),
-        object.position.z.toFixed(2),
-      ];
-  
-      const layer = layersData.find((layer) => {
-        const layerPosition = [
-          layer.coordinate[0].toFixed(2),
-          layer.coordinate[1].toFixed(2),
-          0, // Assuming z = 0 for layer coordinates, adjust as needed
-        ];
-        return layerPosition.join() === objectPosition.join();
-      });
-  
-      if (layer) {
-        updateSelectedLayer(layer.layerID === selectedLayer ? null : layer.layerID);
-      }
-    } else {
-      // Deselect layer if clicking on a blank space
-      updateSelectedLayer(null);
-    }
-  };
-  
-
-
-
+  // Apply highlights for all models
   useEffect(() => {
-    if (downloadModel) {
-      // TODO: Function to download the 3D object model
-    }
-  }, [downloadModel]);
-
-  useEffect(() => {
-    // Reset highlights for all models
     Object.entries(coordinatesObject).forEach(([coord, speciesID]) => {
-      const [y, x] = coord.replace(/[()]/g, "").split(",").map(Number);
-      const modelName = `${speciesID}.glb`;
       const model = plantModels[speciesID]?.clone();
 
       if (model) {
@@ -201,7 +150,7 @@ const LandscapeModel = ({
       }
     });
 
-    // Apply highlight to the selected model
+    // Apply highlight to the selected model if there is any
     if (selectedLayer !== null && layersData[selectedLayer]) {
       const { coordinate, speciesID } = layersData[selectedLayer];
       const [x, y] = coordinate;
@@ -231,7 +180,7 @@ const LandscapeModel = ({
     return null;
   }, [selectedLayer, layersData]);
 
-
+  // Download Model
   useEffect(() => {
     if (downloadModel) {
       if (!scene || !(scene instanceof THREE.Scene)) {
