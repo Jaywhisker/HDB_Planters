@@ -6,6 +6,7 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 const GrassAndConcrete = ({ grid, surroundingContext }) => {
     const grassGltf = useLoader(GLTFLoader, '/models/grass.glb');
 
+    // Preload selected texture based on surrounding context
     const selectedTexture = useMemo(() => {
         const loader = new THREE.TextureLoader();
         if (surroundingContext === 'Road') {
@@ -24,6 +25,7 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
     const [grassModel, setGrassModel] = useState(null);
     const [initializedGrid, setInitializedGrid] = useState(null); // Track initialization
 
+    // Preload GRass
     useEffect(() => {
         if (grassGltf && grassGltf.scene) {
             const grassTemplate = grassGltf.scene.clone();
@@ -55,7 +57,6 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
     return (
         <>
             {/* Concrete or Road Layer */}
-            {/*TODO: Future optimisation could preload just the selected instead*/}
             <mesh receiveShadow position={[0, -5, 0]}>
                 <boxGeometry args={[100, 10, 100]} />
                 <meshStandardMaterial map={selectedTexture} />
