@@ -1,28 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo } from 'react';
 import { useLoader } from '@react-three/fiber';
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 const GrassAndConcrete = ({ grid, surroundingContext }) => {
-    const concreteTexture = useLoader(THREE.TextureLoader, '/textures/concrete.jpeg');
-    const roadTexture = useLoader(THREE.TextureLoader, '/textures/road.jpeg');
     const grassGltf = useLoader(GLTFLoader, '/models/grass.glb');
+
+    const selectedTexture = useMemo(() => {
+        const loader = new THREE.TextureLoader();
+        if (surroundingContext === 'Road') {
+            const roadTexture = loader.load('/textures/road.jpeg');
+            roadTexture.wrapS = roadTexture.wrapT = THREE.RepeatWrapping;
+            roadTexture.repeat.set(2, 2);
+            return roadTexture;
+        } else {
+            const concreteTexture = loader.load('/textures/concrete.jpeg');
+            concreteTexture.wrapS = concreteTexture.wrapT = THREE.RepeatWrapping;
+            concreteTexture.repeat.set(4, 4);
+            return concreteTexture;
+        }
+    }, [surroundingContext]);
 
     const [grassModel, setGrassModel] = useState(null);
     const [initializedGrid, setInitializedGrid] = useState(null); // Track initialization
-
-
-    useEffect(() => {
-        if (concreteTexture) {
-            concreteTexture.wrapS = concreteTexture.wrapT = THREE.RepeatWrapping;
-            concreteTexture.repeat.set(4, 4);
-        }
-
-        if (roadTexture) {
-            roadTexture.wrapS = roadTexture.wrapT = THREE.RepeatWrapping;
-            roadTexture.repeat.set(2, 2);
-        }
-    }, [concreteTexture, roadTexture]);
 
     useEffect(() => {
         if (grassGltf && grassGltf.scene) {
@@ -57,7 +57,7 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
             {/* Concrete or Road Layer */}
             <mesh receiveShadow position={[0, -5, 0]}>
                 <boxGeometry args={[100, 10, 100]} />
-                <meshStandardMaterial map={surroundingContext === 'Road' ? roadTexture : concreteTexture} />
+                <meshStandardMaterial map={selectedTexture} />
             </mesh>
 
             {/* Grass Layer */}

@@ -138,52 +138,7 @@ const LandscapeModel = ({
       };
     }
   }, [layersData, selectedLayer, updateSelectedLayer, scene, camera]);
-
-  const handleClick = (event) => {
-    const rect = event.target.getBoundingClientRect();
-    mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-    mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
   
-    raycaster.current.setFromCamera(mouse.current, camera);
-  
-    const intersects = raycaster.current.intersectObjects(scene.children, true);
-  
-    if (intersects.length > 0) {
-      const object = intersects[0].object;
-  
-      // Convert THREE.Vector3 to array for comparison
-      const objectPosition = [
-        object.position.x.toFixed(2), // Convert to fixed precision for accuracy
-        object.position.y.toFixed(2),
-        object.position.z.toFixed(2),
-      ];
-  
-      const layer = layersData.find((layer) => {
-        const layerPosition = [
-          layer.coordinate[0].toFixed(2),
-          layer.coordinate[1].toFixed(2),
-          0, // Assuming z = 0 for layer coordinates, adjust as needed
-        ];
-        return layerPosition.join() === objectPosition.join();
-      });
-  
-      if (layer) {
-        updateSelectedLayer(layer.layerID === selectedLayer ? null : layer.layerID);
-      }
-    } else {
-      // Deselect layer if clicking on a blank space
-      updateSelectedLayer(null);
-    }
-  };
-  
-
-
-
-  useEffect(() => {
-    if (downloadModel) {
-      // TODO: Function to download the 3D object model
-    }
-  }, [downloadModel]);
 
   useEffect(() => {
     // Reset highlights for all models
