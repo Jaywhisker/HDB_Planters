@@ -32,11 +32,13 @@ class gridHatching():
         self.randomized_seed = None
         self.threshold = 0.1
         self.fall_off = False
+        self.theme = starting_plant_dict["theme"]
 
         self.unplantable_int = 0
         self.plantable_int = 1
         self.tree_int = 2
         self.shrub_int = 3
+
 
         self.starting_grid = starting_grid
         self.starting_plant_dict = starting_plant_dict
@@ -51,16 +53,14 @@ class gridHatching():
         # print("seed_mapping")
         # print(self.seed_mapping)
 
-    def create_hatching(self):        
+    def create_hatching(self, visualise=False):        
         intermediate_grid = self._generation()
 
         output_grid, output_seed_dict, seed_mapping = self._postprocessing(intermediate_grid)
 
-        self._visualize_grid_with_outlines_v2(output_grid, output_seed_dict, seed_mapping, self.tree_radii_dict)
-
-        # To have a function here that will recompile into a json
-        
-        return None # we will output the json above
+        if visualise:
+            self._visualize_grid_with_outlines_v2(output_grid, output_seed_dict, seed_mapping, self.tree_radii_dict)
+        return output_grid, output_seed_dict, self.tree_radii_dict #This shall be recompiled to output a json according to the specks needed
     
 
     # Compiled Functions, not public but essentially the segments
@@ -108,9 +108,13 @@ class gridHatching():
         shifted_seeds_dict = self._shift_and_space_seeds_optimized(cleaned_grid, seed_dict)
         cleaned_grid = self._merge_regions_without_seeds(cleaned_grid,shifted_seeds_dict)
 
+        if self.theme == "manicured":
+            cleaned_grid, shifted_seeds_dict, mirrored_trees, _ = self._mirror_grid(cleaned_grid, shifted_seeds_dict, self.tree_radii_dict)
+            self.tree_radii_dict = mirrored_trees
+
         seed_mapping = {seed["Seed Number"]: seed["Shrub Name"] for seed in self.seed_mapping}
 
-        return cleaned_grid, seed_dict, seed_mapping
+        return cleaned_grid, shifted_seeds_dict, seed_mapping
     
 
     # Everything below this line is just to check if it works first
@@ -1059,7 +1063,282 @@ class gridHatching():
         plt.legend(title="Legend (Shrub Names)", loc='upper right')
         plt.grid(False)
         plt.show()
+
+    def _mirror_grid(self, grid, shrubs_dict, trees, visualise=False):
+        """
+        Mirror the grid and associated elements (shrubs and trees) along an optimal axis.
+
+        Args:
+            grid (np.ndarray): The input grid to be mirrored.
+            shrubs_dict (dict): Dictionary of shrub positions by type.
+            trees (dict): Dictionary where keys are tree coordinates (y, x) and values are tree radii.
+            visualise (bool): Whether to visualize the results.
+
+        Returns:
+            tuple: The mirrored grid, updated shrubs dictionary, updated tree dictionary, and optimal split type.
+        """
+        # Step 2: Ensure grid is integer type
+        grid = grid.astype(int)
+
+        # Step 3: Define plantable values
+        unique_values = np.unique(grid)
+        plantable_values = {v for v in unique_values if v != 0}  # All non-zero values are plantable
+
+        # Step 4: Detect edges
+        edges = self._detect_edges_on_grid(grid, method="canny")
+        if visualise:
+            print("Plantable Values:", plantable_values)
+            plt.imshow(edges, cmap="gray")
+            plt.title("Edge Detection (Canny)")
+            plt.show()
+
+        # Step 5: Detect the optimal split and mirror the grid
+        optimal_grid, optimal_shrubs_dict, optimal_split = self._detect_optimal_split_plantable(
+            grid, shrubs_dict, edges, plantable_values
+        )
+
+        # Step 6: Mirror the trees across the split axis
+        height, width = grid.shape
+        mirrored_trees = {}
+
+        if optimal_split == "horizontal":
+            for (y, x), radius in trees.items():
+                if y < height // 2:  # Top half
+                    mirrored_y = height - 1 - y
+                    mirrored_trees[(mirrored_y, x)] = radius
+                mirrored_trees[(y, x)] = radius  # Keep original position
+
+        elif optimal_split == "vertical":
+            for (y, x), radius in trees.items():
+                if x < width // 2:  # Left half
+                    mirrored_x = width - 1 - x
+                    mirrored_trees[(y, mirrored_x)] = radius
+                mirrored_trees[(y, x)] = radius  # Keep original position
+
+        elif optimal_split == "right_diagonal":
+            for (y, x), radius in trees.items():
+                if y + x >= width:  # Bottom-left triangle
+                    mirrored_y, mirrored_x = width - 1 - x, height - 1 - y
+                    mirrored_trees[(mirrored_y, mirrored_x)] = radius
+                mirrored_trees[(y, x)] = radius  # Keep original position
+
+        elif optimal_split == "left_diagonal":
+            for (y, x), radius in trees.items():
+                if x < y:  # Bottom-right triangle
+                    mirrored_y, mirrored_x = x, y
+                    mirrored_trees[(mirrored_y, mirrored_x)] = radius
+                mirrored_trees[(y, x)] = radius  # Keep original position
+
+        if visualise:
+            print(f"The optimal split type detected was: {optimal_split}")
+
+            # Visualize the original and mirrored grids
+            visualize_grid_with_outlines(grid, shrubs_dict)
+            visualize_grid_with_outlines(optimal_grid, optimal_shrubs_dict)
+
+            # Visualize tree positions
+            original_tree_grid = np.zeros_like(grid)
+            for (y, x) in trees.keys():
+                original_tree_grid[y, x] = 1
+            plt.figure()
+            plt.imshow(original_tree_grid, cmap="gray")
+            plt.title("Original Tree Positions")
+            plt.show()
+
+            mirrored_tree_grid = np.zeros_like(optimal_grid)
+            for (y, x) in mirrored_trees.keys():
+                mirrored_tree_grid[y, x] = 1
+            plt.figure()
+            plt.imshow(mirrored_tree_grid, cmap="gray")
+            plt.title("Mirrored Tree Positions")
+            plt.show()
+
+        return optimal_grid, optimal_shrubs_dict, mirrored_trees, optimal_split
+
+    def _split_and_mirror_grid(self, grid, shrubs_dict, split_type="horizontal"):
+        """
+        Correctly split the grid into two parts, mirror one part to the other, 
+        and return the updated grid and updated shrubs_dict.
+        """
+        height, width = grid.shape
+        updated_shrubs_dict = {k: set() for k in shrubs_dict.keys()}  # Use sets to prevent duplication
+
+        # Create a copy of the grid to prevent overwriting the mirrored section during processing
+        mirrored_grid = grid.copy()
+
+        if split_type == "horizontal":
+            # Mirror top half to the bottom half
+            top_half = grid[:height // 2, :]
+            mirrored_grid[height // 2:, :] = np.flipud(top_half)
+
+            # Update shrub positions
+            for shrub_type, positions in shrubs_dict.items():
+                for y, x in positions:
+                    if y < height // 2:  # Top half
+                        updated_shrubs_dict[shrub_type].add((y, x))  # Keep original
+                        mirrored_y = height - 1 - y
+                        updated_shrubs_dict[shrub_type].add((mirrored_y, x))
+
+        elif split_type == "vertical":
+            # Mirror left half to the right half
+            left_half = grid[:, :width // 2]
+            mirrored_grid[:, width // 2:] = np.fliplr(left_half)
+
+            # Update shrub positions
+            for shrub_type, positions in shrubs_dict.items():
+                for y, x in positions:
+                    if x < width // 2:  # Left half
+                        updated_shrubs_dict[shrub_type].add((y, x))  # Keep original
+                        mirrored_x = width - 1 - x
+                        updated_shrubs_dict[shrub_type].add((y, mirrored_x))
+
+        elif split_type == "right_diagonal":
+            # Mirror bottom-left triangle to top-right triangle
+            for i in range(height):
+                for j in range(width):
+                    if i + j >= width:  # Bottom-left triangle
+                        mirrored_grid[width - 1 - j, height - 1 - i] = grid[i, j]
+
+            # Update shrub positions
+            for shrub_type, positions in shrubs_dict.items():
+                for y, x in positions:
+                    if y + x >= width:  # Bottom-left triangle
+                        updated_shrubs_dict[shrub_type].add((y, x))
+                        mirrored_y, mirrored_x = width - 1 - x, height - 1 - y
+                        updated_shrubs_dict[shrub_type].add((mirrored_y, mirrored_x))
+
+        elif split_type == "left_diagonal":
+            # Mirror bottom-right triangle to top-left triangle
+            for i in range(height):
+                for j in range(width):
+                    if j < i:  # Bottom-right triangle
+                        mirrored_grid[j, i] = grid[i, j]
+
+            # Update shrub positions
+            for shrub_type, positions in shrubs_dict.items():
+                for y, x in positions:
+                    if x < y:  # Bottom-right triangle
+                        updated_shrubs_dict[shrub_type].add((y, x))
+                        mirrored_y, mirrored_x = x, y
+                        updated_shrubs_dict[shrub_type].add((mirrored_y, mirrored_x))
+
+        else:
+            raise ValueError("Invalid split_type. Choose 'horizontal', 'vertical', 'right_diagonal', or 'left_diagonal'.")
+
+        # Convert sets back to lists for compatibility
+        for shrub_type in updated_shrubs_dict:
+            updated_shrubs_dict[shrub_type] = list(updated_shrubs_dict[shrub_type])
+
+        return mirrored_grid, updated_shrubs_dict, split_type
+
+    def _detect_edges_on_grid(self,grid, method='canny', thresholds=(100, 200)):
+        """
+        Detect edges in a grid using Canny or Sobel methods.
+
+        Args:
+            grid (np.ndarray): The input grid to detect edges in.
+            method (str): Edge detection method ('canny' or 'sobel').
+            thresholds (tuple): Threshold values for the Canny edge detector.
+
+        Returns:
+            np.ndarray: A binary grid representing detected edges.
+        """
+        # Normalize the grid to 0-255 for edge detection
+        normalized_grid = ((grid - grid.min()) / (grid.max() - grid.min()) * 255).astype(np.uint8)
         
+        if method == 'canny':
+            # Use Canny edge detection
+            edges = cv2.Canny(normalized_grid, thresholds[0], thresholds[1])
+        elif method == 'sobel':
+            # Use Sobel edge detection
+            sobelx = cv2.Sobel(normalized_grid, cv2.CV_64F, 1, 0, ksize=3)
+            sobely = cv2.Sobel(normalized_grid, cv2.CV_64F, 0, 1, ksize=3)
+            edges = (np.hypot(sobelx, sobely) > np.percentile(np.hypot(sobelx, sobely), 90)).astype(np.uint8)
+        else:
+            raise ValueError("Invalid method. Choose 'canny' or 'sobel'.")
+        
+        return edges
+
+    def _evaluate_split_plantable(self, grid, mirrored_grid, edges, split_type, plantable_values, visualise=False):
+        """
+        Evaluate the symmetry of plantable areas, non-plantable areas, and edges in the mirrored grid.
+        """
+        height, width = grid.shape
+        mirrored_edges = edges.copy()
+
+        # Adjust edge mirroring
+        if split_type == "horizontal":
+            mirrored_edges = np.flipud(edges)
+        elif split_type == "vertical":
+            mirrored_edges = np.fliplr(edges)
+        elif split_type == "right_diagonal":
+            mirrored_edges = np.fliplr(np.flipud(edges))
+        elif split_type == "left_diagonal":
+            mirrored_edges = np.transpose(edges)
+
+        # Create plantable masks
+        plantable_mask = np.isin(grid, list(plantable_values))
+        mirrored_plantable_mask = np.isin(mirrored_grid, list(plantable_values))
+
+        # Calculate differences directly for plantable areas
+        plantable_diff = np.sum(grid[plantable_mask] != mirrored_grid[plantable_mask])
+        normalized_plantable_diff = plantable_diff / np.prod(grid.shape)  # Normalize by grid size
+
+        # Edge differences
+        edge_diff = np.sum((edges > 0) != (mirrored_edges > 0))
+        normalized_edge_diff = edge_diff / np.sum(edges > 0) if np.sum(edges > 0) > 0 else 0
+
+        # Apply weights
+        plantable_weight = 0.7
+        edge_weight = 0.3
+        symmetry_score = -(
+            plantable_weight * normalized_plantable_diff + edge_weight * normalized_edge_diff
+        )
+
+        if visualise:
+            # Debugging visuals
+            print(f"Split Type: {split_type}")
+            print(f"Plantable Diff (Raw): {plantable_diff}, Normalized: {normalized_plantable_diff:.4f}")
+            print(f"Edge Diff (Raw): {edge_diff}, Normalized: {normalized_edge_diff:.4f}")
+            print(f"Weighted Symmetry Score: {symmetry_score:.4f}")
+
+            plt.figure(figsize=(12, 6))
+            plt.subplot(1, 2, 1)
+            plt.imshow(grid, cmap='viridis')
+            plt.title(f"Original Grid ({split_type})")
+            plt.subplot(1, 2, 2)
+            plt.imshow(mirrored_grid, cmap='viridis')
+            plt.title(f"Mirrored Grid ({split_type})")
+            plt.show()
+
+        return symmetry_score
+
+    def _detect_optimal_split_plantable(self, grid, shrubs_dict, edges, plantable_values, visualise= False):
+        """
+        Detect the optimal split for plantable areas in the grid.
+        """
+        results = {}
+        shrubs_results = {}
+        mirrored_grids = {}  # Store mirrored grids for each split type
+
+        for split_type in ["horizontal", "vertical", "right_diagonal", "left_diagonal"]:
+            temp_grid = grid.copy()
+            mirrored_grid, mirrored_shrubs, _ = self._split_and_mirror_grid(temp_grid, shrubs_dict, split_type)
+            score = self._evaluate_split_plantable(grid, mirrored_grid, edges, split_type, plantable_values, visualise=visualise)
+            results[split_type] = score
+            shrubs_results[split_type] = mirrored_shrubs
+            mirrored_grids[split_type] = mirrored_grid  # Save the mirrored grid
+
+        optimal_split = max(results, key=results.get)
+        optimal_mirrored_grid = mirrored_grids[optimal_split]  # Retrieve the best mirrored grid
+
+        if visualise:
+            # Print the final optimal split
+            print(f"Final Optimal Split: {optimal_split}")
+            print(f"Optimal Symmetry Score: {results[optimal_split]:.4f}")
+        
+        return optimal_mirrored_grid, shrubs_results[optimal_split], optimal_split
+
     # Utility Functions
     def _contains_shrub(self, string):
         """
