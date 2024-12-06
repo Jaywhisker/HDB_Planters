@@ -18,36 +18,57 @@ from scipy.ndimage import label
 from scipy.stats import mode
 import re
 
-class gridHatching():
-    def __init__(self, starting_grid:np.ndarray, starting_plant_dict: dict, randomised_seed: int = None, threshold: float = 0.1, fall_off: bool= False):
+class gridHatching_v2():
+    def __init__(self, starting_grid:np.ndarray, available_plant_dict: dict, tree_and_shrub_location_dict: dict = None ,randomised_seed: int = None, threshold: float = 0.1, fall_off: bool= False):
         """
         Class to take a grid and plant_selection in order to create hatches of regions 
 
         Args:
             grid (np.ndarray): grid received from procedural generation, 0 means unplantable, 1 means plantable, 2 means tree, 3 means shrub
             plant_dict (dict): the plant_dict and information on the theme as well
+            tree_and_shrub_location_dict (dict["Tree"/"Shrub"]): the dictionary containing tuples of where tree and shrubs are
             threshold (float, optional): is the amount of difference between seed strength before one is dominannt
             fall_off (bool, optional): controls whether the influence from the depth of the area is bool (either 100 or 0 strength) or gradually decreases across distance 
         """
-        self.randomized_seed = None
-        self.threshold = 0.1
-        self.fall_off = False
-        self.theme = starting_plant_dict["theme"]
+        self.randomized_seed = randomised_seed
+        self.threshold = threshold
+        self.fall_off = fall_off
 
         self.unplantable_int = 0
         self.plantable_int = 1
         self.tree_int = 2
         self.shrub_int = 3
 
-
         self.starting_grid = starting_grid
-        self.starting_plant_dict = starting_plant_dict
+        self.starting_plant_dict = available_plant_dict
+        
+        # to be initialised during the initialise_info_function
+        self.grid_shape = None
+        self.theme = None
+        self.tree_info_dict = None
+        self.shrub_info_dict = None
+        self.starting_shrub_seed_list = None
+        self.shrub_int_list = None
+        self.seed_mapping = None
+        self.tree_radii_dict = None
+        self.tree_id_dict = None
 
-        self.starting_seed_list, self.shrub_int_list, self.tree_radii_dict, self.seed_mapping = self._initialise_info()
+        self._initialise_info(starting_grid, available_plant_dict, tree_and_shrub_location_dict)
+
+        # print("grid_shape")
+        # print(self.grid_shape)
+        # print("theme")
+        # print(self.theme)
+        # print("tree_info_dict")
+        # print(self.tree_info_dict)
+        # print("shrub_info_dict")
+        # print(self.shrub_info_dict)
         # print("starting_seed_list")
-        # print(self.starting_seed_list)
+        # print(self.starting_shrub_seed_list)
         # print("shrub_int_list")
         # print(self.shrub_int_list)
+        # print("tree_id_dict")
+        # print(self.tree_id_dict)
         # print("tree_radii_dict")
         # print(self.tree_radii_dict)
         # print("seed_mapping")
@@ -58,13 +79,14 @@ class gridHatching():
 
         output_grid, output_seed_dict, seed_mapping = self._postprocessing(intermediate_grid)
 
+        output_json = self._create_json(output_grid, output_seed_dict, seed_mapping)
+
         if visualise:
             self._visualize_grid_with_outlines_v2(output_grid, output_seed_dict, seed_mapping, self.tree_radii_dict)
-        return output_grid, output_seed_dict, self.tree_radii_dict #This shall be recompiled to output a json according to the specks needed
+        return output_json
     
-
     # Compiled Functions, not public but essentially the segments
-    def _initialise_info(self):
+    def _initialise_info(self, starting_grid, available_plant_dict, tree_and_shrub_location_dict):
         """
         Function used to initialise all the information before the grid generation
 
@@ -73,13 +95,15 @@ class gridHatching():
             shrub_int_list (list): a list of integers to be used to populate the numpy array
             tree_radii_dict (dict): a dictionary of tuples of tree locations as the keys and radii of each tree as the value
         """ 
-        trees_list, starting_seed_list = self._extract_tree_shrub_placements(self.starting_grid) #to be improved in order to take in arguments that will search for seeds and shrubs by specific integers
-        tree_info_dict, shrub_info_dict = self._retrive_trees_shrubs_from_input_dict(self.starting_plant_dict)
-        new_trees = self._allocate_trees_to_coordinates(trees_list, tree_info_dict)
-        tree_radii_dict = {pos: data[1] for pos, data in new_trees.items()}
-        shrub_int_dict, shrub_int_list = self._create_seed_labels_v2(shrub_info_dict)
-
-        return starting_seed_list, shrub_int_list, tree_radii_dict, shrub_int_dict
+        self.grid_shape = (starting_grid.shape)
+        self.theme = available_plant_dict["theme"]
+        self.starting_shrub_seed_list = tree_and_shrub_location_dict["Shrubs"]
+        trees_list = tree_and_shrub_location_dict["Tree"]
+        self.tree_info_dict, self.shrub_info_dict = self._retrive_trees_shrubs_from_input_dict(available_plant_dict)
+        new_trees = self._allocate_trees_to_coordinates(trees_list, self.tree_info_dict)
+        self.tree_radii_dict = {pos: data[1] for pos, data in new_trees.items()}
+        self.tree_id_dict = {pos: data[2] for pos, data in new_trees.items()}
+        self.seed_mapping, self.shrub_int_list = self._create_seed_labels_v2(self.shrub_info_dict) 
     
     def _generation(self):
         """
@@ -88,10 +112,10 @@ class gridHatching():
         Returns: 
             output_grid (np.ndarray): the numpy array that has different regions labelled with different integers for different plants
         """ 
-        seed_to_int_dict = self._choose_starter_slots_v3(self.starting_seed_list, self.seed_mapping)  # This function should take the seed from the class to controls its random actions
-        noise_map = self._generate_worley_heatmap() # This function should take the seed from the class to controls its random actions
-        noise_grids = self._combined_noisemap(self.starting_grid, noise_map, seed_to_int_dict) #NGL I think this function can be cleaned up to only require the size of the grid without needing to take in the input grid as an argument
-        heatmaps = self._create_heatmaps_v2(self.shrub_int_list , self.starting_grid, noise_grids, self.tree_radii_dict, self.fall_off) #This function can also be cleaned up bcos wx technically already has plantable and unplantable area segmented out so it does not need to be further subdivided
+        seed_to_int_dict = self._choose_starter_slots_v3(self.starting_shrub_seed_list, self.seed_mapping) 
+        noise_map = self._generate_worley_heatmap(distribution_seed=self.randomized_seed)
+        noise_grids = self._combined_noisemap(self.grid_shape, noise_map, seed_to_int_dict) 
+        heatmaps = self._create_heatmaps_v2(self.shrub_int_list , self.starting_grid, noise_grids, self.tree_radii_dict, self.fall_off) # This function can also be cleaned up bcos wx technically already has plantable and unplantable area segmented out so it does not need to be further subdivided
         output_grid = self._apply_influence_grids_with_border(heatmaps, self.starting_grid, threshold=self.threshold)
         return output_grid
     
@@ -103,8 +127,8 @@ class gridHatching():
             cleaned_grid (np.ndarray): the numpy array that has different regions labelled with different integers for different plants
             seed_dict (dict): a dictionary of integers of the selected regions as the keys and list of tuples of their locations as the value output.
         """ 
-        cleaned_grid = self._fill_small_regions(intermediate_grid, required_points=self.starting_seed_list)
-        seed_dict = self._sort_seeds_v2(cleaned_grid, self.starting_seed_list)
+        cleaned_grid = self._fill_small_regions(intermediate_grid, required_points=self.starting_shrub_seed_list)
+        seed_dict = self._sort_seeds_v2(cleaned_grid, self.starting_shrub_seed_list)
         shifted_seeds_dict = self._shift_and_space_seeds_optimized(cleaned_grid, seed_dict)
         cleaned_grid = self._merge_regions_without_seeds(cleaned_grid,shifted_seeds_dict)
 
@@ -116,26 +140,17 @@ class gridHatching():
 
         return cleaned_grid, shifted_seeds_dict, seed_mapping
     
-
-    # Everything below this line is just to check if it works first
-    # to be commented and cleaned according to comments later
-    
-    def _extract_tree_shrub_placements(self, grid): #to be improved in order to take in arguments that will search for seeds and shrubs by specific integers
+    def _retrive_trees_shrubs_from_input_dict(self, input_dict):
         """
-        Extracts the tree and shrub placements from the final grid.
+        Parses through the input that is received from the previous function, the dict, and separates the plants in the selected plants list into shrubs and trees
         
         Args:
-            grid (np.ndarray): The final grid after placement.
+            input_dict (dict): The dictionary with the input values, where the list of info on the plants can be found in input dict["selected plants"]
         
         Returns:
-            trees (list of tuple): List of coordinates of tree placements.
-            shrubs (list of tuple): List of coordinates of shrub placements.
+            Tree_Species (list of dict): List of containing the dictionaries of each tree
+            Shrub_Species (list of dict): List of containing the dictionaries of each shrub
         """
-        trees = list(zip(*np.where(grid == 1)))
-        shrubs = list(zip(*np.where(grid == 2)))
-        return trees, shrubs#
-    
-    def _retrive_trees_shrubs_from_input_dict(self, input_dict):
         Tree_Species = []
         Shrub_Species = []
         selected_plants_list = input_dict["selected_plants"]
@@ -174,16 +189,42 @@ class gridHatching():
             selected_tree = random.choice(Trees_list)
             name = selected_tree["Species Name"]
             radius = selected_tree.get("Canopy Radius", "None")
+            id = selected_tree.get("Species ID")
             
             # Ensure radius is a float if possible
             radius = float(radius) if radius != "None" else 0
             
             # Allocate the tree to the coordinate
-            allocated_trees[pos] = [name, radius]
+            allocated_trees[pos] = [name, radius, id]
 
         return allocated_trees
     
     def _create_seed_labels_v2(self, shrubs_list):
+        """
+        Categorises shrubs based on their light preferences and border proximity, 
+        assigns seed numbers to each shrub, and returns the seed mappings.
+
+        Shrubs are divided into the following categories:
+        - BSH: Border, Shade Hating
+        - NBSL: Not Border, Shade Loving
+        - NBSH: Not Border, Shade Hating
+        - BSL: Border, Shade Loving
+
+        Seed numbers are generated uniquely for each category based on conditions, ensuring no overlap.
+
+        Args:
+            shrubs_list (list): A list of dictionaries representing shrubs. Each dictionary contains:
+                - "Plant Type" (str): Type of the plant (e.g., "Shrub").
+                - "Light Preference" (str): Light preference (e.g., "Full Shade", "Semi Shade").
+                - "Hazard" (str): Whether the shrub is on the border ("-" indicates it's on the border).
+                - "Species Name" (str): Name of the shrub species.
+
+        Returns:
+            - seed_mapping (list of dict): A list of dictionaries where each dictionary represents a shrub with:
+                - "Seed Number" (int): The assigned seed number.
+                - "Shrub Name" (str): The species name of the shrub.
+            - seeds_list (list of int): A list of all seed numbers assigned to shrubs.
+        """
         BSH = 0  # Border, Shade Hating
         NBSL = 0  # Not Border, Shade Loving
         NBSH = 0  # Not Border, Shade Hating
@@ -217,17 +258,14 @@ class gridHatching():
                         BSH += 1
                         shrub_mapping["BSH"].append(shrub["Species Name"])
 
-        # Log the counts
-        # print(f"BSH: {BSH}, NBSL: {NBSL}, BSL: {BSL}, NBSH: {NBSH}")
-
         # Generate seed numbers for the categories
-        seedlist = self._select_numbers(startingNumber=3, BSH=BSH, NBSL=NBSL, BSL=BSL, NBSH=NBSH)
+        seedlists = self._select_numbers(startingNumber=3, BSH=BSH, NBSL=NBSL, BSL=BSL, NBSH=NBSH)
 
         # Map seed numbers to shrubs
         seed_mapping = []
         seeds_list = []
-        for category, seeds in zip(["BSH", "NBSL", "NBSH", "BSL"], 
-                                [seedlist[:BSH], seedlist[BSH:BSH+NBSL], seedlist[BSH+NBSL:BSH+NBSL+NBSH], seedlist[BSH+NBSL+NBSH:]]):
+        for category in ["BSH", "NBSL", "NBSH", "BSL"]:
+            seeds = seedlists[category]
             names = shrub_mapping[category]
             for seed, name in zip(seeds, names):
                 seed_mapping.append({"Seed Number": seed, "Shrub Name": name})
@@ -237,44 +275,34 @@ class gridHatching():
 
     def _select_numbers(self, BSH=0, NBSL=0, NBSH=0, BSL=0, startingNumber=3):
         """
-        Selects integers based on the conditions specified:
+        Selects integers for each category based on the specified conditions:
         - BSH: Border, shade hating (not a multiple of 2, multiple of 3)
         - NBSL: Not Border, shade loving (multiple of 2, not a multiple of 3)
         - NBSH: Not Border, shade hating (not a multiple of 2, not a multiple of 3)
         - BSL: Border, shade loving (multiple of 2, multiple of 3)
-        
+
         Args:
             BSH (int): Number of integers required for Border, shade hating condition.
             NBSL (int): Number of integers required for Not Border, shade loving condition.
             NBSH (int): Number of integers required for Not Border, shade hating condition.
             BSL (int): Number of integers required for Border, shade loving condition.
             startingNumber (int): The number to start iterating from.
-            
-        Returns:
-            list: A list of integers meeting the conditions in the specified quantities.
-        """
-        result = []
-        current_number = startingNumber
-        count = BSH + NBSL + NBSH + BSL
 
-        while len(result) < (count):
-            # Check conditions and add to the result list
-            if current_number % 2 != 0 and current_number % 3 == 0 and BSH > 0:
-                result.append(current_number)
-                # print(current_number, "BSH")
-                BSH -= 1
-            elif current_number % 2 == 0 and current_number % 3 != 0 and NBSL > 0:
-                result.append(current_number)
-                # print(current_number, "NBSL")
-                NBSL -= 1
-            elif current_number % 2 != 0 and current_number % 3 != 0 and NBSH > 0:
-                result.append(current_number)
-                # print(current_number, "NBSH")
-                NBSH -= 1
-            elif current_number % 2 == 0 and current_number % 3 == 0 and BSL > 0:
-                result.append(current_number)
-                # print(current_number, "BSL")
-                BSL -= 1
+        Returns:
+            dict: A dictionary with keys 'BSH', 'NBSL', 'NBSH', 'BSL' and lists of integers as values.
+        """
+        result = {"BSH": [], "NBSL": [], "NBSH": [], "BSL": []}
+        current_number = startingNumber
+
+        while len(result["BSH"]) < BSH or len(result["NBSL"]) < NBSL or len(result["NBSH"]) < NBSH or len(result["BSL"]) < BSL:
+            if current_number % 2 != 0 and current_number % 3 == 0 and len(result["BSH"]) < BSH:
+                result["BSH"].append(current_number)
+            elif current_number % 2 == 0 and current_number % 3 != 0 and len(result["NBSL"]) < NBSL:
+                result["NBSL"].append(current_number)
+            elif current_number % 2 != 0 and current_number % 3 != 0 and len(result["NBSH"]) < NBSH:
+                result["NBSH"].append(current_number)
+            elif current_number % 2 == 0 and current_number % 3 == 0 and len(result["BSL"]) < BSL:
+                result["BSL"].append(current_number)
             
             current_number += 1
 
@@ -313,7 +341,7 @@ class gridHatching():
 
         return seed_locations
 
-    def _generate_worley_heatmap(self, grid_size=(100, 100), distribution_seed=None, value_range=(40, 50), feature_points=20, invert=False): # This function should take the seed from the class to controls its random actions
+    def _generate_worley_heatmap(self, grid_size=(100, 100), distribution_seed=None, value_range=(40, 50), feature_points=20, invert=False): 
         """
         Generate a random heatmap using Worley noise.
 
@@ -356,13 +384,31 @@ class gridHatching():
 
         return noise
 
-    def _combined_noisemap(self, grid, noise_map, seed_dict): #NGL I think this function can be cleaned up to only require the size of the grid without needing to take in the input grid as an argument
+    def _combined_noisemap(self, grid_shape, noise_map, seed_dict): 
+        """
+        Combines the influence of multiple seed groups onto a noise map and returns 
+        the influence grids for each seed group.
+
+        This function applies the `_radiate_influence` method for each seed group in 
+        `seed_dict`, generating an influence grid for each group based on the input 
+        grid shape, noise map, and seed locations.
+
+        Args:
+            grid_shape (tuple): The shape of the grid (height, width) for generating the influence map.
+            noise_map (np.ndarray): A 2D array representing noise values used to calculate influence.
+            seed_dict (dict): A dictionary where keys are seed group identifiers (e.g., types of seeds),
+                            and values are lists of seed positions [(y1, x1), (y2, x2), ...].
+
+        Returns:
+            dict: A dictionary where keys are seed group identifiers and values are 2D influence grids
+                (np.ndarray) generated for each seed group.
+        """
         seed = {}
         for i in seed_dict:
-            seed[i] = self._radiate_influence(grid, noise_map, seed_dict[i])
+            seed[i] = self._radiate_influence(grid_shape, noise_map, seed_dict[i])
         return seed
 
-    def _radiate_influence(self, grid, noise_map, seed_locations, decay_rate=0.1):
+    def _radiate_influence(self, grid_shape, noise_map, seed_locations, decay_rate=0.1):
         """
         Radiates influence from each seed location based on its strength on the noise map, taking the maximum influence.
 
@@ -375,11 +421,11 @@ class gridHatching():
         Returns:
             np.ndarray: A grid with the maximum influence from all seeds.
         """
-        # Initialize the influence grid with zeros
-        influence_grid = np.zeros_like(grid, dtype=np.float32)
-
         # Get grid dimensions
-        height, width = grid.shape
+        height, width = grid_shape
+
+        # Initialize the influence grid with zeros
+        influence_grid = np.zeros((height, width), dtype=np.float32)
 
         # Iterate over each seed
         for y, x in seed_locations:
@@ -404,13 +450,61 @@ class gridHatching():
         return influence_grid
    
     def _create_heatmaps_v2(self, seed_list, grid, noise_grids, tree_radii, fall_off= False): #This function can also be cleaned up bcos wx technically already has plantable and unplantable area segmented out so it does not need to be further subdivided
+        """
+        Generates heatmaps for each seed type based on noise grids and tree radii.
+
+        This function iterates over a list of seed types, creating a heatmap for each type 
+        by leveraging `_create_heatmap_for_type_v2`. It uses the provided grid and noise grids 
+        and applies tree radius and optional fall-off parameters.
+
+        Note:
+            If the grid already segments plantable and unplantable areas, further subdivision 
+            within this function is unnecessary, making it possible to simplify its logic.
+
+        Args:
+            seed_list (list): A list of seed types (e.g., seed identifiers or categories).
+            grid (np.ndarray): A 2D array representing the overall grid environment.
+            noise_grids (dict): A dictionary where keys are seed types and values are noise grids 
+                                (np.ndarray) corresponding to each seed type.
+            tree_radii (dict): A dictionary mapping each seed type to its associated tree radius.
+            fall_off (bool, optional): If True, applies a fall-off effect in the heatmap calculation. 
+                                    Default is False.
+
+        Returns:
+            dict: A dictionary where keys are seed types and values are their corresponding heatmaps 
+                (np.ndarray) generated based on the input parameters.
+        """
         seed_heatmaps = {}
-        print(seed_list)
         for i in seed_list:
             seed_heatmaps[i] = self._create_heatmap_for_type_v2(i,grid, noise_grids[i], tree_radii =tree_radii, fall_off=fall_off)
         return seed_heatmaps
 
     def _create_heatmap_for_type_v2(self, seed_value, grid, noise_grid, tree_radii, fall_off=False):
+        """
+        Generates a combined heatmap for a specific seed type by considering shade preferences, 
+        border proximity, and noise influences.
+
+        This function creates and combines multiple heatmaps:
+        - Shade heatmap based on tree radii and the seed's shade preference.
+        - Border proximity heatmap based on whether the seed prefers the border.
+        - Noise grid as an external influence.
+
+        Args:
+            seed_value (int): The value representing the seed type, used to determine preferences:
+                            - Multiple of 2: Shade-loving.
+                            - Not a multiple of 2: Shade-hating.
+                            - Multiple of 3: Border-loving.
+                            - Not a multiple of 3: Not border-loving.
+            grid (np.ndarray): The 2D array representing the overall grid environment.
+            noise_grid (np.ndarray): A noise grid specific to the seed type, influencing the heatmap.
+            tree_radii (dict): A dictionary mapping seed types to their associated tree radii.
+            fall_off (bool, optional): If True, applies an instant fall-off effect to border calculations. 
+                                    Default is False.
+
+        Returns:
+            np.ndarray: A combined heatmap that integrates shade preferences, border proximity, 
+                        and noise influences for the given seed type.
+        """
         plantable_grid = self._shade_inside_border(grid)
         # Create the grids to be combined
         shade_grid = None
@@ -419,6 +513,7 @@ class gridHatching():
             shade_grid = self._label_heatmap_based_on_trees_v2(plantable_grid,tree_radii)
         else:
             shade_grid = self._label_heatmap_based_on_trees_v2(plantable_grid, tree_radii, invert=True)
+        visualize_heatmap(shade_grid)
         border_grid = None
         # If the seed_value is a modulus of 3 then it is something that likes the border
         if seed_value%3 ==0:
@@ -433,34 +528,27 @@ class gridHatching():
         # visualize_heatmap(influence)
         return influence
 
-    def _shade_inside_border(self, grid, border_value=255, fill_value=128):
+    def _shade_inside_border(self, grid, fill_value=128):
         """
-        Shade points inside the black borders on the grid with a specified fill color,
-        leaving outside regions untouched.
+        Shade points inside the grid by filling non-zero regions with a specified fill color,
+        leaving 0 values untouched.
 
         Args:
             grid (np.ndarray): The grid representing the environment.
-            border_value (int): Value representing the border in the grid.
             fill_value (int): Value to fill the inside regions with.
 
         Returns:
-            np.ndarray: Modified grid with inside regions shaded with the fill color.
+            np.ndarray: Modified grid with non-zero regions shaded with the fill color.
         """
-        # Create a mask for border areas
-        border_mask = grid == border_value
-
-        # Use binary_fill_holes to fill regions inside the border
-        filled_region = binary_fill_holes(border_mask)
+        # Create a mask for non-zero regions
+        non_zero_mask = grid > 0
 
         # Create a copy of the grid to modify
         shaded_grid = np.copy(grid)
-        
-        # Apply the fill color to inside regions only
-        shaded_grid[filled_region] = fill_value
-        # plt.imshow(shaded_grid, cmap="gray")
-        # plt.title("Grid with Inside Regions Shaded")
-        # plt.show()
-        
+
+        # Apply the fill color to non-zero regions only
+        shaded_grid[non_zero_mask] = fill_value
+
         return shaded_grid
 
     def _label_heatmap_based_on_trees_v2(self, grid, tree_data, invert=False):
@@ -1157,8 +1245,41 @@ class gridHatching():
 
     def _split_and_mirror_grid(self, grid, shrubs_dict, split_type="horizontal"):
         """
-        Correctly split the grid into two parts, mirror one part to the other, 
-        and return the updated grid and updated shrubs_dict.
+        Splits the grid into two parts, mirrors one part onto the other, 
+        and updates shrub positions to reflect the mirrored grid.
+
+        This function performs grid mirroring based on the specified split type:
+        - "horizontal": Mirrors the top half onto the bottom half.
+        - "vertical": Mirrors the left half onto the right half.
+        - "right_diagonal": Mirrors the bottom-left triangle onto the top-right triangle.
+        - "left_diagonal": Mirrors the bottom-right triangle onto the top-left triangle.
+
+        Shrub positions in `shrubs_dict` are also updated to reflect the changes 
+        caused by mirroring.
+
+        Args:
+            grid (np.ndarray): A 2D array representing the grid to be split and mirrored.
+            shrubs_dict (dict): A dictionary where keys are shrub types and values are lists 
+                                of tuples representing shrub positions (y, x).
+            split_type (str, optional): The type of grid split and mirroring. Options are:
+                                        - "horizontal"
+                                        - "vertical"
+                                        - "right_diagonal"
+                                        - "left_diagonal"
+                                        Default is "horizontal".
+
+        Returns:
+            tuple:
+                - mirrored_grid (np.ndarray): The grid after applying the mirroring transformation.
+                - updated_shrubs_dict (dict): The updated dictionary with mirrored shrub positions.
+                - split_type (str): The split type used for the operation.
+
+        Raises:
+            ValueError: If an invalid `split_type` is provided.
+
+        Notes:
+            - Shrub positions are updated to avoid duplication by using sets during processing.
+            - The function converts shrub positions back to lists for compatibility.
         """
         height, width = grid.shape
         updated_shrubs_dict = {k: set() for k in shrubs_dict.keys()}  # Use sets to prevent duplication
@@ -1261,9 +1382,31 @@ class gridHatching():
 
     def _evaluate_split_plantable(self, grid, mirrored_grid, edges, split_type, plantable_values, visualise=False):
         """
-        Evaluate the symmetry of plantable areas, non-plantable areas, and edges in the mirrored grid.
+        Evaluates the symmetry of plantable areas, non-plantable areas, and edges in a mirrored grid.
+
+        The function calculates symmetry by comparing plantable areas and edges between the 
+        original grid and its mirrored counterpart based on the specified split type. A symmetry 
+        score is computed using a weighted combination of differences in plantable areas and edges.
+
+        Args:
+            grid (np.ndarray): The original grid representing plantable and non-plantable areas.
+            mirrored_grid (np.ndarray): The mirrored version of the grid to compare against.
+            edges (np.ndarray): A grid marking edge locations (non-zero values indicate edges).
+            split_type (str): The type of mirroring applied, one of:
+                            - "horizontal": Flip along the horizontal axis.
+                            - "vertical": Flip along the vertical axis.
+                            - "right_diagonal": Flip along the diagonal from top-right to bottom-left.
+                            - "left_diagonal": Flip along the diagonal from top-left to bottom-right.
+            plantable_values (iterable): Values in the grid that represent plantable areas.
+            visualise (bool, optional): If True, visualises the original and mirrored grids with debug output.
+                                        Default is False.
+
+        Returns:
+            float: The computed symmetry score, where higher scores indicate greater symmetry.
+                The score is negative because it represents a weighted difference, 
+                with smaller values (closer to zero) being more symmetric.
         """
-        height, width = grid.shape
+
         mirrored_edges = edges.copy()
 
         # Adjust edge mirroring
@@ -1315,7 +1458,32 @@ class gridHatching():
 
     def _detect_optimal_split_plantable(self, grid, shrubs_dict, edges, plantable_values, visualise= False):
         """
-        Detect the optimal split for plantable areas in the grid.
+        Detects the optimal grid split for achieving the highest symmetry in plantable areas.
+
+        This function evaluates symmetry scores for four split types ("horizontal", "vertical", 
+        "right_diagonal", and "left_diagonal") by mirroring the grid and comparing plantable 
+        areas and edges. The split with the highest symmetry score is selected as the optimal split.
+
+        Args:
+            grid (np.ndarray): The original grid representing plantable and non-plantable areas.
+            shrubs_dict (dict): A dictionary where keys are shrub types and values are lists of 
+                                tuples representing shrub positions (y, x).
+            edges (np.ndarray): A grid marking edge locations (non-zero values indicate edges).
+            plantable_values (iterable): Values in the grid that represent plantable areas.
+            visualise (bool, optional): If True, visualises the optimal split and symmetry scores 
+                                        during the evaluation process. Default is False.
+
+        Returns:
+            tuple:
+                - optimal_mirrored_grid (np.ndarray): The grid after applying the optimal split and mirroring.
+                - optimal_shrubs (dict): The updated dictionary with mirrored shrub positions 
+                                        for the optimal split.
+                - optimal_split (str): The type of split that resulted in the highest symmetry score.
+
+        Notes:
+            - The function uses `_split_and_mirror_grid` to perform mirroring and updates shrub positions.
+            - Symmetry scores are computed using `_evaluate_split_plantable`.
+            - If `visualise` is True, the optimal split and its score are displayed for debugging.
         """
         results = {}
         shrubs_results = {}
@@ -1338,6 +1506,31 @@ class gridHatching():
             print(f"Optimal Symmetry Score: {results[optimal_split]:.4f}")
         
         return optimal_mirrored_grid, shrubs_results[optimal_split], optimal_split
+
+    def _create_json(self, output_grid, output_seed_dict, seed_mapping):
+            # Prepare the JSON output for shrubs
+            coordinates = {}
+            for seed_number, positions in output_seed_dict.items():
+                # Based on seed number, fetch shrub data
+                for position in positions:
+                    shrub_data = next (
+                        (shrub for shrub in self.shrub_info_dict if shrub["Species Name"] == seed_mapping[seed_number]),
+                        None
+                    )
+                    if shrub_data:
+                        coordinates[str(position)] = shrub_data.get("Species ID", "Unknown")
+                    else:
+                        coordinates[str(position)] = "Unknown"
+
+            for (y, x), species_id in self.tree_id_dict.items():
+                        coordinates[str((y,x))] = species_id
+            
+            json_output = {
+                "grid": output_grid.tolist(),
+                "coordinates": coordinates
+            }
+        
+            return json_output
 
     # Utility Functions
     def _contains_shrub(self, string):
@@ -1392,12 +1585,34 @@ class gridHatching():
     
     def _contains_semi_shade_jx(self, light_preference):
         """
-        Check if light preference contains 'Semi Shade'.
+        Checks if the given light preference includes 'Semi Shade'.
+
+        This function determines whether the specified light preference string indicates 
+        a tolerance for or preference toward semi-shaded environments. 
+
+        Args:
+            light_preference (str): A string describing the light preference of a plant 
+                                    (e.g., "Full Sun", "Semi Shade", "Full Shade").
+
+        Returns:
+            bool: True if 'Semi Shade' is found in the light preference string, 
+                otherwise False.
         """
         return "Semi Shade" in light_preference
 
     def _contains_full_shade_jx(self, light_preference):
         """
-        Check if light preference contains 'Full Shade'.
+        Checks if the given light preference includes 'Full Shade'.
+
+        This function determines whether the specified light preference string indicates 
+        a tolerance for or preference toward fully shaded environments.
+
+        Args:
+            light_preference (str): A string describing the light preference of a plant 
+                                    (e.g., "Full Sun", "Semi Shade", "Full Shade").
+
+        Returns:
+            bool: True if 'Full Shade' is found in the light preference string, 
+                otherwise False.
         """
         return "Full Shade" in light_preference
