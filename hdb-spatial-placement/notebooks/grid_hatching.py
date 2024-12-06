@@ -513,7 +513,6 @@ class gridHatching_v2():
             shade_grid = self._label_heatmap_based_on_trees_v2(plantable_grid,tree_radii)
         else:
             shade_grid = self._label_heatmap_based_on_trees_v2(plantable_grid, tree_radii, invert=True)
-        visualize_heatmap(shade_grid)
         border_grid = None
         # If the seed_value is a modulus of 3 then it is something that likes the border
         if seed_value%3 ==0:
