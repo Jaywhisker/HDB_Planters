@@ -7,3 +7,4 @@ openai==1.54.4
 pandas==2.2.3
 pydantic==2.9.2
 uvicorn==0.32.0
+Requests==2.32.3

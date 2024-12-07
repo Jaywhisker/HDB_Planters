@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import compositionData from '../data/mock_compositions.json'
+import compositionData from '../data/mock_plant_composition_output.json'
 import download2DPlantingGrid from '../functions/download2DImage';
 
 const DownloadPage = () => {

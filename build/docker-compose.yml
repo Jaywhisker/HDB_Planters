@@ -29,7 +29,7 @@ services:
         - ${AI_PLANT_HOST_PORT}:${AI_PLANT_SERVICE_PORT}
       env_file:
         - .env
-
+      command: uvicorn src.main:app --host=0.0.0.0 --port=${AI_PLANT_HOST_PORT} --reload
 
   spatial-placement:
       image: spatial-placement
@@ -45,6 +45,7 @@ services:
         - ${AI_SPATIAL_HOST_PORT}:${AI_SPATIAL_SERVICE_PORT}
       env_file:
         - .env
+      command: uvicorn src.main:app --host=0.0.0.0 --port=${AI_SPATIAL_HOST_PORT} --reload
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.10.1

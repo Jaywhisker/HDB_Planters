@@ -1,0 +1,233 @@
+{
+    "style": "Manicured",
+    "surrounding": "Walkway",
+    "plant_palette": [
+        {
+            "Scientific Name": "Excoecaria cochinchinensis",
+            "Common Name": "Chinese Croton",
+            "Species ID": 2010,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/2/0/2010",
+            "Plant Type": [
+                "Shrub"
+            ],
+            "Light Preference": [
+                "Full Sun",
+                "Semi Shade"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 1.0,
+            "Flower Colour": "Green",
+            "Hazard": "Toxic Upon Ingestion, Irritant - Sap",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial",
+            "Mature Leaf Colour": "Green, Purple",
+            "Young Flush Leaf Colour": "Red",
+            "Leaf Area Index": "4.5 (Shrub & Groundcover - Dicot)",
+            "Growth Rate": [
+                "-"
+            ],
+            "Trunk Texture": "N/A",
+            "Trunk Colour": "N/A",
+            "Leaf Texture": [
+                "Medium"
+            ],
+            "Canopy Radius": "N/A"
+        },
+        {
+            "Scientific Name": "Arrhenatherum elatius subsp. bulbosum 'Variegatum'",
+            "Common Name": "Striped Tuber Oat Grass",
+            "Species ID": 3427,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/3/4/3427",
+            "Plant Type": [
+                "Grass or Grass-like Plant",
+                "Shrub"
+            ],
+            "Light Preference": [
+                "Full Sun",
+                "Semi Shade"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 0.5,
+            "Flower Colour": "Cream / Off-White, Green, Purple",
+            "Hazard": "N/A",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial (Grassland / Savannah/ Scrubland)",
+            "Mature Leaf Colour": "Cream / Off-White, Green, White",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "3.5 (Shrub & Groundcover - Monocot)",
+            "Growth Rate": [
+                "Slow"
+            ],
+            "Trunk Texture": "N/A",
+            "Trunk Colour": "N/A",
+            "Leaf Texture": [
+                "Fine"
+            ],
+            "Canopy Radius": "N/A"
+        },
+        {
+            "Scientific Name": "Aglaonema simplex (Blume) Blume",
+            "Common Name": "Malayan Sword",
+            "Species ID": 3740,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/3/7/3740",
+            "Plant Type": [
+                "Herbaceous Plant",
+                "Shrub"
+            ],
+            "Light Preference": [
+                "Full Shade",
+                "Semi Shade"
+            ],
+            "Water Preference": [
+                "Lots of Water",
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": true,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 1.2,
+            "Flower Colour": "Cream / Off-White, White",
+            "Hazard": "N/A",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial (Primary Rainforest, Secondary Rainforest, Monsoon Forest, Freshwater Swamp Forest)",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "3.5 (Shrub & Groundcover - Monocot)",
+            "Growth Rate": [
+                "Slow"
+            ],
+            "Trunk Texture": "N/A",
+            "Trunk Colour": "N/A",
+            "Leaf Texture": [
+                "Coarse"
+            ],
+            "Canopy Radius": "N/A"
+        },
+        {
+            "Scientific Name": "Acrotrema costatum Jack",
+            "Common Name": "Yellow Jungle Star",
+            "Species ID": 3739,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/3/7/3739",
+            "Plant Type": [
+                "Creeper",
+                "Herbaceous Plant",
+                "Shrub"
+            ],
+            "Light Preference": [
+                "Full Shade",
+                "Semi Shade"
+            ],
+            "Water Preference": [
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": false,
+            "Fruit Bearing": false,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 0.3,
+            "Flower Colour": "Yellow / Golden",
+            "Hazard": "N/A",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial (Secondary Rainforest, Monsoon Forest)",
+            "Mature Leaf Colour": "Green, Silver / Grey",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "4.5 (Shrub & Groundcover - Dicot)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "N/A",
+            "Trunk Colour": "N/A",
+            "Leaf Texture": [
+                "Coarse"
+            ],
+            "Canopy Radius": "N/A"
+        },
+        {
+            "Scientific Name": "Gardenia tubifera Wall.",
+            "Common Name": "Water Gardenia",
+            "Species ID": 2933,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/2/9/2933",
+            "Plant Type": [
+                "Tree"
+            ],
+            "Light Preference": [
+                "Full Sun"
+            ],
+            "Water Preference": [
+                "Lots of Water",
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": true,
+            "Fruit Bearing": false,
+            "Fragrant Plant": true,
+            "Maximum Height (m)": 12.0,
+            "Flower Colour": "Cream / Off-White, Yellow / Golden, Orange",
+            "Hazard": "N/A",
+            "Attracted Animals": "Bird-Attracting (Fruits), Butterfly-Attracting (Flower Nectar)",
+            "Native habitat": "Terrestrial",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "N/A",
+            "Leaf Area Index": "3.0 (Tree - Intermediate Canopy)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "-",
+            "Trunk Colour": "-",
+            "Leaf Texture": [
+                "N/A"
+            ],
+            "Canopy Radius": 19
+        },
+        {
+            "Scientific Name": "Pometia pinnata J. R. Forst. & G. Forst.",
+            "Common Name": "Island Lychee",
+            "Species ID": 3084,
+            "Link": "https://www.nparks.gov.sg/florafaunaweb/flora/3/0/3084",
+            "Plant Type": [
+                "Tree"
+            ],
+            "Light Preference": [
+                "Full Sun"
+            ],
+            "Water Preference": [
+                "Lots of Water",
+                "Moderate Water"
+            ],
+            "Drought Tolerant": false,
+            "Native to SG": true,
+            "Fruit Bearing": true,
+            "Fragrant Plant": false,
+            "Maximum Height (m)": 50.0,
+            "Flower Colour": "Cream / Off-White, Green, Yellow / Golden",
+            "Hazard": "N/A",
+            "Attracted Animals": "-",
+            "Native habitat": "Terrestrial (Primary Rainforest, Secondary Rainforest, Monsoon Forest, Freshwater Swamp Forest, Riverine)",
+            "Mature Leaf Colour": "Green",
+            "Young Flush Leaf Colour": "Red, Orange",
+            "Leaf Area Index": "3.0 (Tree - Intermediate Canopy)",
+            "Growth Rate": [
+                "Moderate"
+            ],
+            "Trunk Texture": "-",
+            "Trunk Colour": "Reddish Brown",
+            "Leaf Texture": [
+                "N/A"
+            ],
+            "Canopy Radius": 20
+        }
+    ]
+}

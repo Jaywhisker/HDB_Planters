@@ -216,6 +216,7 @@ class ESPlantQueryGenerator():
         } 
 
         Returns:
+            function_style_surrounding_extraction (dictionary): extracted function, style and surrounding
             query (dictionary): custom query for elastic search
             rerank_requirements (dictionary): key requirements for the reranking algorithm       
         """
@@ -339,7 +340,7 @@ class ESPlantQueryGenerator():
         if gpt_response_json['Height'] != "None" and gpt_response_json['Height'] != None:
             rerank_requirements['Height'] = gpt_response_json['Height']
 
-        return query, rerank_requirements
+        return function_style_surrounding_extraction, query, rerank_requirements
     
 if __name__ == "__main__":
     pass

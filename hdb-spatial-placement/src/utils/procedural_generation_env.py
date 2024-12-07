@@ -177,3 +177,6 @@ class proceduralGeneratedEnv():
             final_grid[coordinates[0], coordinates[1]] = 1
         
         return final_grid, final_planting_coordinates    
+    
+if __name__ == "__main__":
+    pass

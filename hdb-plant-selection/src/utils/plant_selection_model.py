@@ -425,6 +425,8 @@ class PlantSelectionModel():
         Return:
             result (dict): API call result
             {
+            "style": "Naturalistic" / "Manicured" /  "Meadow" / "Ornamental" / "Minimalist" / "Formal" / "Picturesque" / "Rustic" / "Plantation"
+            "surrounding": Road / Walkway,
             "plant_palette": [Species_ID],
             "all_plants": [
                 {plant data from ElasticSearch}, ...
@@ -432,7 +434,7 @@ class PlantSelectionModel():
             }
         """
         # Generate query from user_call
-        es_query, rerank_requirements = self.query_generator.generate_query(user_call)
+        extracted_function_style_surrounding, es_query, rerank_requirements = self.query_generator.generate_query(user_call)
         # Retrieve data from elasticSearch
         results = self.retrieve_results(es_query, rerank_requirements['Light Preference'], rerank_requirements['Maximum Plant Count'])
         if len(results) == 0:
@@ -447,6 +449,8 @@ class PlantSelectionModel():
         # Retrieve all species ID from selected_plant_palette
         selected_ids = selected_plant_palette['Species ID'].to_list()[:rerank_requirements['Maximum Plant Count']]
         return {
+            "style": extracted_function_style_surrounding['style'],
+            "surrounding": extracted_function_style_surrounding['surrounding'],
             "plant_palette": selected_ids,
             "all_plants": [data['_source'] for data in results]
         }
