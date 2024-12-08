@@ -3,6 +3,7 @@ FROM pytorch/pytorch:2.2.1-cuda12.1-cudnn8-runtime
 RUN apt update && apt upgrade -y 
 RUN apt-get update && apt-get upgrade -y 
 RUN apt-get install iputils-ping -y
+RUN apt-get update && apt-get install ffmpeg libsm6 libxext6  -y
 
 WORKDIR /hdb-spatial-placement
 
@@ -12,4 +13,4 @@ RUN pip install -r requirements.txt --no-cache-dir
 
 ADD hdb-spatial-placement/src/ ./src
 ADD hdb-spatial-placement/tests/ ./tests
-WORKDIR /hdb-spatial-placement/src
+WORKDIR /hdb-spatial-placement

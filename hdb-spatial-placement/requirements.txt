@@ -2,11 +2,10 @@ fastapi==0.115.6
 gymnasium==0.29.0
 matplotlib==3.5.2
 numpy==1.24.4
-opencv_contrib_python==4.10.0.84
 opencv_python==4.10.0.84
-opencv_python_headless==4.10.0.84
 perlin_noise==1.13
 pydantic==2.10.3
 Requests==2.32.3
 stable_baselines3==2.3.2
 scipy==1.13.1
+uvicorn==0.32.0
