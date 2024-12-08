@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import * as THREE from "three";
-import plantScales from '/data/plant_scales.json'
+import plantScales from '../data/plant_scales.json'
 
 const ModelLoader = ({
   coordinates,

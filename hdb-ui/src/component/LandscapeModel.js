@@ -26,7 +26,7 @@ const LandscapeModel = ({
 
   // Model Setup, background mouse and raycaster
   const { scene, camera, gl } = useThree();
-  scene.background = new THREE.Color(0xffffff);
+  scene.background = new THREE.Color('#DDD9D8');
 
   const raycaster = useRef(new THREE.Raycaster());
   const mouse = useRef(new THREE.Vector2());

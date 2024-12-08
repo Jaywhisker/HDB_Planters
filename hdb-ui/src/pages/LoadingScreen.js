@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { usePreload } from '../context/preloadContext';
+import { usePlantPalette } from '../context/plantPaletteContext'; 
 import compositionData from '../data/mock_compositions.json';
 
 
@@ -12,7 +13,7 @@ const LoadingScreen = () => {
 
   // Global Context
   const { updateModels } = usePreload()
-  // TODO: Consider making the plant palette a global context as well
+  const { plantPalette } = usePlantPalette();
 
   // API Call and Preload Functions
   useEffect(() => {
@@ -28,7 +29,12 @@ const LoadingScreen = () => {
 
         // Preload all unique models
         // TODO: Update preloadedSpeciesID with the PLANT PALETTE SPECIES ID
-        const preloadedSpeciesID = [...new Set(Object.values(compositionData['data'][0]['coordinates']))]; //Must be updated, currently for simplicity only preloading first mock data models, but for future integration look into preloading everything else
+        // const preloadedSpeciesID = [...new Set(Object.values(compositionData['data'][0]['coordinates']))]; 
+        //Must be updated, currently for simplicity only preloading first mock data models, but for future integration look into preloading everything else
+
+        // Extract Species IDs from the plant palette context
+        const preloadedSpeciesID = plantPalette.map((plant) => plant["Species ID"]);
+
         const loader = new GLTFLoader();
         const uniqueModels = preloadedSpeciesID.map((id) => `/models/${id}.glb`);
         const loadedModelsArray = await Promise.all(
@@ -61,7 +67,7 @@ const LoadingScreen = () => {
     };
 
     setupComposition();
-  }, []);
+  }, [plantPalette, updateModels]);
 
 
   // Navigate to next page after loading is complete
@@ -69,7 +75,7 @@ const LoadingScreen = () => {
     if (!loading && plantCompositionData !== null) {
       navigate('/test-1', { state: { plantCompositionData } });
     }
-  }, [loading, plantCompositionData]);
+  }, [loading, plantCompositionData, navigate]);
 
   return (
     <div>

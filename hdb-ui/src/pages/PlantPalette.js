@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { usePlantPalette } from '../context/plantPaletteContext';
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import AddIcon from "@mui/icons-material/Add";
@@ -102,6 +103,9 @@ const PlantPalette = () => {
   const { plantData } = location.state || {};
   const [selectedPlants, setSelectedPlants] = useState(plantData?.plant_palette || []);
   const all_plants = plantData?.all_plants || [];
+  const navigate = useNavigate();
+  const { updatePlantPalette } = usePlantPalette();
+
 
   console.log(selectedPlants)
   console.log(all_plants)
@@ -138,6 +142,16 @@ const PlantPalette = () => {
     setSelectedPlantInfo(null);
   };
 
+  const handleFinalize = () => {
+    // Filter full details of selected plants before passing to context
+    const filteredPlants = all_plants.filter((plant) =>
+      selectedPlants.includes(plant["Species ID"])
+    );
+
+    updatePlantPalette(filteredPlants); // Pass full plant details to context
+    navigate('/loading'); // Navigate to the next screen
+  };
+
   return (
     <Box sx={{ width: "100%", height: "100vh", overflowY: "auto", backgroundColor: "background.default" }}>
       {/* Top AppBar */}
@@ -162,7 +176,7 @@ const PlantPalette = () => {
                   value={filename}
                   onChange={handleFilenameChange}
                   onBlur={handleBlur}
-                  variant="standard" // Using standard for a cleaner look
+                  variant="standard"
                   size="small"
                   sx={{
                     maxWidth: 300,
@@ -171,10 +185,10 @@ const PlantPalette = () => {
                       lineHeight: "inherit",
                     },
                     "& .MuiInput-underline:before": {
-                      borderBottom: "1px solid #444844", // Match color with Typography
+                      borderBottom: "1px solid #444844",
                     },
                     "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-                      borderBottom: "1px solid #000", // Slightly darker hover effect
+                      borderBottom: "1px solid #000",
                     },
                   }}
                   autoFocus
@@ -216,7 +230,7 @@ const PlantPalette = () => {
       </AppBar>
 
       {/* Main Content */}
-      <Container sx={{ width: "80%", mt: 3, bgcolor: "background.default" }}>
+      <Container sx={{ width: "90vw", mt: 3, bgcolor: "background.default" }}>
         <Box sx={{ mb: 4 }}>
           <Typography
             variant="h1"
@@ -332,8 +346,7 @@ const PlantPalette = () => {
                   }}>
                     {selectedPlants.includes(plant["Species ID"]) ? (
                       <Button
-                        variant="outlined"
-                        color="primary"
+                        variant="tonal"
                         onClick={() => togglePlantSelection(plant["Species ID"])}
                         size="small"
                       >
@@ -352,19 +365,18 @@ const PlantPalette = () => {
                   </CardActions>
                   <CardMedia
                     component="img"
-                    image="https://via.placeholder.com/150" 
+                    image={`/images/${plant["Species ID"]}.jpg`}
                     alt={plant["Scientific Name"]}
-                    sx={{ height: "150", width: "100%" }}
+                    sx={{ height: "200px", width: "100%", objectFit: "cover", objectPosition: "center"}}
                   />
                   <CardContent sx={{ flexGrow: 1 }}>
                     <Typography variant="h6">{plant["Scientific Name"]}</Typography>
-                    <Typography variant="body2">Species ID: {plant["Species ID"]}</Typography>
                     <Typography variant="body2">
                         Plant Type: {Array.isArray(plant["Plant Type"]) && plant["Plant Type"].length > 0
                         ? plant["Plant Type"].join(", ")
                         : "Not specified"
                       }</Typography>
-                    <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                    <Box sx={{ display: "flex", mt: 2, flexWrap: "wrap", gap: 1 }}>
                       {getAttributeChip(plant)}
                     </Box>
                   </CardContent>
@@ -455,19 +467,18 @@ const PlantPalette = () => {
                     </CardActions>
                     <CardMedia
                       component="img"
-                      image="https://via.placeholder.com/150" 
+                      image={`/images/${plant["Species ID"]}.jpg`}
                       alt={plant["Scientific Name"]}
-                      sx={{ height: "150", width: "100%" }}
+                      sx={{ height: "200px", width: "100%", objectFit: "cover", objectPosition: "center" }}
                     />
                     <CardContent sx={{ flexGrow: 1 }}>
                       <Typography variant="h6">{plant["Scientific Name"]}</Typography>
-                      <Typography variant="body2">Species ID: {plant["Species ID"]}</Typography>
                       <Typography variant="body2">
                         Plant Type: {Array.isArray(plant["Plant Type"]) && plant["Plant Type"].length > 0
                         ? plant["Plant Type"].join(", ")
                         : "Not specified"
                       }</Typography>
-                      <Box sx={{ display: "flex", mt: 1, flexWrap: "wrap", gap: 1 }}>
+                      <Box sx={{ display: "flex", mt: 2, flexWrap: "wrap", gap: 1 }}>
                         {getAttributeChip(plant)}
                       </Box>
                     </CardContent>
@@ -485,7 +496,7 @@ const PlantPalette = () => {
             <Button
               variant="contained"
               color="primary"
-              onClick={() => console.log("Finalised Plant Palette")}
+              onClick={handleFinalize}
               sx={{ px: 4, py: 1.5, mb: 4, mt: 4 }}
             >
               Finalise Selections
@@ -503,15 +514,13 @@ const PlantPalette = () => {
         <DialogContent>
           {selectedPlantInfo && (
             <Box>
-              {/* Display the image if available */}
-              {selectedPlantInfo.mediaUrl && (
-                <CardMedia
+              
+              <CardMedia
                   component="img"
-                  image="https://via.placeholder.com/150"
+                  image={`/images/${selectedPlantInfo["Species ID"]}.jpg`}
                   alt={selectedPlantInfo["scientificName"] || "Plant Image"}
                   sx={{ marginBottom: 2 }}
-                />
-              )}
+              />
 
               {/* Display the scientific name if available */}
               {selectedPlantInfo.scientificName && (
@@ -520,8 +529,19 @@ const PlantPalette = () => {
 
               {/* Map through the object keys dynamically */}
               {Object.entries(selectedPlantInfo).map(([key, value]) => {
-                // Skip keys you don't want to display
-                if (["mediaUrl", "scientificName"].includes(key)) return null;
+                if (["Link"].includes(key)) return 
+                  {selectedPlantInfo?.Website && (
+                    <Typography variant="body1" sx={{ marginTop: 2 }}>
+                      <a
+                        href={selectedPlantInfo["Link"]}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{ color: "blue", textDecoration: "underline" }}
+                      >
+                        Learn more about {selectedPlantInfo["Scientific Name"]}
+                      </a>
+                    </Typography>
+                  )};
 
                 // Customize display names for specific keys
                 const displayKey = key

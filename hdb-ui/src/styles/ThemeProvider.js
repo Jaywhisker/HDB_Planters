@@ -102,6 +102,33 @@ import {
             textTransform: "none",
           },
         },
+        variants: [
+          {
+            props: { variant: "tonal" }, // New tonal variant
+            style: {
+              backgroundColor: "rgba(148, 161, 151, 1)", // Default state
+              color: "rgba(28, 27, 27, 1)", // Text color
+              borderRadius: "8px", // Optional: Rounded corners
+              boxShadow: "none",
+              "&:hover": {
+                backgroundColor: "rgba(128, 144, 134, 1)", // Hover state
+                boxShadow: "0px 2px 4px rgba(0, 0, 0, 0.1)", // Optional hover effect
+              },
+              "&:active": {
+                backgroundColor: "rgba(118, 134, 124, 1)", // Pressed state
+                boxShadow: "inset 0px 2px 4px rgba(0, 0, 0, 0.2)", // Inner shadow for pressed state
+              },
+              "&:focus": {
+                outline: "2px solid rgba(128, 144, 134, 0.5)", // Focus state
+                outlineOffset: "2px",
+              },
+              "&.Mui-disabled": {
+                backgroundColor: "rgba(148, 161, 151, 0.5)", // Disabled state
+                color: "rgba(28, 27, 27, 0.3)", // Dimmed text for disabled
+              },
+            },
+          },
+        ],
       },
       MuiCard: {
         styleOverrides: {
