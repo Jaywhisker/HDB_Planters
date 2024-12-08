@@ -37,7 +37,7 @@ services:
       tty: true
       build:
           context: ../
-          dockerfile: build/AIPlantSelection.Dockerfile
+          dockerfile: build/AISpatialPlacement.Dockerfile
       volumes:
         - ../hdb-spatial-placement/src:/hdb-spatial-placement/src        
         - ../hdb-spatial-placement/tests:/hdb-spatial-placement/tests
