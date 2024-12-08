@@ -1,3 +1,4 @@
+# Imports
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -374,3 +375,6 @@ class plantTypeAllocationEnv(gym.Env):
         plt.legend(handles, labels, title='Legend', bbox_to_anchor=(1.05, 1), loc='upper left')
 
         plt.show()
+
+if __name__ == "__main__":
+    pass

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { usePreload } from '../context/preloadContext';
 import { usePlantPalette } from '../context/plantPaletteContext'; 
-import compositionData from '../data/mock_compositions.json';
+import compositionData from '../data/mock_plant_composition_output.json';
 
 
 const LoadingScreen = () => {
