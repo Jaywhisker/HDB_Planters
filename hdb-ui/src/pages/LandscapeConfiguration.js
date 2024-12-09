@@ -70,7 +70,12 @@ const LandscapeDesignForm = () => {
 
       // Navigate to the second page with plant data as state
       navigate("/plant-palette", {
-        state: { plantData },
+        state: {
+          plant_palette: plantData.plant_palette,
+          style: plantData.style,
+          surrounding: plantData.surrounding,
+          all_plants: plantData.all_plants,
+      },
       });
     } catch (error) {
       console.error("Error sending data to the backend:", error);
@@ -126,9 +131,20 @@ const LandscapeDesignForm = () => {
       <AppBar position="fixed" sx={{ bgcolor: "#E0E3DE" }}>
         <Toolbar>
           <Box sx={{ flexGrow: 1 }} />
-          <Typography variant="h6" sx={{ textAlign: "center", color: "#444844" }}>
-            DreamScape
-          </Typography>
+          <Box sx={{ flexGrow: 1, position: 'relative' }}>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                <Typography
+                  sx={{
+                    color: "primary.main",
+                    fontWeight:"bold",
+                    fontSize: "inherit", // Match font size
+                    lineHeight: "inherit", // Match line height
+                  }}
+                >
+                  DreamScape
+                </Typography>
+              </Box>
+          </Box>
           <Box sx={{ flexGrow: 1 }} />
         </Toolbar>
       </AppBar>

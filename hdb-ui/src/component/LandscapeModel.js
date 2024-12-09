@@ -9,6 +9,7 @@ import ModelLoader from "./ModelLoader";
 
 const LandscapeModel = ({
   index,
+  backgroundColour,
   plantModels,
   gridArray,
   coordinatesObject,
@@ -26,7 +27,7 @@ const LandscapeModel = ({
 
   // Model Setup, background mouse and raycaster
   const { scene, camera, gl } = useThree();
-  scene.background = new THREE.Color('#DDD9D8');
+  scene.background = new THREE.Color(backgroundColour);
 
   const raycaster = useRef(new THREE.Raycaster());
   const mouse = useRef(new THREE.Vector2());

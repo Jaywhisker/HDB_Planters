@@ -1,15 +1,20 @@
 import React, { useState, useEffect } from 'react';
+import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { usePreload } from '../context/preloadContext';
-import { usePlantPalette } from '../context/plantPaletteContext'; 
-import compositionData from '../data/mock_plant_composition_output.json';
+import { usePlantPalette } from '../context/plantPaletteContext';
+import { useLocation } from 'react-router-dom';
+// import compositionData from '../data/mock_plant_composition_output.json';
 
 
 const LoadingScreen = () => {
   const [plantCompositionData, setPlantCompositionData] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const { style, surrounding } = location.state || {};
 
   // Global Context
   const { updateModels } = usePreload()
@@ -21,8 +26,32 @@ const LoadingScreen = () => {
       try {
         // Retrieve composition data
         // TODO: Update with backend call
+        // const retrieveCompositions = async () => {
+        //   setPlantCompositionData(compositionData['data'].slice(0, 3));
+        // };
+
+        if (Object.keys(plantPalette).length === 0) {
+          console.error("Plant palette is missing or empty.");
+          return;
+        }
+
+        // Construct the data payload for the API call
+        const compositionConfig = {
+          style: style ?? null,
+          surrounding: surrounding ?? null,
+          plant_palette: Object.values(plantPalette), // Convert plant dictionary to array
+        };
+
+        console.log("Composition Config:", compositionConfig);
+
+        // Make the API call to generate the composition
+        const response = await axios.post("http://localhost:8001/generate_composition", compositionConfig);
+
+        console.log("API Response:", response.data);
+
+        // Set composition data from API response
         const retrieveCompositions = async () => {
-          setPlantCompositionData(compositionData['data'].slice(0, 3));
+          setPlantCompositionData(response.data.data);
         };
 
         await retrieveCompositions();
@@ -33,7 +62,7 @@ const LoadingScreen = () => {
         //Must be updated, currently for simplicity only preloading first mock data models, but for future integration look into preloading everything else
 
         // Extract Species IDs from the plant palette context
-        const preloadedSpeciesID = plantPalette.map((plant) => plant["Species ID"]);
+        const preloadedSpeciesID = Object.keys(plantPalette);
 
         const loader = new GLTFLoader();
         const uniqueModels = preloadedSpeciesID.map((id) => `/models/${id}.glb`);
@@ -58,7 +87,7 @@ const LoadingScreen = () => {
 
         // Update global context
         updateModels(modelMap);
-        //console.log('Models and compositions preloaded:', modelMap);
+        console.log('Models and compositions preloaded:', modelMap);
       } catch (error) {
         console.error('Error during setupComposition:', error);
       } finally {
@@ -73,6 +102,7 @@ const LoadingScreen = () => {
   // Navigate to next page after loading is complete
   useEffect(() => {
     if (!loading && plantCompositionData !== null) {
+      console.log("Navigating to the next page with data:", plantCompositionData);
       navigate('/test-1', { state: { plantCompositionData } });
     }
   }, [loading, plantCompositionData, navigate]);

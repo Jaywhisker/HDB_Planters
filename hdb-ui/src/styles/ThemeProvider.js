@@ -48,6 +48,7 @@ import {
     palette: {
       primary: {
         main: "rgba(36, 90, 62, 1)",
+        dark: "#3E6E55"
       },
       secondary: {
         main: "rgba(28, 27, 27, 1)",
