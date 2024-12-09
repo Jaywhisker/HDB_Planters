@@ -72,14 +72,22 @@ async def create_item(request_body: user_input):
     response = {"data": []}
 
     # Run 3 iterations to get 3 random composition
-    for i in range(3):
+    counter = 0
+    while True:
         planting_environment = plantTypeAllocationEnv(random.uniform(1,2), context, random.uniform(0,50))
         _, planting_grid, coordinates = eval_model(model_instances["plantType_allocation"], planting_environment, False, True)
         hatching_environment = plantHatchingAndAssignment(planting_grid, selected_plants, coordinates, theme)
         formatted_response = hatching_environment.hatch_allocate_plants(visualise=False)
-        formatted_response['data_value'] = i
-        formatted_response['surrounding_context'] = surrounding
-        response['data'].append(formatted_response)
+        # Valid planting composition
+        if len(formatted_response['coordinates'].keys()) > 10:
+            formatted_response['data_value'] = counter
+            formatted_response['surrounding_context'] = surrounding
+            response['data'].append(formatted_response)
+            counter += 1
+        
+        if counter >= 3:
+            break
+
     
     return response
 
