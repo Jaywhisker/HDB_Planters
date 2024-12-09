@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
 import LandscapeModel from '../component/LandscapeModel';
@@ -25,8 +25,6 @@ import {
 } from "@mui/material";
 
 const SelectConfiguration = () => {
-    const [filename, setFilename] = useState("DreamScape");
-    const [isEditing, setIsEditing] = useState(false);
 
     // Retrieve composition data and preloaded plant models
     const location = useLocation();
@@ -41,6 +39,10 @@ const SelectConfiguration = () => {
             : []
     );
 
+    useEffect(() => {
+        console.log("Currently displaying composition:", plantCompositionData[currentIndex]);
+    }, [currentIndex, plantCompositionData]);
+
     // Navigate upon selection of model
     const navigate = useNavigate();
     const handleNavigation = () => {
@@ -52,18 +54,6 @@ const SelectConfiguration = () => {
                 },
             });
         }
-    };
-
-    const handleFilenameChange = (event) => {
-        setFilename(event.target.value);
-    };
-
-    const toggleEditMode = () => {
-        setIsEditing((prev) => !prev);
-    };
-
-    const handleBlur = () => {
-        setIsEditing(false);
     };
 
     // Check if a plant exists in the current composition
@@ -80,7 +70,7 @@ const SelectConfiguration = () => {
     // TODOS: Currently the UI only shows the first mock composition (For simplicity sake and also I only preloaded the models in the first composition)
     // Swapping the configurations will just be updating currentIndex to 0/1/2
     return (
-        <Box style={{ width: '100vw', height: '100vh', position: 'relative', overflowY: 'hidden' }}>
+        <Box sx={{ width: '100vw', height: '100vh', position: 'relative', overflowY: 'hidden' }}>
             {/* Top AppBar */}
             <AppBar position="sticky" sx={{ bgcolor: "#E0E3DE" }}>
                 <Toolbar>
@@ -96,50 +86,18 @@ const SelectConfiguration = () => {
                     </Button>
 
                     <Box sx={{ flexGrow: 1, position: 'relative' }}>
-                        {/* Editable Filename */}
-                        {isEditing ? (
-                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                <TextField
-                                    value={filename}
-                                    onChange={handleFilenameChange}
-                                    onBlur={handleBlur}
-                                    variant="standard"
-                                    size="small"
-                                    sx={{
-                                        maxWidth: 300,
-                                        "& .MuiInputBase-root": {
-                                            fontSize: "inherit",
-                                            lineHeight: "inherit",
-                                        },
-                                        "& .MuiInput-underline:before": {
-                                            borderBottom: "1px solid #444844",
-                                        },
-                                        "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-                                            borderBottom: "1px solid #000",
-                                        },
-                                    }}
-                                    autoFocus
-                                />
-                            </Box>
-                        ) : (
-                            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                {/* Pen Icon with Filename */}
-                                <IconButton onClick={toggleEditMode}>
-                                    <EditIcon />
-                                </IconButton>
-                                <Typography
-                                    onClick={toggleEditMode}
-                                    sx={{
-                                        cursor: "pointer",
-                                        color: "#444844",
-                                        fontSize: "inherit", // Match font size
-                                        lineHeight: "inherit", // Match line height
-                                    }}
-                                >
-                                    {filename}
-                                </Typography>
-                            </Box>
-                        )}
+                        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <Typography
+                                sx={{
+                                    color: "primary.main",
+                                    fontWeight: "bold",
+                                    fontSize: "inherit", // Match font size
+                                    lineHeight: "inherit", // Match line height
+                                }}
+                            >
+                                DreamScape
+                            </Typography>
+                        </Box>
                     </Box>
 
                     {/* Right Button */}
@@ -157,22 +115,22 @@ const SelectConfiguration = () => {
             </AppBar>
 
             {/* Main Content */}
-            <Container sx={{ mt: 3, mb: '1.5rem', bgcolor: "background.default", width: "90vw", height: "65vh"}}>
+            <Container sx={{ mt: 3, mb: '1.5rem', bgcolor: "background.default", width: "90vw", height: "65vh" }}>
                 <Typography
-                            variant="h1"
-                            sx={{
-                                fontFamily: '"Lora", serif',
-                                fontWeight: 400, // Regular weight
-                                fontSize: "45px", // Display Medium Font Size
-                                lineHeight: "52px", // Display Medium Line Height
-                                letterSpacing: "0", // Display Medium Tracking
-                                textAlign: "left", // Left align the text
-                            }}
-                        >
-                            Select a composition
+                    variant="h1"
+                    sx={{
+                        fontFamily: '"Lora", serif',
+                        fontWeight: 400, // Regular weight
+                        fontSize: "45px", // Display Medium Font Size
+                        lineHeight: "52px", // Display Medium Line Height
+                        letterSpacing: "0", // Display Medium Tracking
+                        textAlign: "left", // Left align the text
+                    }}
+                >
+                    Select a composition
                 </Typography>
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'stretch', justifyContent: 'space-between', gap: '2rem', height: '100%', }}>
-                    
+
                     {/* Left Section */}
                     <Box sx={{ width: '50%', paddingRight: '2rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', }}>
 
@@ -245,7 +203,7 @@ const SelectConfiguration = () => {
                                     overflowY: 'auto', // Enable vertical scrolling
                                 }}
                             >
-                                {plantPalette.map((plant) => (
+                                {Object.values(plantPalette).map((plant) => (
                                     <Card
                                         key={plant['Species ID']}
                                         sx={{
@@ -272,7 +230,7 @@ const SelectConfiguration = () => {
                                             <Typography variant="body1" sx={{ fontFamily: '"Source Sans Pro", sans-serif', fontWeight: 500 }}>
                                                 {plant['Scientific Name']}
                                             </Typography>
-                                            <Typography variant="body2" color="textSecondary" sx={{ fontFamily: '"Source Sans Pro", sans-serif'}} >
+                                            <Typography variant="body2" color="textSecondary" sx={{ fontFamily: '"Source Sans Pro", sans-serif' }} >
                                                 {plant['Common Name']}
                                             </Typography>
                                         </Box>
@@ -318,6 +276,7 @@ const SelectConfiguration = () => {
                                     >
                                         <LandscapeModel
                                             index={index}
+                                            backgroundColour={'#DDD9D8'}
                                             plantModels={plantModels}
                                             gridArray={compositionData['grid']}
                                             coordinatesObject={compositionData['coordinates']}

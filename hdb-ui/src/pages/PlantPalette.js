@@ -92,39 +92,29 @@ const getAttributeChip = (plant) => {
 
 
 const PlantPalette = () => {
-  const [filename, setFilename] = useState("DreamScape");
-  const [isEditing, setIsEditing] = useState(false);
-  
+
   const [selectedPlantInfo, setSelectedPlantInfo] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const location = useLocation();
-  const { plantData } = location.state || {};
-  const [selectedPlants, setSelectedPlants] = useState(plantData?.plant_palette || []);
-  const all_plants = plantData?.all_plants || [];
+  // const { plantData } = location.state || {};
+  const { plant_palette, style, surrounding, all_plants} = location.state || {};
+  const [selectedPlants, setSelectedPlants] = useState(plant_palette);
   const navigate = useNavigate();
   const { updatePlantPalette } = usePlantPalette();
 
 
-  console.log(selectedPlants)
-  console.log(all_plants)
+  // Logs for debugging
+  console.log('Selected Plants:', selectedPlants);
+  console.log('All Plants:', all_plants);
+  console.log('Style:', style);
+  console.log('Surrounding:', surrounding);
 
-  if (!plantData) {
+  if (!plant_palette.length || !all_plants.length) {
     return <p>No plant data available. Please generate a palette first.</p>;
   }
 
-  const handleFilenameChange = (event) => {
-    setFilename(event.target.value);
-  };
-
-  const toggleEditMode = () => {
-    setIsEditing((prev) => !prev);
-  };
-
-  const handleBlur = () => {
-    setIsEditing(false);
-  };
 
   const togglePlantSelection = (plantId) => {
     setSelectedPlants((prev) =>
@@ -148,8 +138,15 @@ const PlantPalette = () => {
       selectedPlants.includes(plant["Species ID"])
     );
 
+    console.log('Filtered Plants:', filteredPlants)
+
     updatePlantPalette(filteredPlants); // Pass full plant details to context
-    navigate('/loading'); // Navigate to the next screen
+    navigate('/loading', {
+      state: {
+        style,
+        surrounding,
+      },
+    });
   };
 
   return (
@@ -167,52 +164,20 @@ const PlantPalette = () => {
           >
             Edit Configuration
           </Button>
-
+          
           <Box sx={{ flexGrow: 1, position: 'relative' }}>
-            {/* Editable Filename */}
-            {isEditing ? (
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <TextField
-                  value={filename}
-                  onChange={handleFilenameChange}
-                  onBlur={handleBlur}
-                  variant="standard"
-                  size="small"
-                  sx={{
-                    maxWidth: 300,
-                    "& .MuiInputBase-root": {
-                      fontSize: "inherit",
-                      lineHeight: "inherit",
-                    },
-                    "& .MuiInput-underline:before": {
-                      borderBottom: "1px solid #444844",
-                    },
-                    "& .MuiInput-underline:hover:not(.Mui-disabled):before": {
-                      borderBottom: "1px solid #000",
-                    },
-                  }}
-                  autoFocus
-                />
-              </Box>
-            ) : (
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                {/* Pen Icon with Filename */}
-                <IconButton onClick={toggleEditMode}>
-                  <EditIcon />
-                </IconButton>
                 <Typography
-                  onClick={toggleEditMode}
                   sx={{
-                    cursor: "pointer",
-                    color: "#444844",
+                    color: "primary.main",
+                    fontWeight:"bold",
                     fontSize: "inherit", // Match font size
                     lineHeight: "inherit", // Match line height
                   }}
                 >
-                  {filename}
+                  DreamScape
                 </Typography>
               </Box>
-            )}
           </Box>
 
           {/* Right Button */}
@@ -322,74 +287,74 @@ const PlantPalette = () => {
         </Box>
 
         <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-            {all_plants
-              .filter((plant) => selectedPlants.includes(plant["Species ID"]))
-              .map((plant) => (
-                <Card
-                  key={plant["Species ID"]}
-                  sx={{
-                    width: 270,
-                    minheight: 325,
-                    margin: 1,
-                    position: "relative",
-                    backgroundColor: "#EBE7E6", // Selected card color
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  <CardActions sx={{
-                    position: "absolute",
-                    top: 0,
-                    right: 0,
-                    zIndex: 1,
-                    justifyContent: "flex-end"
-                  }}>
-                    {selectedPlants.includes(plant["Species ID"]) ? (
-                      <Button
-                        variant="tonal"
-                        onClick={() => togglePlantSelection(plant["Species ID"])}
-                        size="small"
-                      >
-                        Unselect
-                      </Button>
-                    ) : (
-                      <Button
-                        variant="contained"
-                        color="primary"
-                        onClick={() => togglePlantSelection(plant["Species ID"])}
-                        size="small"
-                      >
-                        Select
-                      </Button>
-                    )}
-                  </CardActions>
-                  <CardMedia
-                    component="img"
-                    image={`/images/${plant["Species ID"]}.jpg`}
-                    alt={plant["Scientific Name"]}
-                    sx={{ height: "200px", width: "100%", objectFit: "cover", objectPosition: "center"}}
-                  />
-                  <CardContent sx={{ flexGrow: 1 }}>
-                    <Typography variant="h6">{plant["Scientific Name"]}</Typography>
-                    <Typography variant="body2">
-                        Plant Type: {Array.isArray(plant["Plant Type"]) && plant["Plant Type"].length > 0
-                        ? plant["Plant Type"].join(", ")
-                        : "Not specified"
-                      }</Typography>
-                    <Box sx={{ display: "flex", mt: 2, flexWrap: "wrap", gap: 1 }}>
-                      {getAttributeChip(plant)}
-                    </Box>
-                  </CardContent>
-                  <CardActions sx={{ justifyContent: "flex-end", marginTop: "auto" }}>
-                    <Button onClick={() => handleMoreInfo(plant)}>
-                      More Info
+          {all_plants
+            .filter((plant) => selectedPlants.includes(plant["Species ID"]))
+            .map((plant) => (
+              <Card
+                key={plant["Species ID"]}
+                sx={{
+                  width: 270,
+                  minheight: 325,
+                  margin: 1,
+                  position: "relative",
+                  backgroundColor: "#EBE7E6", // Selected card color
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <CardActions sx={{
+                  position: "absolute",
+                  top: 0,
+                  right: 0,
+                  zIndex: 1,
+                  justifyContent: "flex-end"
+                }}>
+                  {selectedPlants.includes(plant["Species ID"]) ? (
+                    <Button
+                      variant="tonal"
+                      onClick={() => togglePlantSelection(plant["Species ID"])}
+                      size="small"
+                    >
+                      Unselect
                     </Button>
-                  </CardActions>
-                </Card>
-              ))}
-          </Box>
-          <Divider sx={{ mt: 2, mb: 2 }} />
-          
+                  ) : (
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      onClick={() => togglePlantSelection(plant["Species ID"])}
+                      size="small"
+                    >
+                      Select
+                    </Button>
+                  )}
+                </CardActions>
+                <CardMedia
+                  component="img"
+                  image={`/images/${plant["Species ID"]}.jpg`}
+                  alt={plant["Scientific Name"]}
+                  sx={{ height: "200px", width: "100%", objectFit: "cover", objectPosition: "center" }}
+                />
+                <CardContent sx={{ flexGrow: 1 }}>
+                  <Typography variant="h6">{plant["Scientific Name"]}</Typography>
+                  <Typography variant="body2">
+                    Plant Type: {Array.isArray(plant["Plant Type"]) && plant["Plant Type"].length > 0
+                      ? plant["Plant Type"].join(", ")
+                      : "Not specified"
+                    }</Typography>
+                  <Box sx={{ display: "flex", mt: 2, flexWrap: "wrap", gap: 1 }}>
+                    {getAttributeChip(plant)}
+                  </Box>
+                </CardContent>
+                <CardActions sx={{ justifyContent: "flex-end", marginTop: "auto" }}>
+                  <Button onClick={() => handleMoreInfo(plant)}>
+                    More Info
+                  </Button>
+                </CardActions>
+              </Card>
+            ))}
+        </Box>
+        <Divider sx={{ mt: 2, mb: 2 }} />
+
 
         {/* Plant Selector */}
         <Box>
@@ -414,7 +379,7 @@ const PlantPalette = () => {
               ),
             }}
           />
-          
+
           {/* Unselected Cards */}
           <Box>
             <Box sx={{ display: "flex", flexWrap: "wrap", width: "80vw", maxHeight: 800, overflowY: "auto" }}>
@@ -423,7 +388,7 @@ const PlantPalette = () => {
                   (plant) =>
                     !selectedPlants.includes(plant["Species ID"]) &&
                     ((plant["Scientific Name"] ?? "").toLowerCase().includes(searchQuery.toLowerCase()) ||
-                    (plant["Common Name"] ?? "").toLowerCase().includes(searchQuery.toLowerCase()))
+                      (plant["Common Name"] ?? "").toLowerCase().includes(searchQuery.toLowerCase()))
                 )
                 .map((plant) => (
                   <Card
@@ -475,9 +440,9 @@ const PlantPalette = () => {
                       <Typography variant="h6">{plant["Scientific Name"]}</Typography>
                       <Typography variant="body2">
                         Plant Type: {Array.isArray(plant["Plant Type"]) && plant["Plant Type"].length > 0
-                        ? plant["Plant Type"].join(", ")
-                        : "Not specified"
-                      }</Typography>
+                          ? plant["Plant Type"].join(", ")
+                          : "Not specified"
+                        }</Typography>
                       <Box sx={{ display: "flex", mt: 2, flexWrap: "wrap", gap: 1 }}>
                         {getAttributeChip(plant)}
                       </Box>
@@ -507,19 +472,19 @@ const PlantPalette = () => {
       <Dialog
         open={!!selectedPlantInfo}
         onClose={handleClosePopup}
-        fullWidth="true"
+        fullWidth
         maxWidth="xs"
       >
         <DialogTitle>Plant Details</DialogTitle>
         <DialogContent>
           {selectedPlantInfo && (
             <Box>
-              
+
               <CardMedia
-                  component="img"
-                  image={`/images/${selectedPlantInfo["Species ID"]}.jpg`}
-                  alt={selectedPlantInfo["scientificName"] || "Plant Image"}
-                  sx={{ marginBottom: 2 }}
+                component="img"
+                image={`/images/${selectedPlantInfo["Species ID"]}.jpg`}
+                alt={selectedPlantInfo["scientificName"] || "Plant Image"}
+                sx={{ marginBottom: 2 }}
               />
 
               {/* Display the scientific name if available */}
@@ -529,8 +494,9 @@ const PlantPalette = () => {
 
               {/* Map through the object keys dynamically */}
               {Object.entries(selectedPlantInfo).map(([key, value]) => {
-                if (["Link"].includes(key)) return 
-                  {selectedPlantInfo?.Website && (
+                if (["Link"].includes(key)) return
+                {
+                  selectedPlantInfo?.Website && (
                     <Typography variant="body1" sx={{ marginTop: 2 }}>
                       <a
                         href={selectedPlantInfo["Link"]}
@@ -541,7 +507,8 @@ const PlantPalette = () => {
                         Learn more about {selectedPlantInfo["Scientific Name"]}
                       </a>
                     </Typography>
-                  )};
+                  )
+                };
 
                 // Customize display names for specific keys
                 const displayKey = key

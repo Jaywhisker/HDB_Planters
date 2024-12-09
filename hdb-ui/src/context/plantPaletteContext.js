@@ -3,12 +3,21 @@ import React, { createContext, useContext, useState } from 'react';
 const PlantPaletteContext = createContext();
 
 export const PlantPaletteProvider = ({ children }) => {
-  const [plantPalette, setPlantPalette] = useState([]);
+  const [plantPalette, setPlantPalette] = useState({});
 
+  // Update plantPalette with a dictionary structure
   const updatePlantPalette = (filteredPlants) => {
-    setPlantPalette(filteredPlants);
-  };
+    const paletteDictionary = filteredPlants.reduce((acc, plant) => {
+      acc[plant['Species ID']] = plant;
+      return acc;
+    }, {});
 
+    // Set the new dictionary to the state
+    setPlantPalette(paletteDictionary);
+
+    // Console log to verify the format
+    console.log('Updated Global Plant Palette:', paletteDictionary);
+  };
 
   return (
     <PlantPaletteContext.Provider value={{ plantPalette, updatePlantPalette }}>

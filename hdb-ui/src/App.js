@@ -7,6 +7,7 @@ import LandscapeDesignPage from './pages/LandscapeConfiguration';
 import PlantPalette from './pages/PlantPalette';
 import SelectConfiguration from './pages/SelectConfiguration';
 import EditConfiguration from './pages/EditConfiguration';
+import ExperimentEditConfiguration from './pages/ExperimentEditConfiguration';
 import LoadingScreen from './pages/LoadingScreen';
 import DownloadPage from './pages/2dDownloadTest';
 
