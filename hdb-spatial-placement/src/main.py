@@ -56,11 +56,15 @@ async def test():
 @app.post("/generate_composition")
 async def create_item(request_body: user_input):
     theme = request_body.style
-    context = 0 if request_body.surrounding == "Road" else 1 # Defaults to Walkway if anytting else
+    surrounding = request_body.surrounding
+    context = 0 if surrounding == "Road" else 1 # Defaults to Walkway if anytting else
     selected_plants = request_body.plant_palette
 
     if theme == None:
         theme = "Naturalistic"
+    
+    if request_body.surrounding == None:
+        surrounding = 'Walkway'
     
     if len(selected_plants) < 3:
         raise HTTPException(status_code=422, detail="Invalid Plant Palette provided.")
@@ -74,7 +78,7 @@ async def create_item(request_body: user_input):
         hatching_environment = plantHatchingAndAssignment(planting_grid, selected_plants, coordinates, theme)
         formatted_response = hatching_environment.hatch_allocate_plants(visualise=False)
         formatted_response['data_value'] = i
-        formatted_response['surrounding_context'] = request_body.surrounding
+        formatted_response['surrounding_context'] = surrounding
         response['data'].append(formatted_response)
     
     return response
