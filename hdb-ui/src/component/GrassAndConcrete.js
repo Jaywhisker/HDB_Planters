@@ -17,7 +17,7 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
         } else {
             const concreteTexture = loader.load('/textures/concrete.jpeg');
             concreteTexture.wrapS = concreteTexture.wrapT = THREE.RepeatWrapping;
-            concreteTexture.repeat.set(4, 4);
+            concreteTexture.repeat.set(2, 2);
             return concreteTexture;
         }
     }, [surroundingContext]);
@@ -57,8 +57,8 @@ const GrassAndConcrete = ({ grid, surroundingContext }) => {
     return (
         <>
             {/* Concrete or Road Layer */}
-            <mesh receiveShadow position={[0, -5, 0]}>
-                <boxGeometry args={[100, 10, 100]} />
+            <mesh receiveShadow position={[0, -2.5, 0]}>
+                <boxGeometry args={[100, 5, 100]} />
                 <meshStandardMaterial map={selectedTexture} />
             </mesh>
 

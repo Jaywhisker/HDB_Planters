@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useMemo } from "react";
 import * as THREE from "three";
-import plantScales from '../data/plant_scales.json'
+import plantScales from '../data/new_plant_scales.json'
 
 const ModelLoader = ({
   coordinates,
@@ -19,7 +19,7 @@ const ModelLoader = ({
   useEffect(() => {
     const newInstances = {};
     Object.entries(coordinates).forEach(([key, value]) => {
-      const [y, x] = key.replace(/[()]/g, "").split(",").map(Number);
+      const [x, y] = key.replace(/[()]/g, "").split(",").map(Number);
       const modelName = `${value}.glb`;
       const model = preloadedModels[value]?.clone();
 

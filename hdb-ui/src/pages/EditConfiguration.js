@@ -46,7 +46,7 @@ const EditConfiguration = () => {
 
   // selectedPlant and selectedLayerID should be mutually exclusive
   const [selectedPlant, setSelectedPlant] = useState(null); // Selected plant
-  const [selectedLayerID, setSelectedLayerID] = useState(null); // Selected layer
+  const [selectedLayerID, setSelectedLayerID] = React.useState(null); // Selected layer
   const [popoverAnchor, setPopoverAnchor] = useState(null);
   const [exportModalOpen, setExportModalOpen] = useState(false); // Export modal state
   const [exportType, setExportType] = useState("2D");
@@ -236,7 +236,14 @@ const EditConfiguration = () => {
 
 
   return (
-    <Box sx={{ width: '100vw', height: '100vh', display: 'flex', flexDirection: "column" }}>
+    <Box
+      sx={{
+        width: "100vw",
+        height: "100vh",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       {/* Loading Spinner */}
       {loading && (
         <Box
@@ -257,7 +264,7 @@ const EditConfiguration = () => {
         </Box>
       )}
       {/* Top AppBar */}
-      <AppBar position="sticky" sx={{ bgcolor: "#E0E3DE" }}>
+      <AppBar position="sticky" sx={{ bgcolor: "#E0E3DE", zIndex: 2 }}>
         <Toolbar>
           {/* Left Button */}
           <Button
@@ -270,19 +277,25 @@ const EditConfiguration = () => {
             Change composition
           </Button>
 
-          <Box sx={{ flexGrow: 1, position: 'relative' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Typography
-                  sx={{
-                    color: "primary.main",
-                    fontWeight:"bold",
-                    fontSize: "inherit", // Match font size
-                    lineHeight: "inherit", // Match line height
-                  }}
-                >
-                  DreamScape
-                </Typography>
-              </Box>
+          <Box sx={{ flexGrow: 1, position: "relative" }}>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Typography
+                sx={{
+                  color: "primary.main",
+                  fontWeight: "bold",
+                  fontSize: "inherit", // Match font size
+                  lineHeight: "inherit", // Match line height
+                }}
+              >
+                DreamScape
+              </Typography>
+            </Box>
           </Box>
 
           {/* Right Content */}
@@ -292,7 +305,7 @@ const EditConfiguration = () => {
               color="primary"
               startIcon={<DownloadIcon />}
               onClick={() => setExportModalOpen(true)}
-              sx={{ px: 4, py: 1.5, }}
+              sx={{ px: 4, py: 1.5 }}
             >
               Export
             </Button>
@@ -307,7 +320,6 @@ const EditConfiguration = () => {
             </Button>
           </Box>
         </Toolbar>
-
       </AppBar>
 
       {/* Popover for swapping plants */}
@@ -334,10 +346,19 @@ const EditConfiguration = () => {
         }}
       >
         <DialogTitle>
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
             <Typography
               variant="h6"
-              sx={{ fontWeight: "bold", color: "#444844" }}>Swap plant</Typography>
+              sx={{ fontWeight: "bold", color: "#444844" }}
+            >
+              Swap plant
+            </Typography>
             <IconButton onClick={handlePopoverClose}>
               <CloseIcon />
             </IconButton>
@@ -363,9 +384,11 @@ const EditConfiguration = () => {
               >
                 <ListItemIcon>
                   <Checkbox
-                    checked={editedCompositionLayerData.find(
-                      (layer) => layer.layerID === selectedLayerID
-                    )?.speciesID === plant["Species ID"]}
+                    checked={
+                      editedCompositionLayerData.find(
+                        (layer) => layer.layerID === selectedLayerID
+                      )?.speciesID === plant["Species ID"]
+                    }
                     tabIndex={-1}
                     disableRipple
                   />
@@ -378,10 +401,15 @@ const EditConfiguration = () => {
         </DialogContent>
       </Popover>
 
-
-
       {/* Main Content */}
-      <Box sx={{ flexGrow: 1, display: 'flex', overflow: 'hidden', padding: '1rem' }}>
+      <Box
+        sx={{
+          flexGrow: 1,
+          display: "flex",
+          overflow: "hidden",
+          padding: "1rem",
+        }}
+      >
         {/* Left Drawer */}
         <Box
           sx={{
@@ -464,7 +492,10 @@ const EditConfiguration = () => {
                       padding: "0.625rem",
                       border: "1px solid #444844",
                       borderRadius: "0.75rem",
-                      bgcolor: selectedPlant === plant ? "rgba(36, 90, 62, 0.08)" : "#FFF",
+                      bgcolor:
+                        selectedPlant === plant
+                          ? "rgba(36, 90, 62, 0.08)"
+                          : "#FFF",
                       cursor: "pointer",
                       mb: "0.5rem",
                     }}
@@ -494,7 +525,10 @@ const EditConfiguration = () => {
                       padding: "0.625rem",
                       border: "1px solid #444844",
                       borderRadius: "0.75rem",
-                      bgcolor: selectedPlant === plant ? "rgba(36, 90, 62, 0.08)" : "#FFF",
+                      bgcolor:
+                        selectedPlant === plant
+                          ? "rgba(36, 90, 62, 0.08)"
+                          : "#FFF",
                       cursor: "pointer",
                       mb: "0.5rem",
                     }}
@@ -524,11 +558,13 @@ const EditConfiguration = () => {
                         selectedLayerID === layer.layerID
                           ? "rgba(36, 90, 62, 0.08)"
                           : hoveredLayerID === layer.layerID
-                            ? "#D6D4CD"
-                            : "#FFF",
+                          ? "#D6D4CD"
+                          : "#FFF",
                     }}
                   >
-                    <Typography>{getLayerName(layer.layerID, layer.speciesID)}</Typography>
+                    <Typography>
+                      {getLayerName(layer.layerID, layer.speciesID)}
+                    </Typography>
                   </Box>
                 ))}
               </Box>
@@ -540,56 +576,67 @@ const EditConfiguration = () => {
         <Box
           sx={{
             flexGrow: 1,
-            position: 'relative',
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            bgcolor: '#f8f8f8',
+            position: "relative",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            bgcolor: "#f8f8f8",
+            zIndex: 1, // Set z-index to ensure canvas is behind the drawer
           }}
         >
-          <Box sx={{ width: '100%', height: '100%' }}>
-            {/* <Canvas
-              shadows
-              style={{ width: "100%", height: "100%" }}
-              camera={{
-                position: [100, 100, 100],
-                fov: 50,
-              }}
-            >
-              <LandscapeModel
-                backgroundColour={"#F7F3F2"}
-                plantModels={plantModels}
-                gridArray={compositionData["grid"]}
-                coordinatesObject={editedCompositionCoordinates}
-                surroundingContext={compositionData["surrounding_context"]}
-                layersData={editedCompositionLayerData}
-                allowInteraction={true}
-                hoveredLayer={hoveredLayerID}
-                updateHoveredLayer={setHoveredLayerID}
-                selectedLayer={selectedLayerID}
-                updateSelectedLayer={handleLayerHighlight}
-                downloadModel={downloadModel}
-                onDownloadComplete={handleDownloadComplete}
-              />
-            </Canvas> */}
+          <Box sx={{ width: "100%", height: "100%" }}>
+            {
+              <Canvas
+                shadows
+                style={{ width: "100%", height: "100%" }}
+                camera={{
+                  position: [100, 100, 100],
+                  fov: 50,
+                }}
+              >
+                <LandscapeModel
+                  backgroundColour={"#fcf8f7"}
+                  plantModels={plantModels}
+                  gridArray={compositionData["grid"]}
+                  coordinatesObject={editedCompositionCoordinates}
+                  surroundingContext={compositionData["surrounding_context"]}
+                  layersData={editedCompositionLayerData}
+                  allowInteraction={true}
+                  hoveredLayer={hoveredLayerID}
+                  updateHoveredLayer={setHoveredLayerID}
+                  selectedLayer={selectedLayerID}
+                  updateSelectedLayer={handleLayerHighlight}
+                  downloadModel={downloadModel}
+                  onDownloadComplete={handleDownloadComplete}
+                />
+              </Canvas>
+            }
           </Box>
         </Box>
 
         {/* Right Drawer */}
         <Box
           sx={{
-            width: "20vw",
+            width: "20vw", // Make the drawer 20% of the window width
+            maxWidth: "400px", // Optional max width for responsiveness
             padding: 2,
             boxShadow: 2,
             borderRadius: "1rem",
             bgcolor: "#E5E2E1",
             overflowY: "auto",
-            transform: selectedPlant || selectedLayerID ? "translateX(0)" : "translateX(100%)",
+            transform:
+              selectedPlant || selectedLayerID
+                ? "translateX(0)"
+                : "translateX(100%)",
             transition: "transform 0.3s ease-in-out",
+            position: "absolute", // Ensure it's absolutely positioned in relation to the container
+            right: 0, // Ensure it aligns to the right of the screen
+            top: "80px", // Push it below the top bar
+            bottom: 0, // Make it span the full height of the screen
+            zIndex: 2, // Ensure the drawer is on top of the canvas
           }}
         >
-
-          <Box sx={{ width: '100%' }}>
+          <Box sx={{ width: "100%" }}>
             {selectedPlant && (
               <>
                 <Typography
@@ -604,7 +651,10 @@ const EditConfiguration = () => {
                     key={index}
                     sx={{
                       mb: "0.5rem",
-                      borderBottom: index < Object.entries(selectedPlant).length - 1 ? "1px solid #ddd" : "none",
+                      borderBottom:
+                        index < Object.entries(selectedPlant).length - 1
+                          ? "1px solid #ddd"
+                          : "none",
                       paddingBottom: 1,
                     }}
                   >
@@ -618,7 +668,7 @@ const EditConfiguration = () => {
                     >
                       {key.replace(/_/g, " ")}:
                     </Typography>
-                    {(key.replace(/_/g, " ")) === "Link" ? (
+                    {key.replace(/_/g, " ") === "Link" ? (
                       <Link
                         href={value}
                         target="_blank"
@@ -650,7 +700,6 @@ const EditConfiguration = () => {
               </>
             )}
 
-
             {selectedLayerID !== null && (
               <>
                 <Typography
@@ -667,7 +716,8 @@ const EditConfiguration = () => {
                   const speciesID = layer?.speciesID;
                   const plantDetails = plantPalette[speciesID];
 
-                  if (!plantDetails) return <Typography>No details available.</Typography>;
+                  if (!plantDetails)
+                    return <Typography>No details available.</Typography>;
 
                   return (
                     <>
@@ -712,12 +762,14 @@ const EditConfiguration = () => {
                       {Object.entries(plantDetails)
                         .filter(([key]) => key !== "Scientific Name") // Exclude "Scientific Name"
                         .map(([key, value], index) => (
-
                           <Box
                             key={index}
                             sx={{
                               mb: "0.5rem",
-                              borderBottom: index < Object.entries(plantDetails).length - 1 ? "1px solid #ddd" : "none",
+                              borderBottom:
+                                index < Object.entries(plantDetails).length - 1
+                                  ? "1px solid #ddd"
+                                  : "none",
                               paddingBottom: 1,
                             }}
                           >
@@ -792,11 +844,12 @@ const EditConfiguration = () => {
             flexDirection: "column",
           }}
         >
-          <DialogTitle id="export-modal-title" sx={{ textAlign: "center", mb: 2 }}>
+          <DialogTitle
+            id="export-modal-title"
+            sx={{ textAlign: "center", mb: 2 }}
+          >
             Export Composition
           </DialogTitle>
-
-
 
           {/* Dropdown for Export Type */}
           <Box sx={{ mb: 3 }}>
@@ -812,7 +865,7 @@ const EditConfiguration = () => {
                 borderRadius: "5px",
                 border: "1px solid #ccc",
                 fontSize: "1rem",
-                marginBottom: "1rem"
+                marginBottom: "1rem",
               }}
             >
               <option value="2D">2D</option>
@@ -820,10 +873,11 @@ const EditConfiguration = () => {
             </select>
 
             {/* Export Type Description */}
-            <Box sx={{ mb: "0.25rem", minHeight: "2.5rem", }}>
+            <Box sx={{ mb: "0.25rem", minHeight: "2.5rem" }}>
               {exportType === "2D" ? (
                 <Typography variant="body2" id="export-modal-description">
-                  Export 2D top-down view for the placements of trees and shrubs in separate PNG files.
+                  Export 2D top-down view for the placements of trees and shrubs
+                  in separate PNG files.
                 </Typography>
               ) : (
                 <Typography variant="body2" id="export-modal-description">
@@ -865,9 +919,9 @@ const EditConfiguration = () => {
       </Modal>
 
       {/* For 2D Downloading, DO NOT REMOVE, it is hidden from the UI, but necessary for the creation of the diagrams */}
-      <canvas ref={treeCanvasRef} style={{ display: 'none' }}></canvas>
-      <canvas ref={shrubCanvasRef} style={{ display: 'none' }}></canvas>
-    </Box >
+      <canvas ref={treeCanvasRef} style={{ display: "none" }}></canvas>
+      <canvas ref={shrubCanvasRef} style={{ display: "none" }}></canvas>
+    </Box>
   );
 };
 
