@@ -1,11 +1,8 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
 import { Canvas } from "@react-three/fiber";
 import { usePreload } from "../context/preloadContext";
 import { usePlantPalette } from '../context/plantPaletteContext';
-import { LandscapeConfigContext } from '../context/landscapeConfigContext';
-import { CompositionContext } from '../context/compositionContext';
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"; // Import GLTFLoader
 
 import LandscapeModel from "../component/LandscapeModel";
@@ -13,6 +10,7 @@ import download2DPlantingGrid from "../functions/download2DImage";
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import AddIcon from "@mui/icons-material/Add";
+import EditIcon from '@mui/icons-material/Edit';
 import SwapVertIcon from '@mui/icons-material/SwapVert';
 import CloseIcon from '@mui/icons-material/Close';
 import DownloadIcon from '@mui/icons-material/Download';
@@ -44,10 +42,7 @@ import {
 } from "@mui/material";
 
 const EditConfiguration = () => {
-  const navigate = useNavigate();
   const [selectedTab, setSelectedTab] = useState(0); // For left drawer tabs; Tabs: Plant Palette or Layers
-  const { state: configState, dispatch: configDispatch } = useContext(LandscapeConfigContext);
-  const { state: compositionState, dispatch: compositionDispatch } = useContext(CompositionContext);
 
   // selectedPlant and selectedLayerID should be mutually exclusive
   const [selectedPlant, setSelectedPlant] = useState(null); // Selected plant
@@ -55,23 +50,22 @@ const EditConfiguration = () => {
   const [popoverAnchor, setPopoverAnchor] = useState(null);
   const [exportModalOpen, setExportModalOpen] = useState(false); // Export modal state
   const [exportType, setExportType] = useState("2D");
-  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
-  const { plantPaletteProcessed } = usePlantPalette();
+  const { plantPalette } = usePlantPalette();
 
   // Preload Composition Data and Composition Layer Data
   const location = useLocation();
   const { compositionData, compositionLayerData } = location.state || {};
   const { plantModels, updateModels } = usePreload();
 
-  // Included and excluded plants from global plantPaletteProcessed context
+  // Included and excluded plants from global plantPalette context
   const [includedPlants, setIncludedPlants] = useState(
-    Object.values(plantPaletteProcessed).filter((plant) =>
+    Object.values(plantPalette).filter((plant) =>
       Object.values(compositionData.coordinates).includes(plant["Species ID"])
     )
   );
   const [excludedPlants, setExcludedPlants] = useState(
-    Object.values(plantPaletteProcessed).filter(
+    Object.values(plantPalette).filter(
       (plant) => !Object.values(compositionData.coordinates).includes(plant["Species ID"])
     )
   );
@@ -101,40 +95,24 @@ const EditConfiguration = () => {
   const treeCanvasRef = useRef(null)
   const shrubCanvasRef = useRef(null)
 
-
   // Handle plant selection
   const handlePlantClick = (plant) => {
     setSelectedPlant(plant);
+    console.log(plant)
     setSelectedLayerID(null); // Clear layer selection
   };
 
   // Deselect or reselect layer 
   const handleLayerHighlight = (layerID) => {
-    console.log("handleLayerHighlight called with:", layerID);
-    if (layerID == undefined || layerID == null) {
-      console.error("Invalid layerID:", layerID);
-      return;
-    }
-    console.log("Valid layerID:", layerID);
     if (!popoverAnchor) { // If no popover is open, allow toggle
-      setSelectedLayerID((prevLayerID) => {
-        const newLayerID = prevLayerID === layerID ? null : layerID;
-        console.log(
-          "Previous Layer ID:",
-          prevLayerID,
-          "| New Layer ID:",
-          newLayerID
-        );
-        return newLayerID;
-      });
+      setSelectedLayerID((prevLayerID) => (prevLayerID === layerID ? null : layerID));
       setSelectedPlant(null); // Clear plant selection
     }
   };
 
   // Render Layer Name
   const getLayerName = (layerID, speciesID) => {
-    const plant = plantPaletteProcessed[speciesID];
-    // console.log("Layer Name:", layerID, "Species:", plant?.["Scientific Name"] || "Unknown");
+    const plant = plantPalette[speciesID];
     return `${plant ? plant["Scientific Name"] : "Unknown"} ${layerID}`;
   };
 
@@ -204,10 +182,10 @@ const EditConfiguration = () => {
 
         // Dynamically update included and excluded plants
         const includedPlantIDs = new Set(Object.values(updatedCoordinates));
-        const newIncludedPlants = Object.values(plantPaletteProcessed).filter((plant) =>
+        const newIncludedPlants = Object.values(plantPalette).filter((plant) =>
           includedPlantIDs.has(plant["Species ID"])
         );
-        const newExcludedPlants = Object.values(plantPaletteProcessed).filter(
+        const newExcludedPlants = Object.values(plantPalette).filter(
           (plant) => !includedPlantIDs.has(plant["Species ID"])
         );
 
@@ -256,21 +234,6 @@ const EditConfiguration = () => {
     setLoading(false); // Reset loading state
   };
 
-  const handleNewDesign = () => {
-    setOpenConfirmDialog(true); // Open the confirmation dialog
-  };
-
-  const cancelNewDesign = () => {
-    setOpenConfirmDialog(false); // Close the dialog without resetting
-  };
-
-  const confirmNewDesign = () => {
-    setOpenConfirmDialog(false); // Close the dialog
-    configDispatch({ type: 'RESET_CONFIG' });
-    compositionDispatch({ type: 'RESET_COMPOSITIONS' });
-    navigate('/');
-  };
-
 
   return (
     <Box
@@ -308,7 +271,7 @@ const EditConfiguration = () => {
             variant="text"
             color="primary"
             startIcon={<ArrowBackIosIcon />}
-            onClick={() => navigate(-1)}
+            onClick={() => console.log("Go back to edit")}
             sx={{ px: 4, py: 1.5 }}
           >
             Change composition
@@ -350,7 +313,7 @@ const EditConfiguration = () => {
               variant="contained"
               color="primary"
               startIcon={<AddIcon />}
-              onClick={handleNewDesign}
+              onClick={() => console.log("New Design")}
               sx={{ px: 4, py: 1.5 }}
             >
               New Design
@@ -413,7 +376,7 @@ const EditConfiguration = () => {
               overflowY: "auto", // Enable scrolling only for the List
             }}
           >
-            {Object.values(plantPaletteProcessed).map((plant) => (
+            {Object.values(plantPalette).map((plant) => (
               <ListItem
                 key={plant["Species ID"]}
                 button
@@ -461,7 +424,7 @@ const EditConfiguration = () => {
           }}
         >
           {/* Tabs for Plant Palette and Layers */}
-          <Box sx={{ flexShrink: 0 }}>
+          <Box className="interactive-element" sx={{ flexShrink: 0 }}>
             <Tabs
               value={selectedTab}
               onChange={handleTabChange}
@@ -471,7 +434,6 @@ const EditConfiguration = () => {
               sx={{ width: "100%" }}
             >
               <Tab
-                className="tabs-plant"
                 label="Plant Palette"
                 sx={{
                   width: "50%", // Fill half the width (two tabs)
@@ -486,7 +448,6 @@ const EditConfiguration = () => {
                 }}
               />
               <Tab
-                className="tabs-layers"
                 label="Layers"
                 sx={{
                   width: "50%", // Fill half the width (two tabs)
@@ -524,7 +485,6 @@ const EditConfiguration = () => {
                 </Typography>
                 {includedPlants.map((plant) => (
                   <Box
-                    className="tab-plant"
                     key={plant["Species ID"]}
                     onClick={() => handlePlantClick(plant)}
                     sx={{
@@ -558,7 +518,6 @@ const EditConfiguration = () => {
                 </Typography>
                 {excludedPlants.map((plant) => (
                   <Box
-                    className="tab-plant"
                     key={plant["Species ID"]}
                     onClick={() => handlePlantClick(plant)}
                     sx={{
@@ -584,7 +543,6 @@ const EditConfiguration = () => {
               <Box>
                 {editedCompositionLayerData.map((layer) => (
                   <Box
-                    className="tab-layer"
                     key={layer.layerID}
                     onMouseEnter={() => setHoveredLayerID(layer.layerID)}
                     onMouseLeave={() => setHoveredLayerID(null)}
@@ -756,7 +714,7 @@ const EditConfiguration = () => {
                     (layer) => layer.layerID === selectedLayerID
                   );
                   const speciesID = layer?.speciesID;
-                  const plantDetails = plantPaletteProcessed[speciesID];
+                  const plantDetails = plantPalette[speciesID];
 
                   if (!plantDetails)
                     return <Typography>No details available.</Typography>;
@@ -863,71 +821,6 @@ const EditConfiguration = () => {
         </Box>
       </Box>
 
-      {/* Confirmation Modal */}
-      <Modal
-        open={openConfirmDialog}
-        onClose={cancelNewDesign}
-        aria-labelledby="confirm-new-design-title"
-        aria-describedby="confirm-new-design-description"
-      >
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            bgcolor: "background.paper",
-            boxShadow: 24,
-            borderRadius: 2,
-            width: "20vw",
-            padding: "2rem",
-            display: "flex",
-            flexDirection: "column",
-          }}
-        >
-          <Typography
-            id="confirm-new-design-title"
-            variant="h6"
-            sx={{ textAlign: "center", mb: 2 }}
-          >
-            Confirm New Design
-          </Typography>
-          <Typography
-            id="confirm-new-design-description"
-            variant="body1"
-            sx={{ mb: 3, textAlign: "center" }}
-          >
-            Are you sure you want to discard all current designs and restart the designing process?
-          </Typography>
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              gap: "1rem",
-            }}
-          >
-            <Button
-              variant="outlined"
-              color="secondary"
-              fullWidth
-              onClick={cancelNewDesign}
-              sx={{ px: 4, py: 1.5 }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={confirmNewDesign}
-              sx={{ px: 4, py: 1.5 }}
-            >
-              Confirm
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
-
       {/* Export Modal */}
       <Modal
         open={exportModalOpen}
@@ -944,13 +837,17 @@ const EditConfiguration = () => {
             bgcolor: "background.paper",
             boxShadow: 24,
             borderRadius: 2,
-            width: "20vw",
+            width: "30vw",
+            height: "45vh",
             padding: "2rem",
             display: "flex",
             flexDirection: "column",
           }}
         >
-          <DialogTitle id="export-modal-title" sx={{ textAlign: "center" }}>
+          <DialogTitle
+            id="export-modal-title"
+            sx={{ textAlign: "center", mb: 2 }}
+          >
             Export Composition
           </DialogTitle>
 
