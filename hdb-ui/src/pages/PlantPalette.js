@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { LandscapeConfigContext } from '../context/landscapeConfigContext';
 import { usePlantPalette } from '../context/plantPaletteContext';
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import AddIcon from "@mui/icons-material/Add";
-import EditIcon from '@mui/icons-material/Edit';
 import CloseIcon from "@mui/icons-material/Close";
 import SearchIcon from '@mui/icons-material/Search';
 
@@ -27,7 +27,10 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogTitle
+  DialogTitle,
+  Snackbar,
+  Alert,
+  Modal
 } from "@mui/material";
 
 const getAttributeChip = (plant) => {
@@ -70,20 +73,25 @@ const getAttributeChip = (plant) => {
   // Check for water preference
   if (plant["Water Preference"].includes("Lots of Water")) {
     chips.push(<Chip label="Lots of Water" key="lotsOfWater" color="primary" variant="outlined" size="small" />);
-  } else if (plant["Water Preference"].includes("Moderate Water")) {
+  }
+  if (plant["Water Preference"].includes("Moderate Water")) {
     chips.push(<Chip label="Moderate Water" key="moderateWater" color="primary" variant="outlined" size="small" />);
-  } else if (plant["Water Preference"].includes("Occasional Misting")) {
+  }
+  if (plant["Water Preference"].includes("Occasional Misting")) {
     chips.push(<Chip label="Occasional Misting" key="occasionalMisting" color="primary" variant="outlined" size="small" />);
-  } else if (plant["Water Preference"].includes("Little Water")) {
+  }
+  if (plant["Water Preference"].includes("Little Water")) {
     chips.push(<Chip label="Little Water" key="littleWater" color="primary" variant="outlined" size="small" />);
   }
 
   // Check for light preference
   if (plant["Light Preference"].includes("Full Sun")) {
     chips.push(<Chip label="Full Sun" key="fullSun" color="primary" variant="outlined" size="small" />);
-  } else if (plant["Light Preference"].includes("Semi Shade")) {
+  }
+  if (plant["Light Preference"].includes("Semi Shade")) {
     chips.push(<Chip label="Semi Shade" key="semiShade" color="primary" variant="outlined" size="small" />);
-  } else if (plant["Light Preference"].includes("Full Shade")) {
+  }
+  if (plant["Light Preference"].includes("Full Shade")) {
     chips.push(<Chip label="Full Shade" key="fullShade" color="primary" variant="outlined" size="small" />);
   }
 
@@ -92,37 +100,59 @@ const getAttributeChip = (plant) => {
 
 
 const PlantPalette = () => {
-
   const [selectedPlantInfo, setSelectedPlantInfo] = useState(null);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
-  const location = useLocation();
-  // const { plantData } = location.state || {};
-  const { plant_palette, style, surrounding, all_plants} = location.state || {};
-  const [selectedPlants, setSelectedPlants] = useState(plant_palette);
-  const navigate = useNavigate();
-  const { updatePlantPalette } = usePlantPalette();
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("error");
+  const [openAlert, setOpenAlert] = useState(false);
+  const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const { state: configState, dispatch: configDispatch } = useContext(LandscapeConfigContext);
+
+  const navigate = useNavigate();
+  const {
+    plantPaletteRaw,
+    allPlantsRaw,
+    updateProcessedData,
+    updatePlantPaletteRaw,
+  } = usePlantPalette();
+  const [selectedPlants, setSelectedPlants] = useState(plantPaletteRaw);
+
+  const promptStyle = configState.style;
+  const promptSurrounding = configState.surrounding;
 
   // Logs for debugging
   console.log('Selected Plants:', selectedPlants);
-  console.log('All Plants:', all_plants);
-  console.log('Style:', style);
-  console.log('Surrounding:', surrounding);
+  console.log('All Plants:', allPlantsRaw);
+  console.log('Style:', promptStyle);
+  console.log('Surrounding:', promptSurrounding);
 
-  if (!plant_palette.length || !all_plants.length) {
+  if (!allPlantsRaw.length) {
     return <p>No plant data available. Please generate a palette first.</p>;
   }
 
+  const showAlert = (message, severity = "error") => {
+    setAlertMessage(message);
+    setAlertSeverity(severity);
+    setOpenAlert(true);
+  };
 
   const togglePlantSelection = (plantId) => {
-    setSelectedPlants((prev) =>
-      prev.includes(plantId)
-        ? prev.filter((id) => id !== plantId)
-        : [...prev, plantId]
-    );
+    if (selectedPlants.includes(plantId) && selectedPlants.length <= 3) {
+      showAlert(
+        "Your plant palette must have at least 3 plants. You can still deselect but cannot finalise until 3 plants are selected.",
+        "warning"
+      );
+    }
+
+    const updatedSelection = selectedPlants.includes(plantId)
+      ? selectedPlants.filter((id) => id !== plantId)
+      : [...selectedPlants, plantId];
+
+    setSelectedPlants(updatedSelection);
+    updatePlantPaletteRaw(updatedSelection);
   };
+
 
   const handleMoreInfo = (plant) => {
     setSelectedPlantInfo(plant);
@@ -132,21 +162,44 @@ const PlantPalette = () => {
     setSelectedPlantInfo(null);
   };
 
+  const handleNewDesign = () => {
+    setOpenConfirmDialog(true); // Open the confirmation dialog
+  };
+
+  const cancelNewDesign = () => {
+    setOpenConfirmDialog(false); // Close the dialog without resetting
+  };
+
+  const confirmNewDesign = () => {
+    setOpenConfirmDialog(false); // Close the dialog
+    configDispatch({ type: 'RESET_CONFIG' });
+    navigate('/');
+  };
+
   const handleFinalize = () => {
     // Filter full details of selected plants before passing to context
-    const filteredPlants = all_plants.filter((plant) =>
+    const filteredPlants = allPlantsRaw.filter((plant) =>
       selectedPlants.includes(plant["Species ID"])
     );
 
     console.log('Filtered Plants:', filteredPlants)
 
-    updatePlantPalette(filteredPlants); // Pass full plant details to context
-    navigate('/loading', {
-      state: {
-        style,
-        surrounding,
-      },
-    });
+    const hasFullShade = filteredPlants.some((plant) =>
+      plant["Light Preference"]?.includes("Full Shade")
+    );
+
+    if (selectedPlants.length < 3) {
+      showAlert("Your plant palette must have at least 3 plants. Please add more plants to finalise.", "error");
+      return;
+    }
+
+    if (!hasFullShade) {
+      showAlert("Your plant palette must include at least 1 Full Shade plant. Please adjust your selections.", "error");
+      return;
+    }
+
+    updateProcessedData(filteredPlants);
+    navigate('/loading');
   };
 
   return (
@@ -159,25 +212,25 @@ const PlantPalette = () => {
             variant="text"
             color="primary"
             startIcon={<ArrowBackIosIcon />}
-            onClick={() => console.log("Go back to edit")}
+            onClick={() => navigate(-1)}
             sx={{ px: 4, py: 1.5 }}
           >
             Edit Configuration
           </Button>
-          
+
           <Box sx={{ flexGrow: 1, position: 'relative' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Typography
-                  sx={{
-                    color: "primary.main",
-                    fontWeight:"bold",
-                    fontSize: "inherit", // Match font size
-                    lineHeight: "inherit", // Match line height
-                  }}
-                >
-                  DreamScape
-                </Typography>
-              </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Typography
+                sx={{
+                  color: "primary.main",
+                  fontWeight: "bold",
+                  fontSize: "inherit", // Match font size
+                  lineHeight: "inherit", // Match line height
+                }}
+              >
+                DreamScape
+              </Typography>
+            </Box>
           </Box>
 
           {/* Right Button */}
@@ -185,7 +238,7 @@ const PlantPalette = () => {
             variant="contained"
             color="primary"
             startIcon={<AddIcon />}
-            onClick={() => console.log("New Design")}
+            onClick={handleNewDesign}
             sx={{ px: 4, py: 1.5 }}
           >
             New Design
@@ -287,13 +340,13 @@ const PlantPalette = () => {
         </Box>
 
         <Box sx={{ display: "flex", flexWrap: "wrap" }}>
-          {all_plants
+          {allPlantsRaw
             .filter((plant) => selectedPlants.includes(plant["Species ID"]))
             .map((plant) => (
               <Card
                 key={plant["Species ID"]}
                 sx={{
-                  width: 270,
+                  width: "13vw",
                   minheight: 325,
                   margin: 1,
                   position: "relative",
@@ -382,8 +435,8 @@ const PlantPalette = () => {
 
           {/* Unselected Cards */}
           <Box>
-            <Box sx={{ display: "flex", flexWrap: "wrap", width: "80vw", maxHeight: 800, overflowY: "auto" }}>
-              {all_plants
+            <Box sx={{ display: "flex", flexWrap: "wrap", width: "100%", maxHeight: 800, overflowY: "auto" }}>
+              {allPlantsRaw
                 .filter(
                   (plant) =>
                     !selectedPlants.includes(plant["Species ID"]) &&
@@ -394,7 +447,7 @@ const PlantPalette = () => {
                   <Card
                     key={plant["Species ID"]}
                     sx={{
-                      width: 270,
+                      width: "13vw",
                       minheight: 325,
                       margin: 1,
                       position: "relative",
@@ -469,6 +522,84 @@ const PlantPalette = () => {
           </Box>
         </Box>
       </Container>
+
+      <Snackbar
+        open={openAlert}
+        autoHideDuration={6000}
+        onClose={() => setOpenAlert(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={() => setOpenAlert(false)} severity={alertSeverity} sx={{ width: "100%" }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
+
+      {/* Confirmation Modal */}
+      <Modal
+        open={openConfirmDialog}
+        onClose={cancelNewDesign}
+        aria-labelledby="confirm-new-design-title"
+        aria-describedby="confirm-new-design-description"
+      >
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            borderRadius: 2,
+            width: "20vw",
+            padding: "2rem",
+            display: "flex",
+            flexDirection: "column",
+          }}
+        >
+          <Typography
+            id="confirm-new-design-title"
+            variant="h6"
+            sx={{ textAlign: "center", mb: 2 }}
+          >
+            Confirm New Design
+          </Typography>
+          <Typography
+            id="confirm-new-design-description"
+            variant="body1"
+            sx={{ mb: 3, textAlign: "center" }}
+          >
+            Are you sure you want to discard all current designs and restart the designing process?
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              gap: "1rem",
+            }}
+          >
+            <Button
+              variant="outlined"
+              color="secondary"
+              fullWidth
+              onClick={cancelNewDesign}
+              sx={{ px: 4, py: 1.5 }}
+            >
+              Cancel
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              onClick={confirmNewDesign}
+              sx={{ px: 4, py: 1.5 }}
+            >
+              Confirm
+            </Button>
+          </Box>
+        </Box>
+      </Modal>
+
+
       <Dialog
         open={!!selectedPlantInfo}
         onClose={handleClosePopup}

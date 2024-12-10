@@ -2,8 +2,10 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import RemoveIcon from "@mui/icons-material/Remove";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; 
-import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import React, { useState, useContext } from "react";
+import { LandscapeConfigContext } from "../context/landscapeConfigContext";
+import { usePlantPalette } from '../context/plantPaletteContext';
 
 import {
   AppBar,
@@ -24,93 +26,147 @@ import {
   ListItemText,
   FilledInput,
   FormControl,
-  InputLabel
+  InputLabel,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 
 
 const LandscapeDesignForm = () => {
-  const [sunlightIntensity, setSunlightIntensity] = useState(50);
-  const [maxPlantCount, setMaxPlantCount] = useState(6);
-  const [waterPreference, setWaterPreference] = useState("");
-  const [faunaAttracted, setFaunaAttracted] = useState([]);
-  const [nativePercentage, setNativePercentage] = useState(0.5);
-  const [prompt, setPrompt] = useState("");
+  const { state: configState, dispatch: configDispatch } = useContext(LandscapeConfigContext);
+  const { updateRawData } = usePlantPalette();
+  const [alertMessage, setAlertMessage] = useState("");
+  const [alertSeverity, setAlertSeverity] = useState("error");
+  const [openAlert, setOpenAlert] = useState(false);
+  const [formSubmitted, setFormSubmitted] = useState(false);
+  
   const navigate = useNavigate();
 
+  const showAlert = (message, severity = "error") => {
+    setAlertMessage(message);
+    setAlertSeverity(severity);
+    setOpenAlert(true);
+  };
+
   const handleGenerate = async () => {
-    // Construct the data object to send to the backend
+    setFormSubmitted(true);
+
+    if (!isFormValid) {
+      showAlert("Please complete all required fields before generating.", "warning");
+      return;
+    }
+
     const data = {
-      prompt: prompt,
-      maximum_plant_count: maxPlantCount,
+      prompt: configState.prompt,
+      maximum_plant_count: configState.maxPlantCount,
       light_preference:
-        sunlightIntensity === 100
+        configState.sunlightIntensity === 100
           ? "Full Sun"
-          : sunlightIntensity === 50
-          ? "Semi Shade"
-          : "Full Shade",
-      water_preference: waterPreference,
-      drought_tolerant: false, // Update if you want to make this dynamic
-      fauna_attracted: faunaAttracted.map((fauna) => fauna.toLowerCase()),
-      ratio_native: nativePercentage,
+          : configState.sunlightIntensity === 50
+            ? "Semi Shade"
+            : "Full Shade",
+      water_preference: configState.waterPreference || "",
+      drought_tolerant: configState.droughtTolerance || false,
+      fauna_attracted: configState.faunaAttracted.map((fauna) => fauna.toLowerCase()) || [],
+      ratio_native: configState.nativePercentage || 0.5,
     };
 
     try {
-      // Debugging: log data object to ensure correctness
       console.log("Sending Data to Backend:", data);
+      const response = await axios.post("http://localhost:8000/generate_palette", data);
 
-      // Send a POST request to the backend API
-      const response = await axios.post(
-        "http://localhost:8000/generate_palette",
-        data
-      );
-
-      // Extract plant data from the backend response
       const plantData = response.data;
       console.log("Received Plant Data:", plantData);
 
-      // Navigate to the second page with plant data as state
-      navigate("/plant-palette", {
-        state: {
-          plant_palette: plantData.plant_palette,
-          style: plantData.style,
-          surrounding: plantData.surrounding,
-          all_plants: plantData.all_plants,
-      },
-      });
+      if (plantData.all_plants.length < 3) {
+        showAlert(
+          "Not enough plants were generated to create a valid plant palette. Please broaden the scope of your configurations and try again.",
+          "warning"
+        );
+        return;
+      }
+
+      // Dispatch actions to update global states with backend data
+      // If style & surrounding are environment configurations, store them in LandscapeConfigContext
+      configDispatch({ type: 'SET_STYLE', payload: plantData.style });
+      configDispatch({ type: 'SET_SURROUNDING', payload: plantData.surrounding });
+
+      // Store all_plants and plant_palette in PlantPaletteContext
+      // Update the context with raw data
+      updateRawData(plantData.plant_palette, plantData.all_plants);
+
+      // Now navigate without passing state, since data is in global context
+      navigate("/plant-palette");
     } catch (error) {
       console.error("Error sending data to the backend:", error);
+      showAlert("An error occurred while generating the plant palette. Please try again.", "error");
     }
   };
-  
-  const handleSliderChange = (event, newValue) => setSunlightIntensity(newValue);
 
-  const handleNativePercentageChange = (event, newValue) => setNativePercentage(newValue);
+  const handleSliderChange = (event, newValue) => {
+    configDispatch({ type: "SET_SUNLIGHT_INTENSITY", payload: newValue });
+  };
 
-  const isFormValid = prompt && waterPreference && faunaAttracted;
+  const handleNativePercentageChange = (event, newValue) => {
+    configDispatch({ type: "SET_NATIVE_PERCENTAGE", payload: newValue });
+  };
 
-  const handleChange = (event) => {
-    const {
-      target: { value },
-    } = event;
 
+  const isFormValid = configState.prompt && configState.waterPreference;
+
+  const handleChangeFauna = (event) => {
+    const { value } = event.target;
+    const previousSelection = configState.faunaAttracted;
+
+    // Check if "None" is selected
     if (value.includes("None")) {
-      setFaunaAttracted([]);
+      if (value.length === 1) {
+        // If only "None" is selected
+        configDispatch({ type: "SET_FAUNA_ATTRACTED", payload: ["None"] });
+      } else {
+        // "None" plus other fauna selected
+        const previouslyNoneOnly = previousSelection.length === 1 && previousSelection[0] === "None";
+
+        if (previouslyNoneOnly) {
+          // Previously had only None, now user chose others as well
+          // Remove None and keep the newly chosen fauna
+          configDispatch({
+            type: "SET_FAUNA_ATTRACTED",
+            payload: value.filter((item) => item !== "None"),
+          });
+        } else {
+          // Previously had fauna or none, now "None" is selected as well
+          // This means user wants only "None"
+          configDispatch({ type: "SET_FAUNA_ATTRACTED", payload: ["None"] });
+        }
+      }
     } else {
-      setFaunaAttracted(
-        typeof value === "string" ? value.split(",") : value
-      );
+      // No "None" selected, just update with chosen fauna
+      configDispatch({ type: "SET_FAUNA_ATTRACTED", payload: value });
     }
+  };
+
+  const handlePromptChange = (value) => {
+    configDispatch({ type: "SET_PROMPT", payload: value });
+  };
+
+  const handleClearPrompt = () => {
+    configDispatch({ type: "SET_PROMPT", payload: "" });
   };
 
   const handleMaxPlantCountChange = (increment) => {
-    // Ensure the plant count stays between 3 and 30
-    setMaxPlantCount((prevCount) => {
-      const newCount = prevCount + increment;
-      if (newCount >= 3 && newCount <= 30) {
-        return newCount;
-      }
-      return prevCount; // Return previous count if out of bounds
-    });
+    const newCount = configState.maxPlantCount + increment;
+    if (newCount >= 3 && newCount <= 30) {
+      configDispatch({ type: "SET_MAX_PLANT_COUNT", payload: newCount });
+    }
+  };
+
+  const handleDroughtToleranceChange = (event) => {
+    configDispatch({ type: "SET_DROUGHT_TOLERANCE", payload: event.target.checked });
+  };
+
+  const handleWaterPreferenceChange = (value) => {
+    configDispatch({ type: "SET_WATER_PREFERENCE", payload: value });
   };
 
   const ITEM_HEIGHT = 48;
@@ -132,18 +188,18 @@ const LandscapeDesignForm = () => {
         <Toolbar>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ flexGrow: 1, position: 'relative' }}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <Typography
-                  sx={{
-                    color: "primary.main",
-                    fontWeight:"bold",
-                    fontSize: "inherit", // Match font size
-                    lineHeight: "inherit", // Match line height
-                  }}
-                >
-                  DreamScape
-                </Typography>
-              </Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Typography
+                sx={{
+                  color: "primary.main",
+                  fontWeight: "bold",
+                  fontSize: "inherit", // Match font size
+                  lineHeight: "inherit", // Match line height
+                }}
+              >
+                DreamScape
+              </Typography>
+            </Box>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
         </Toolbar>
@@ -279,12 +335,14 @@ const LandscapeDesignForm = () => {
           <TextField
             fullWidth
             id="filled-multiline-flexible"
-            label="Describe here"
+            label="Describe here *"
             multiline
             maxRows={4}
             variant="filled"
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)} 
+            value={configState.prompt}
+            error={formSubmitted && !configState.prompt}
+            helperText={formSubmitted && !configState.prompt ? "This field is required" : ""}
+            onChange={(e) => handlePromptChange(e.target.value)}
             InputProps={{
               endAdornment: (
                 <InputAdornment
@@ -295,7 +353,7 @@ const LandscapeDesignForm = () => {
                     right: "1rem",
                   }}
                 >
-                  <IconButton onClick={() => setPrompt('')}>
+                  <IconButton onClick={handleClearPrompt}>
                     <CloseIcon />
                   </IconButton>
                 </InputAdornment>
@@ -354,7 +412,7 @@ const LandscapeDesignForm = () => {
               >
                 <Box display="inline-flex" alignItems="center" p={0.5} flex={1}>
                   <Typography variant="body1" color="text.primary">
-                    {maxPlantCount}
+                    {configState.maxPlantCount}
                   </Typography>
                 </Box>
               </Box>
@@ -380,7 +438,7 @@ const LandscapeDesignForm = () => {
             <Typography variant="body1">Sunlight Intensity in Area</Typography>
             <Box sx={{ width: 329 }}>
               <Slider
-                value={sunlightIntensity}
+                value={configState.sunlightIntensity}
                 onChange={handleSliderChange}
                 step={null}
                 marks={[
@@ -410,7 +468,7 @@ const LandscapeDesignForm = () => {
             </Typography>
             <Box sx={{ width: 329 }}>
               <Slider
-                value={nativePercentage}
+                value={configState.nativePercentage}
                 marks
                 min={0}
                 max={1}
@@ -420,15 +478,15 @@ const LandscapeDesignForm = () => {
                 valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
                 sx={{
                   "& .MuiSlider-rail": {
-                    backgroundColor: "#C8C6C5", // Inactive range color
+                    backgroundColor: "#C8C6C5",
                   },
                   "& .MuiSlider-track": {
-                    height: 5, // Increased height for the track (active range)
+                    height: 5,
                   },
                   "& .MuiSlider-thumb": {
                     backgroundColor: "#4A7F61"
                   },
-                  height: 5, // Increased height for the slider bar itself
+                  height: 5,
                 }}
               />
             </Box>
@@ -436,18 +494,21 @@ const LandscapeDesignForm = () => {
 
           <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
             <Typography variant="body1">Drought Tolerance</Typography>
-            <Switch />
+            <Switch
+              checked={configState.droughtTolerance || false}
+              onChange={handleDroughtToleranceChange}
+            />
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
-            <Typography variant="body1">Water Preference</Typography>
-            <FormControl variant="filled" sx={{ minWidth: 400 }}>
+            <Typography variant="body1">Water Preference *</Typography>
+            <FormControl variant="filled" sx={{ minWidth: 400 }} error={formSubmitted && !configState.prompt} >
               <InputLabel id="water-preference" sx={{ textAlign: "left" }} >Select Water Preference</InputLabel>
               <Select
                 labelId="water-preference"
                 id="select-water-preference"
-                value={waterPreference}
+                value={configState.waterPreference}
                 label="Water Preference"
-                onChange={(e) => setWaterPreference(e.target.value)}
+                onChange={(e) => handleWaterPreferenceChange(e.target.value)}
                 sx={{ textAlign: "left" }}
               >
 
@@ -456,11 +517,16 @@ const LandscapeDesignForm = () => {
                 <MenuItem value="Moderate Water" sx={{ textAlign: "left" }} >Moderate Water</MenuItem>
                 <MenuItem value="Lots of Water" sx={{ textAlign: "left" }} >Lots of Water</MenuItem>
               </Select>
+              {formSubmitted && !configState.waterPreference && (
+                <Typography variant="caption" color="error">
+                  This field is required
+                </Typography>
+              )}
             </FormControl>
           </Box>
           <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
             <Typography variant="body1">Fauna attracted</Typography>
-            <FormControl variant="filled" sx={{ minWidth: 400 }}>
+            <FormControl variant="filled" sx={{ minWidth: 400 }} error={formSubmitted && !configState.waterPreference}>
               <InputLabel id="fauna-multiselect-label"
                 sx={{
                   textAlign: "left", // Left align the text
@@ -469,8 +535,8 @@ const LandscapeDesignForm = () => {
                 labelId="fauna-multiselect-label"
                 id="fauna-multiselect"
                 multiple
-                value={faunaAttracted.includes("None") ? ["None"] : faunaAttracted}
-                onChange={handleChange}
+                value={configState.faunaAttracted}
+                onChange={handleChangeFauna}
                 input={<FilledInput label="Select fauna" />}
                 renderValue={(selected) => selected.join(', ')}
                 MenuProps={MenuProps}
@@ -479,17 +545,22 @@ const LandscapeDesignForm = () => {
                 }}
               >
                 <MenuItem value="None">
-                  <Checkbox checked={faunaAttracted.length === 0}/>
+                  <Checkbox checked={configState.faunaAttracted.includes("None")} />
                   <ListItemText primary="None" />
                 </MenuItem>
-                
+
                 {faunaOptions.map((fauna) => (
                   <MenuItem key={fauna} value={fauna}>
-                    <Checkbox checked={faunaAttracted.includes(fauna)} />
+                    <Checkbox checked={configState.faunaAttracted.includes(fauna)} />
                     <ListItemText primary={fauna} />
                   </MenuItem>
                 ))}
               </Select>
+              {formSubmitted && !configState.faunaAttracted.length && (
+                <Typography variant="caption" color="error">
+                  This field is required
+                </Typography>
+              )}
             </FormControl>
           </Box>
         </Box>
@@ -505,6 +576,16 @@ const LandscapeDesignForm = () => {
           </Button>
         </Box>
       </Container>
+
+      <Snackbar
+        open={openAlert}
+        onClose={() => setOpenAlert(false)}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert onClose={() => setOpenAlert(false)} severity={alertSeverity} sx={{ width: "100%" }}>
+          {alertMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 };

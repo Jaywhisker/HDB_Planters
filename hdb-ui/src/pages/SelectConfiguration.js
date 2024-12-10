@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Canvas } from '@react-three/fiber';
 import LandscapeModel from '../component/LandscapeModel';
 import { usePreload } from '../context/preloadContext';
 import { usePlantPalette } from '../context/plantPaletteContext';
+import { LandscapeConfigContext } from '../context/landscapeConfigContext';
+import { CompositionContext } from '../context/compositionContext';
 
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import AddIcon from "@mui/icons-material/Add";
-import EditIcon from '@mui/icons-material/Edit';
 import Checkbox from '@mui/material/Checkbox';
 
 import {
@@ -21,16 +22,17 @@ import {
     CardMedia,
     Button,
     IconButton,
-    TextField,
+    Modal
 } from "@mui/material";
 
 const SelectConfiguration = () => {
+    const { state: compositionState, dispatch: compositionDispatch } = useContext(CompositionContext);
+    const { state: configState, dispatch: configDispatch } = useContext(LandscapeConfigContext);
+    const { compositions: plantCompositionData } = compositionState;
+    const [openConfirmDialog, setOpenConfirmDialog] = useState(false);
 
-    // Retrieve composition data and preloaded plant models
-    const location = useLocation();
-    const { plantCompositionData } = location.state || {};
     const { plantModels } = usePreload();
-    const { plantPalette } = usePlantPalette();
+    const { plantPaletteProcessed } = usePlantPalette();
 
     const [currentIndex, setCurrentIndex] = useState(0); //Current shown configuration
     const [layersData, setLayersData] = useState(
@@ -45,9 +47,10 @@ const SelectConfiguration = () => {
 
     // Navigate upon selection of model
     const navigate = useNavigate();
+
     const handleNavigation = () => {
         if (plantCompositionData[currentIndex]) {
-            navigate('/test-2', {
+            navigate('/edit-configuration', {
                 state: {
                     compositionData: plantCompositionData[currentIndex],
                     compositionLayerData: layersData[currentIndex],
@@ -67,6 +70,22 @@ const SelectConfiguration = () => {
         return <p>No composition data available. Please return to the previous step.</p>;
     }
 
+    const handleNewDesign = () => {
+        setOpenConfirmDialog(true); // Open the confirmation dialog
+    };
+
+    const cancelNewDesign = () => {
+        setOpenConfirmDialog(false); // Close the dialog without resetting
+    };
+
+    const confirmNewDesign = () => {
+        setOpenConfirmDialog(false); // Close the dialog
+        configDispatch({ type: 'RESET_CONFIG' });
+        compositionDispatch({ type: 'RESET_COMPOSITIONS' });
+        navigate('/');
+    };
+
+
     // TODOS: Currently the UI only shows the first mock composition (For simplicity sake and also I only preloaded the models in the first composition)
     // Swapping the configurations will just be updating currentIndex to 0/1/2
     return (
@@ -79,7 +98,7 @@ const SelectConfiguration = () => {
                         variant="text"
                         color="primary"
                         startIcon={<ArrowBackIosIcon />}
-                        onClick={() => console.log("Go back to edit")}
+                        onClick={() => navigate("/plant-palette")}
                         sx={{ px: 4, py: 1.5 }}
                     >
                         Edit Plant Palette
@@ -105,7 +124,7 @@ const SelectConfiguration = () => {
                         variant="contained"
                         color="primary"
                         startIcon={<AddIcon />}
-                        onClick={() => console.log("New Design")}
+                        onClick={handleNewDesign}
                         sx={{ px: 4, py: 1.5 }}
                     >
                         New Design
@@ -150,6 +169,7 @@ const SelectConfiguration = () => {
 
                         {/* Regenerate Button */}
                         <Button variant="outlined" color="primary"
+                            onClick={() => navigate('/loading', { replace: true })}
                             sx={{
                                 width: '8rem',
                                 height: '2.5rem',
@@ -188,8 +208,8 @@ const SelectConfiguration = () => {
                                     variant="h6"
                                     sx={{
                                         fontFamily: '"Source Sans Pro", sans-serif',
-                                        fontWeight: 600, // Regular weight
-                                        fontSize: "14px", // Title Large Font Size
+                                        fontWeight: 500, // Regular weight
+                                        fontSize: "1rem", // Title Large Font Size
                                         lineHeight: "28px", // Title Large Medium Line Height
                                         letterSpacing: "0", // Title Large Medium Tracking
                                         textAlign: "left", // Left align the text
@@ -203,54 +223,62 @@ const SelectConfiguration = () => {
                                     overflowY: 'auto', // Enable vertical scrolling
                                 }}
                             >
-                                {Object.values(plantPalette).map((plant) => (
-                                    <Card
-                                        key={plant['Species ID']}
-                                        sx={{
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            padding: 1,
-                                            marginBottom: 1,
-                                            backgroundColor: '#F9F9F9',
-                                            borderRadius: 2,
-                                            boxShadow: 'none',
-                                            border: '1px solid #E0E0E0',
-                                        }}
-                                    >
-                                        {/* Checkbox (Disabled for display purposes only) */}
-                                        <Checkbox
-                                            checked={isPlantInComposition(plant['Species ID'])}
-                                            disabled
-                                            inputProps={{ 'aria-label': `Plant ${plant['Scientific Name']} is part of the composition` }}
-                                            sx={{ marginRight: 2 }}
-                                        />
+                                {Object.values(plantPaletteProcessed)
+                                    .sort((a, b) => {
+                                        // Sort by inclusion in the current composition
+                                        const aIncluded = isPlantInComposition(a['Species ID']);
+                                        const bIncluded = isPlantInComposition(b['Species ID']);
+                                        return bIncluded - aIncluded; // Moves included plants to the top
+                                    })
+                                    .map((plant) => (
+                                        <Card
+                                            key={plant['Species ID']}
+                                            sx={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                padding: 1,
+                                                marginBottom: 1,
+                                                backgroundColor: '#F9F9F9',
+                                                borderRadius: 2,
+                                                boxShadow: 'none',
+                                                border: '1px solid #E0E0E0',
+                                            }}
+                                        >
+                                            {/* Checkbox (Disabled for display purposes only) */}
+                                            <Checkbox
+                                                checked={isPlantInComposition(plant['Species ID'])}
+                                                disabled
+                                                inputProps={{ 'aria-label': `Plant ${plant['Scientific Name']} is part of the composition` }}
+                                                sx={{ marginRight: 2 }}
+                                            />
 
-                                        {/* Plant Info */}
-                                        <Box sx={{ flexGrow: 1 }}>
-                                            <Typography variant="body1" sx={{ fontFamily: '"Source Sans Pro", sans-serif', fontWeight: 500 }}>
-                                                {plant['Scientific Name']}
-                                            </Typography>
-                                            <Typography variant="body2" color="textSecondary" sx={{ fontFamily: '"Source Sans Pro", sans-serif' }} >
-                                                {plant['Common Name']}
-                                            </Typography>
-                                        </Box>
+                                            {/* Plant Info */}
+                                            <Box sx={{ flexGrow: 1 }}>
+                                                <Typography variant="body1" sx={{ fontFamily: '"Source Sans Pro", sans-serif', fontWeight: 500 }}>
+                                                    {plant['Scientific Name']}
+                                                </Typography>
+                                                <Typography variant="body2" color="textSecondary" sx={{ fontFamily: '"Source Sans Pro", sans-serif' }} >
+                                                    {plant['Common Name']}
+                                                </Typography>
+                                            </Box>
 
-                                        {/* Plant Media */}
-                                        <CardMedia
-                                            component="img"
-                                            sx={{ width: 60, height: 60, objectFit: 'cover', borderRadius: '4px' }}
-                                            image={`/images/${plant['Species ID']}.jpg`}
-                                            alt={plant['Scientific Name']}
-                                        />
-                                    </Card>
-                                ))
+                                            {/* Plant Media */}
+                                            <CardMedia
+                                                component="img"
+                                                sx={{ width: 60, height: 60, objectFit: 'cover', borderRadius: '4px' }}
+                                                image={`/images/${plant['Species ID']}.jpg`}
+                                                alt={plant['Scientific Name']}
+                                            />
+                                        </Card>
+                                    ))
                                 }
                             </Box>
                         </Card>
                     </Box>
                     {/* Right Section */}
                     <Box sx={{ width: '50%', paddingRight: '2rem', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', }}>
-                        {/* Center Panel: 3D Model */}
+
+                        {/* 3D Model */}
                         <Box
                             sx={{
                                 flex: '1 1 auto',
@@ -293,6 +321,10 @@ const SelectConfiguration = () => {
                                 ) : null
                             )}
                         </Box>
+                        {/* Disclaimer Text */}
+                        <Typography variant="body1" sx={{ fontFamily: '"Source Sans Pro", sans-serif', fontSize: "0.75rem" }}>
+                            Disclaimer: The models are for representational purposes only and may not accurately reflect the actual appearance of the plant species.
+                        </Typography>
                         {/* Navigation Controls */}
                         <Box
                             sx={{
@@ -347,6 +379,70 @@ const SelectConfiguration = () => {
                     </Button>
                 </Box>
             </Container>
+            {/* Confirmation Modal */}
+            <Modal
+                open={openConfirmDialog}
+                onClose={cancelNewDesign}
+                aria-labelledby="confirm-new-design-title"
+                aria-describedby="confirm-new-design-description"
+            >
+                <Box
+                    sx={{
+                        position: "absolute",
+                        top: "50%",
+                        left: "50%",
+                        transform: "translate(-50%, -50%)",
+                        bgcolor: "background.paper",
+                        boxShadow: 24,
+                        borderRadius: 2,
+                        width: "20vw",
+                        padding: "2rem",
+                        display: "flex",
+                        flexDirection: "column",
+                    }}
+                >
+                    <Typography
+                        id="confirm-new-design-title"
+                        variant="h6"
+                        sx={{ textAlign: "center", mb: 2 }}
+                    >
+                        Confirm New Design
+                    </Typography>
+                    <Typography
+                        id="confirm-new-design-description"
+                        variant="body1"
+                        sx={{ mb: 3, textAlign: "center" }}
+                    >
+                        Are you sure you want to discard all current designs and restart the designing process?
+                    </Typography>
+                    <Box
+                        sx={{
+                            display: "flex",
+                            justifyContent: "space-between",
+                            gap: "1rem",
+                        }}
+                    >
+                        <Button
+                            variant="outlined"
+                            color="secondary"
+                            fullWidth
+                            onClick={cancelNewDesign}
+                            sx={{ px: 4, py: 1.5 }}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            fullWidth
+                            onClick={confirmNewDesign}
+                            sx={{ px: 4, py: 1.5 }}
+                        >
+                            Confirm
+                        </Button>
+                    </Box>
+                </Box>
+            </Modal>
         </Box>
     );
 };

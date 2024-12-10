@@ -1,24 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from "axios";
 import { useNavigate } from 'react-router-dom';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import { usePreload } from '../context/preloadContext';
+import { LandscapeConfigContext } from '../context/landscapeConfigContext';
 import { usePlantPalette } from '../context/plantPaletteContext';
-import { useLocation } from 'react-router-dom';
+import { CompositionContext } from '../context/compositionContext'; 
 // import compositionData from '../data/mock_plant_composition_output.json';
 
 
 const LoadingScreen = () => {
-  const [plantCompositionData, setPlantCompositionData] = useState(null);
+  // const [plantCompositionData, setPlantCompositionData] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const location = useLocation();
 
-  const { style, surrounding } = location.state || {};
+  const { state: configState } = useContext(LandscapeConfigContext);
+  const promptStyle = configState.style;
+  const promptSurrounding = configState.surrounding;
 
   // Global Context
   const { updateModels } = usePreload()
-  const { plantPalette } = usePlantPalette();
+  const { plantPaletteProcessed } = usePlantPalette();
+  const { state: compositionState, dispatch: compositionDispatch } = useContext(CompositionContext);
 
   // API Call and Preload Functions
   useEffect(() => {
@@ -30,16 +33,17 @@ const LoadingScreen = () => {
         //   setPlantCompositionData(compositionData['data'].slice(0, 3));
         // };
 
-        if (Object.keys(plantPalette).length === 0) {
+        if (Object.keys(plantPaletteProcessed).length === 0) {
           console.error("Plant palette is missing or empty.");
+          setLoading(false);
           return;
         }
 
         // Construct the data payload for the API call
         const compositionConfig = {
-          style: style ?? null,
-          surrounding: surrounding ?? null,
-          plant_palette: Object.values(plantPalette), // Convert plant dictionary to array
+          style: promptStyle ?? null,
+          surrounding: promptSurrounding ?? null,
+          plant_palette: Object.values(plantPaletteProcessed),
         };
 
         console.log("Composition Config:", compositionConfig);
@@ -51,7 +55,7 @@ const LoadingScreen = () => {
 
         // Set composition data from API response
         const retrieveCompositions = async () => {
-          setPlantCompositionData(response.data.data);
+          compositionDispatch({ type: 'SET_COMPOSITIONS', payload: response.data.data });
         };
 
         await retrieveCompositions();
@@ -62,7 +66,7 @@ const LoadingScreen = () => {
         //Must be updated, currently for simplicity only preloading first mock data models, but for future integration look into preloading everything else
 
         // Extract Species IDs from the plant palette context
-        const preloadedSpeciesID = Object.keys(plantPalette);
+        const preloadedSpeciesID = Object.keys(plantPaletteProcessed);
 
         const loader = new GLTFLoader();
         const uniqueModels = preloadedSpeciesID.map((id) => `/models/${id}.glb`);
@@ -96,16 +100,16 @@ const LoadingScreen = () => {
     };
 
     setupComposition();
-  }, [plantPalette, updateModels]);
+  }, [plantPaletteProcessed, updateModels, compositionDispatch, promptStyle, promptSurrounding]);
 
 
   // Navigate to next page after loading is complete
   useEffect(() => {
-    if (!loading && plantCompositionData !== null) {
-      console.log("Navigating to the next page with data:", plantCompositionData);
-      navigate('/test-1', { state: { plantCompositionData } });
+    if (!loading  && compositionState.compositions && compositionState.compositions.length > 0) {
+      console.log("Navigating to the next page with data:", compositionState.compositions);
+      navigate('/select-configuration');
     }
-  }, [loading, plantCompositionData, navigate]);
+  }, [loading, compositionState.compositions, navigate]);
 
   return (
     <div>

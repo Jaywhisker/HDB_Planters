@@ -66,7 +66,7 @@ const LandscapeModel = ({
       const newLayersData = Object.entries(coordinatesObject).map(
         ([coord, speciesID], idx) => {
           const [y, x] = coord.replace(/[()]/g, "").split(",").map(Number); // Parse coordinates
-          return { layerID: idx, speciesID, coordinate: [x, y] }; // Ensure coordinate matches [x, y]
+          return { layerID: (idx + 1) , speciesID, coordinate: [x, y] }; // Ensure coordinate matches [x, y]
         }
       );
       updateLayersData(newLayersData);
