@@ -6,6 +6,10 @@ import { usePreload } from '../context/preloadContext';
 import { LandscapeConfigContext } from '../context/landscapeConfigContext';
 import { usePlantPalette } from '../context/plantPaletteContext';
 import { CompositionContext } from '../context/compositionContext'; 
+import Box from '@mui/material/Box'; // Import Box from Material UI
+import Typography from '@mui/material/Typography'; // Import Typography for captions
+import CircularProgress from '@mui/material/CircularProgress'; 
+import LinearProgress from '@mui/material/LinearProgress';
 // import compositionData from '../data/mock_plant_composition_output.json';
 
 
@@ -17,6 +21,15 @@ const LoadingScreen = () => {
   const { state: configState } = useContext(LandscapeConfigContext);
   const promptStyle = configState.style;
   const promptSurrounding = configState.surrounding;
+
+  const [progress, setProgress] = useState(0); // Progress state
+  // Captions for the loading screen
+  const [caption, setCaption] = useState('');
+  const captions = [
+    "Growing your plant paradise... please wait!",
+    "Sprouting ideas... almost there!",
+    "Leafing through possibilities... one moment!",
+  ];
 
   // Global Context
   const { updateModels } = usePreload()
@@ -103,6 +116,37 @@ const LoadingScreen = () => {
   }, [plantPaletteProcessed, updateModels, compositionDispatch, promptStyle, promptSurrounding]);
 
 
+  // Change the caption every second
+  useEffect(() => {
+    if (loading) {
+      const interval = setInterval(() => {
+        const randomCaption = captions[Math.floor(Math.random() * captions.length)];
+        setCaption(randomCaption);
+      }, 1000); // Change every 1 second
+
+      // Clear the interval when loading is finished
+      return () => clearInterval(interval);
+    }
+  }, [loading]);
+
+
+  // Simulate progress
+  useEffect(() => {
+    if (loading) {
+      const interval = setInterval(() => {
+        setProgress((prevProgress) => {
+          if (prevProgress >= 100) {
+            clearInterval(interval);
+            return 100;
+          }
+          return Math.min(prevProgress + 5, 100); // Increment progress by 5 every 100ms
+        });
+      }, 100);
+
+      return () => clearInterval(interval);
+    }
+  }, [loading]);
+
   // Navigate to next page after loading is complete
   useEffect(() => {
     if (!loading  && compositionState.compositions && compositionState.compositions.length > 0) {
@@ -112,9 +156,25 @@ const LoadingScreen = () => {
   }, [loading, compositionState.compositions, navigate]);
 
   return (
-    <div>
-      {loading ? <p>Loading...</p> : <p>Data Loaded.</p>}
-    </div>
+    <Box 
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        height: '100vh', // Make the Box take the full viewport height
+        textAlign: 'center', // Center the text
+      }}
+    >
+      {loading ? (
+        <>
+          <Typography variant="h6"sx={{fontFamily: '"Lora", serif'}}>{caption}</Typography>
+          <LinearProgress sx={{ width: '80%', marginTop: 2 }} variant="determinate" value={progress} /> {/* Progress Bar */}
+        </>
+      ) : (
+        <Typography variant="h6">Data Loaded.</Typography>
+      )}
+    </Box>
   );
 };
 

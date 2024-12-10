@@ -66,7 +66,7 @@ const LandscapeModel = ({
       const newLayersData = Object.entries(coordinatesObject).map(
         ([coord, speciesID], idx) => {
           const [y, x] = coord.replace(/[()]/g, "").split(",").map(Number); // Parse coordinates
-          return { layerID: (idx + 1) , speciesID, coordinate: [x, y] }; // Ensure coordinate matches [x, y]
+          return { layerID: idx+1, speciesID, coordinate: [x, y] }; // Ensure coordinate matches [x, y]
         }
       );
       updateLayersData(newLayersData);
@@ -76,31 +76,6 @@ const LandscapeModel = ({
   // Select Trees data
   useEffect(() => {
     if (allowInteraction) {
-      // Hover (Not used due to computational resources used)
-      const onMouseMove = (event) => {
-        const rect = event.target.getBoundingClientRect();
-        mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-        mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-
-        const intersects = raycaster.current.intersectObjects(
-          scene.children,
-          true
-        );
-        if (intersects.length > 0) {
-          const object = intersects[0].object;
-          if (object !== hoveredObjectRef.current) {
-            hoveredObjectRef.current = object;
-            const layer = layersData.find(
-              (layer) => layer.coordinate.join() === object.position.join()
-            );
-            updateHoveredLayer(layer ? layer.layerID : null);
-          }
-        } else {
-          hoveredObjectRef.current = null;
-          updateHoveredLayer(null);
-        }
-      };
-
       // Selecting plant
       const onMouseDown = (event) => {
         // Retrieve current mouse data
@@ -175,7 +150,7 @@ const LandscapeModel = ({
   // Determine the key of the highlighted model
   const highlightedModelKey = useMemo(() => {
     if (selectedLayer !== null && layersData[selectedLayer]) {
-      const { coordinate } = layersData[selectedLayer];
+      const { coordinate } = layersData[selectedLayer-1];
       return `(${coordinate[1]}, ${coordinate[0]})`; // Match the coordinate format in the JSON
     }
     return null;
