@@ -6,15 +6,15 @@ import { usePreload } from '../context/preloadContext';
 import { LandscapeConfigContext } from '../context/landscapeConfigContext';
 import { usePlantPalette } from '../context/plantPaletteContext';
 import { CompositionContext } from '../context/compositionContext'; 
-import Box from '@mui/material/Box'; // Import Box from Material UI
-import Typography from '@mui/material/Typography'; // Import Typography for captions
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import CircularProgress from '@mui/material/CircularProgress'; 
 import LinearProgress from '@mui/material/LinearProgress';
-// import compositionData from '../data/mock_plant_composition_output.json';
+import compositionData from '../data/mock_plant_composition_output.json';
 
 
 const LoadingScreen = () => {
-  // const [plantCompositionData, setPlantCompositionData] = useState(null);
+  const [plantCompositionData, setPlantCompositionData] = useState(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -24,7 +24,8 @@ const LoadingScreen = () => {
 
   const [progress, setProgress] = useState(0); // Progress state
   // Captions for the loading screen
-  const [caption, setCaption] = useState('');
+  const [caption, setCaption] = useState('Growing your plant paradise... please wait!');
+
   const captions = [
     "Growing your plant paradise... please wait!",
     "Sprouting ideas... almost there!",
@@ -67,11 +68,17 @@ const LoadingScreen = () => {
         console.log("API Response:", response.data);
 
         // Set composition data from API response
+        // const retrieveCompositions = async () => {
+        //   compositionDispatch({ type: 'SET_COMPOSITIONS', payload: response.data.data });
+        // };
+
         const retrieveCompositions = async () => {
-          compositionDispatch({ type: 'SET_COMPOSITIONS', payload: response.data.data });
+          setPlantCompositionData(response.data.data);
         };
 
         await retrieveCompositions();
+
+        compositionDispatch({ type: 'SET_COMPOSITIONS', payload: response.data.data });
 
         // Preload all unique models
         // TODO: Update preloadedSpeciesID with the PLANT PALETTE SPECIES ID
@@ -113,7 +120,7 @@ const LoadingScreen = () => {
     };
 
     setupComposition();
-  }, [plantPaletteProcessed, updateModels, compositionDispatch, promptStyle, promptSurrounding]);
+  }, []);
 
 
   // Change the caption every second
@@ -168,8 +175,10 @@ const LoadingScreen = () => {
     >
       {loading ? (
         <>
-          <Typography variant="h6"sx={{fontFamily: '"Lora", serif'}}>{caption}</Typography>
-          <LinearProgress sx={{ width: '80%', marginTop: 2 }} variant="determinate" value={progress} /> {/* Progress Bar */}
+          <Box sx={{height: "30vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", marginBottom: 2}}>
+            <Typography variant="h6"sx={{fontFamily: '"Lora", serif'}}>{caption}</Typography>
+            <LinearProgress sx={{ width: '30vw', marginTop: 2 }} variant="determinate" value={progress} /> {/* Progress Bar */}
+          </Box>
         </>
       ) : (
         <Typography variant="h6">Data Loaded.</Typography>

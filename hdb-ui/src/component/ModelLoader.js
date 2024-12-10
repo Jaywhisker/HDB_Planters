@@ -37,8 +37,9 @@ const ModelLoader = ({
       // Apply random rotation and scaling
       const randomYRotation = Math.random() * Math.PI * 2; // Random rotation
       const scale = plantScales[modelName] || { x: 1, y: 1, z: 1 }; // Default scaling
-      model.rotation.set(0, randomYRotation, 0);
+      //model.rotation.set(0, randomYRotation, 0);
       model.scale.set(scale.x, scale.y, scale.z);
+  
 
       // Store the instance with its position
       newInstances[key] = {
@@ -61,10 +62,10 @@ const ModelLoader = ({
               key === highlightedModelKey
                 ? new THREE.Color(0xff0000) // Red for selected
                 : key ===
-                  `(${hoveredLayer?.coordinate[1]}, ${hoveredLayer?.coordinate[0]})`
+                  `(${hoveredLayer?.coordinate[0]}, ${hoveredLayer?.coordinate[1]})`
                 ? new THREE.Color(0x00ff00) // Green for hovered
                 : key ===
-                  `(${selectedLayer?.coordinate[1]}, ${selectedLayer?.coordinate[0]})`
+                  `(${selectedLayer?.coordinate[0]}, ${selectedLayer?.coordinate[1]})`
                 ? new THREE.Color(0xffa500) // Orange for clicked in sidebar
                 : new THREE.Color(0x000000); // Default
           }

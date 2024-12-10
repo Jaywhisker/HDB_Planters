@@ -15,12 +15,12 @@ const LandscapeModel = ({
   coordinatesObject,
   surroundingContext,
   layersData,
-  updateLayersData,
-  allowInteraction,
+  updateLayersData = () => {}, // Optional callback
+  allowInteraction = true, // Allow general mouse interactions (e.g., rotation)
   hoveredLayer,
-  updateHoveredLayer,
+  updateHoveredLayer = () => {}, // Optional callback
   selectedLayer,
-  updateSelectedLayer,
+  updateSelectedLayer = () => {}, // Optional callback
   downloadModel,
   onDownloadComplete, // Callback to notify download is complete
 }) => {
@@ -31,7 +31,7 @@ const LandscapeModel = ({
 
   const raycaster = useRef(new THREE.Raycaster());
   const mouse = useRef(new THREE.Vector2());
-  const hoveredObjectRef = useRef(null);
+
 
   useEffect(() => {
     // Add ambient and directional lighting
@@ -65,7 +65,7 @@ const LandscapeModel = ({
     if (layersData.length === 0) {
       const newLayersData = Object.entries(coordinatesObject).map(
         ([coord, speciesID], idx) => {
-          const [y, x] = coord.replace(/[()]/g, "").split(",").map(Number); // Parse coordinates
+          const [x, y] = coord.replace(/[()]/g, "").split(",").map(Number); // Parse coordinates
           return { layerID: idx+1, speciesID, coordinate: [x, y] }; // Ensure coordinate matches [x, y]
         }
       );
@@ -76,41 +76,55 @@ const LandscapeModel = ({
   // Select Trees data
   useEffect(() => {
     if (allowInteraction) {
-      // Selecting plant
       const onMouseDown = (event) => {
-        // Retrieve current mouse data
         const rect = event.target.getBoundingClientRect();
         mouse.current.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
         mouse.current.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
-        // Retrieve the selected object
+    
         raycaster.current.setFromCamera(mouse.current, camera);
         const intersects = raycaster.current.intersectObjects(scene.children, true);
-      
+    
         if (intersects.length > 0) {
-          const object = intersects[0].object;
-          // Convert THREE.Vector3 to array for comparison
-          const objectPosition = [object.position.x, object.position.y, object.position.z];
-          // Update selected layer
-          const layer = layersData.find(
-            (layer) => layer.coordinate.join() === objectPosition.join()
-          );
-          if (layer) {
-            updateSelectedLayer(
-              layer.layerID === selectedLayer ? null : layer.layerID
-            );
-          }
+            const object = intersects[0].object;
+    
+            const worldPosition = new THREE.Vector3();
+            object.getWorldPosition(worldPosition);
+            console.log("3D Click World Position:", worldPosition);
+    
+            const closestLayer = layersData.reduce((closest, layer) => {
+              const layerX = layer.coordinate[0] - 50;
+              const layerZ = -(layer.coordinate[1] - 50);
+          
+              const distance = Math.sqrt(
+                  Math.pow(layerX - worldPosition.x, 2) +
+                  Math.pow(layerZ - worldPosition.z, 2)
+              );
+          
+              if (distance < closest.distance) {
+                  return { layer, distance };
+              }
+          
+              return closest;
+          }, { layer: null, distance: Infinity });
+    
+            if (closestLayer.layer) {
+                console.log("3D Click Matched Layer Coordinate:", closestLayer.layer.coordinate);
+                console.log("3D Click Matched Layer Species ID:", closestLayer.layer.speciesID);
+                updateSelectedLayer(closestLayer.layer.layerID === selectedLayer ? null : closestLayer.layer.layerID);
+            }
         } else {
-          // Deselect layer if clicking on a blank space
-          updateSelectedLayer(null);
+            updateSelectedLayer(null);
         }
-      };
-      window.addEventListener("mousedown", onMouseDown);
-      // Remove the event listening on unmount
+    };
+  
+      gl.domElement.addEventListener("mousedown", onMouseDown);
+  
       return () => {
-        window.removeEventListener("mousedown", onMouseDown);
+        gl.domElement.removeEventListener("mousedown", onMouseDown);
       };
     }
   }, [layersData, selectedLayer, updateSelectedLayer, scene, camera]);
+  
 
   // Apply highlights for all models
   useEffect(() => {
@@ -128,11 +142,11 @@ const LandscapeModel = ({
 
     // Apply highlight to the selected model if there is any
     if (selectedLayer !== null && layersData[selectedLayer]) {
-      const { coordinate, speciesID } = layersData[selectedLayer];
+      const { coordinate, speciesID } = layersData[selectedLayer -1];
       const [x, y] = coordinate;
 
       Object.entries(coordinatesObject).forEach(([coord, id]) => {
-        const [cy, cx] = coord.replace(/[()]/g, "").split(",").map(Number);
+        const [cx, cy] = coord.replace(/[()]/g, "").split(",").map(Number);
         if (id === speciesID && x === cx && y === cy) {
           const model = plantModels[speciesID]?.clone();
           if (model) {
@@ -151,7 +165,7 @@ const LandscapeModel = ({
   const highlightedModelKey = useMemo(() => {
     if (selectedLayer !== null && layersData[selectedLayer]) {
       const { coordinate } = layersData[selectedLayer-1];
-      return `(${coordinate[1]}, ${coordinate[0]})`; // Match the coordinate format in the JSON
+      return `(${coordinate[0]}, ${coordinate[1]})`; // Match the coordinate format in the JSON
     }
     return null;
   }, [selectedLayer, layersData]);
