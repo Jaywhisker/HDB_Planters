@@ -3,7 +3,7 @@
 This is the folder containing the Plant Selection Backend for Dreamscape. This backend is built in python with a FastAPI framework.
 
 # System Design
-![Plant Selection System Design](./system_design.png)
+![Plant Selection System Design](./system_design.jpg)
 
 # Docker Requirements
 Plant Selection requires 1 main container to be running:
@@ -18,6 +18,7 @@ Simply wait for a while before restarting the container to resolve any errors.
 # Tests
 All tests files are in the tests folder. To run the test file, head to your docker terminal (make sure the service is running) and enter the following commands:
 ```
+cd hdb-plant-selection (ensure you are in this directory)
 python tests/test.py
 ```
 If the file ran without any error, the backend is functioning.

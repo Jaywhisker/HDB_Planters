@@ -3,7 +3,7 @@
 This is the folder containing the Spatial Placement Backend for Dreamscape. This backend is built in python with a FastAPI framework.
 
 # System Design
-![Spatial Placement System Design](./system_design.png)
+![Spatial Placement System Design](./system_design.jpg)
 
 # Train RL model
 The Spatial Placement Backend relies on an Reinforcement Learning (RL) model for Plant Type Allocation. <br>
