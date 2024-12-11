@@ -41,6 +41,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan)
 
+# Add CORS
 origins = [
     "http://localhost:3000",
 ]
@@ -56,7 +57,7 @@ app.add_middleware(
 
 @app.get("/")
 async def test():
-    return {"message": "backend is active!"}
+    return {"message": "plant selection backend is active!"}
 
 @app.post("/generate_palette")
 async def create_item(request_body: user_input):

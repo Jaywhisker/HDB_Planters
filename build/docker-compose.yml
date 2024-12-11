@@ -14,37 +14,44 @@ services:
     build:
       context: ../
       dockerfile: build/ReactUI.Dockerfile
+    command: npm start
+      
 
   plant-selection:
-      image: plant-selection
-      stdin_open: true
-      tty: true
-      build:
-          context: ../
-          dockerfile: build/AIPlantSelection.Dockerfile
-      volumes:
-        - ../hdb-plant-selection/src:/hdb-plant-selection/src        
-        - ../hdb-plant-selection/tests:/hdb-plant-selection/tests
-      ports:
-        - ${AI_PLANT_HOST_PORT}:${AI_PLANT_SERVICE_PORT}
-      env_file:
-        - .env
+    image: plant-selection
+    stdin_open: true
+    tty: true
+    build:
+        context: ../
+        dockerfile: build/AIPlantSelection.Dockerfile
+    volumes:
+      - ../hdb-plant-selection/src:/hdb-plant-selection/src        
+      - ../hdb-plant-selection/tests:/hdb-plant-selection/tests
+    ports:
+      - ${AI_PLANT_HOST_PORT}:${AI_PLANT_SERVICE_PORT}
+    env_file:
+      - .env
+    restart: always
+    depends_on:
+      - elasticsearch
+    entrypoint: sh -c "sleep 30 && uvicorn src.main:app --host=0.0.0.0 --port=${AI_PLANT_HOST_PORT} --reload"
 
 
   spatial-placement:
-      image: spatial-placement
-      stdin_open: true
-      tty: true
-      build:
-          context: ../
-          dockerfile: build/AIPlantSelection.Dockerfile
-      volumes:
-        - ../hdb-spatial-placement/src:/hdb-spatial-placement/src        
-        - ../hdb-spatial-placement/tests:/hdb-spatial-placement/tests
-      ports:
-        - ${AI_SPATIAL_HOST_PORT}:${AI_SPATIAL_SERVICE_PORT}
-      env_file:
-        - .env
+    image: spatial-placement
+    stdin_open: true
+    tty: true
+    build:
+        context: ../
+        dockerfile: build/AISpatialPlacement.Dockerfile
+    volumes:
+      - ../hdb-spatial-placement/src:/hdb-spatial-placement/src        
+      - ../hdb-spatial-placement/tests:/hdb-spatial-placement/tests
+    ports:
+      - ${AI_SPATIAL_HOST_PORT}:${AI_SPATIAL_SERVICE_PORT}
+    env_file:
+      - .env
+    command: uvicorn src.main:app --host=0.0.0.0 --port=${AI_SPATIAL_HOST_PORT} --reload
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.10.1

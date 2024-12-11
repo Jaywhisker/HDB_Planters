@@ -1,3 +1,4 @@
+# Imports
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -294,7 +295,7 @@ class plantTypeAllocationEnv(gym.Env):
     
     def retrieve_results(self):
         """
-        Function the returns the coordinates and numpy grid of the map
+        Function that returns the coordinates and numpy grid of the map.
         Map index:
         {
         0: surrounding
@@ -305,19 +306,26 @@ class plantTypeAllocationEnv(gym.Env):
 
         Returns:
             theme (int): 0 for road, 1 for walkway
-            grid (np.npdarray): numpy array of the updated grid with planted coordinates
-            coordinates (dict): dictionary of {Tree: [], Shrubs:[]} with all the coordinates
+            grid (np.ndarray): numpy array of the updated grid with planted coordinates.
+            coordinates (dict): dictionary of {Tree: [], Shrubs:[]} with all the coordinates.
         """
-        # Swap the (y,x) to (x,y) coordinates
-        updated_coordinates = {key: [(x, y) for y, x in value] for key, value in self.coordinates.items()}
+        
+        # Swap the (y, x) to (x, y) coordinates only for the output (not the grid mapping)
+        updated_coordinates = {
+            key: [(x, y) for y, x in value] if key == "Shrubs" else value  # Flip only Shrubs, keep Tree as it is
+            for key, value in self.coordinates.items()
+        }
+
+        # Use self.filled_boundary as the base grid
         updated_grid = self.filled_boundary.copy()
-        # Append the correct coordinates to the grid
-        for key, coordinates in updated_coordinates.items():
-            for x, y in coordinates:
-                # Set the value at the given (x, y) position in the array
-                updated_grid[y, x] = 2 if key=='Tree' else 3
-                
+
+        # Map the updated coordinates to the grid
+        for key, coordinates in self.coordinates.items():  # Use the original `self.coordinates`
+            for y, x in coordinates:  # Grid uses (y, x)
+                updated_grid[y, x] = 2 if key == 'Tree' else 3  # Assign Tree as 2, Shrub as 3
+
         return self.theme, updated_grid, updated_coordinates
+
     
     def render(self, only_plant:bool=False, show_coord:bool=False):
         """
@@ -374,3 +382,6 @@ class plantTypeAllocationEnv(gym.Env):
         plt.legend(handles, labels, title='Legend', bbox_to_anchor=(1.05, 1), loc='upper left')
 
         plt.show()
+
+if __name__ == "__main__":
+    pass

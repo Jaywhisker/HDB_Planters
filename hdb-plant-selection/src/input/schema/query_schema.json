@@ -35,6 +35,9 @@
                         "None"
                     ]
                 },
+                "Maximum Height (m)": {
+                    "type": "number"
+                },
                 "Height": {
                     "type": "string",
                     "enum": [
@@ -115,6 +118,7 @@
                 "Plant Type",
                 "Fruit Bearing",
                 "Fragrant Plant",
+                "Maximum Height (m)",
                 "Height",
                 "Flower Colour",
                 "Attracted Animals",

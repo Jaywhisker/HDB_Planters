@@ -1,4 +1,4 @@
-# Python file to train RL model
+# Python file to train RL Plant Allocation model
 import gc
 import os
 import logging
@@ -19,10 +19,10 @@ def parse_arguments():
     parser = argparse.ArgumentParser(description="Training script for the RL model.")
     
     # Define the arguments
-    parser.add_argument('--model', type=str, required=True, help='Either plant_type_model or shrub_tree_model')
     parser.add_argument('--num_steps', type=int, default=10, help='How many steps before policy updates')
     parser.add_argument('--num_env', type=int, default=50, help='Number of environments to use in training')
     parser.add_argument('--num_run', type=int, default=10000, help='Number of policy updates to run in training')
+    parser.add_argument('--model_name', type=str, default='plantTypeAllocationModel.zip', help='Name to save zip file as. Defaults to plantTypeAllocationModel.zip' )
 
     return parser.parse_args()
 
@@ -64,10 +64,10 @@ def main():
     args = parse_arguments()
 
     # Accessing the arguments
-    model = args.model
     n_steps = args.num_steps
     n_env = args.num_env
     max_run = args.num_run
+    model_name = args.model_name
 
     # Setup Logger
     logging.basicConfig(
@@ -77,21 +77,13 @@ def main():
         filemode='w'
     )
 
-    # Select which model to train
-    if model not in ["plant_type_model", "shrub_tree_model"]:
-        raise Exception("Invalid model type chosen. Accepted options are plant_type_model or shrub_tree_model.")
-
     # Create environment
-    if model == "plant_type_model":
-        logging.info("Selected Training Plant Type Allocation Model")
-        logging.info("Checking environment")
-        test = plantTypeAllocationEnv(random.uniform(1,2), 0)
-        check_env(test)
-        envs = DummyVecEnv([make_env(plantTypeAllocationEnv(random.uniform(1,2), 0)) for env in range(n_env)])
-        eval_env = plantTypeAllocationEnv(random.uniform(1,2), random.randint(0,1), random.randint(0,50))
-
-    if model == "shrub_tree_model":
-        pass
+    logging.info("Training Plant Type Allocation Model")
+    logging.info("Checking environment")
+    test = plantTypeAllocationEnv(random.uniform(1,2), 0)
+    check_env(test)
+    envs = DummyVecEnv([make_env(plantTypeAllocationEnv(random.uniform(1,2), 0)) for env in range(n_env)])
+    eval_env = plantTypeAllocationEnv(random.uniform(1,2), random.randint(0,1), random.randint(0,50))
 
     logging.info("Successfully created environment, creating model")
     # Create Model
@@ -109,8 +101,8 @@ def main():
                             deterministic=True, render=False)
     # Train model
     logging.info("Successfully created model, starting training")
-    train_model(model, max_run, n_steps, './src/models/plantTypeAllocationModel.zip', eval_callback)
-    logging.info("Training Completed, Model saved in /src/models/plantTypeAllocationModel.zip")
+    train_model(model, max_run, n_steps, f'./src/models/{model_name}', eval_callback)
+    logging.info(f"Training Completed, Model saved in ./src/models/{model_name}")
 
 
 if __name__ == "__main__":

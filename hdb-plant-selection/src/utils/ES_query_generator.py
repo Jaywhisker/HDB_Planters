@@ -174,6 +174,7 @@ class ESPlantQueryGenerator():
         - Plant Type: list[str] (Palm, Herbaceous Plants)
         - Fruit Bearing: str (True, False, None)
         - Fragrant Plant: str (True, False, None)
+        - Maximum Height (m): int 
         - Height: str (Tall, Short, None)
         - Flower Colour: list[str]
         - Attracted Animals: list[str] (Bird, Butterfly, Bee, Caterpillar Moth, Bat)
@@ -215,6 +216,7 @@ class ESPlantQueryGenerator():
         } 
 
         Returns:
+            function_style_surrounding_extraction (dictionary): extracted function, style and surrounding
             query (dictionary): custom query for elastic search
             rerank_requirements (dictionary): key requirements for the reranking algorithm       
         """
@@ -271,6 +273,20 @@ class ESPlantQueryGenerator():
             if key == "Plant Type" or key == "Height":
                 pass
 
+            # Maximum height, Prioritise the gpt response > preset function requirements
+            elif key == "Maximum Height (m)":
+                function_value = function_requirements.get(key, 0)
+                # If there is a height constraint
+                if function_value != 0 or items != 0:
+                    height_constraints = items if items != 0 else function_value
+                    query["bool"][self.es_query_requirements[key]].append({
+                        "range": {
+                            "Maximum Height (m)": {
+                                "lt": height_constraints
+                            }
+                        }
+                    })
+
             # Boolean Terms, Prioritise the gpt response > preset function requirements
             elif key == "Fruit Bearing" or key == "Fragrant Plant":
                 gpt_value = True if items == "True" else False if items == "False" else None
@@ -324,7 +340,7 @@ class ESPlantQueryGenerator():
         if gpt_response_json['Height'] != "None" and gpt_response_json['Height'] != None:
             rerank_requirements['Height'] = gpt_response_json['Height']
 
-        return query, rerank_requirements
+        return function_style_surrounding_extraction, query, rerank_requirements
     
 if __name__ == "__main__":
     pass

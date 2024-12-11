@@ -3,6 +3,7 @@
     "Light Preference" : "must", 
     "Water Preference": "must", 
     "Drought Tolerant": "must", 
+    "Maximum Height (m)": "must",
     "Attracted Animals": "should", 
     "Hazard": "must", 
     "Avoid Animals": "must_not",
