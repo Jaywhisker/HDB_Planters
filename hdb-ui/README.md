@@ -42,7 +42,7 @@ This section will explain the file structure of the current React file as well a
 ├── src                            <- base folder containing all the UI components to be imported into the UI pages
 │   ├── components                 <- folder containing all the code for component (currently components for loading the 3d visualisations)
 │   │
-│   ├── components                 <- folder containing all the code for context, which maintains global data
+│   ├── context                    <- folder containing all the code for context, which maintains global data
 │   │
 │   ├── data                       <- folder containing data files in JSON (mock input and output from API calls, as well as the 3d model scales for visualisation)
 │   │
