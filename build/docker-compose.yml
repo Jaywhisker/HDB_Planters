@@ -34,7 +34,7 @@ services:
     restart: always
     depends_on:
       - elasticsearch
-    entrypoint: sh -c "sleep 10 && uvicorn src.main:app --host=0.0.0.0 --port=${AI_PLANT_HOST_PORT} --reload"
+    entrypoint: sh -c "sleep 30 && uvicorn src.main:app --host=0.0.0.0 --port=${AI_PLANT_HOST_PORT} --reload"
 
 
   spatial-placement:

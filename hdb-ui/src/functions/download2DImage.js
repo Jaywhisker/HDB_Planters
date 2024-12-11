@@ -59,10 +59,10 @@ export default function download2DPlantingGrid (treeCanvasRef, shrubCanvasRef, p
             if (value >= 1) {
                 // Check if is shrub / tree coordinates
                 if (value == 2) {
-                    treeCoordinates.push([y,x])
+                    treeCoordinates.push([x,y])
                 } 
                 if (value == 3) {
-                    shrubCoordinates.push([y,x])
+                    shrubCoordinates.push([x,y])
                 }
                 const neighbors = [
                     [0, -1], // Top
@@ -111,7 +111,7 @@ export default function download2DPlantingGrid (treeCanvasRef, shrubCanvasRef, p
     // Segmenting planting area for shrubs
     // Firstly we need to reformat the data to be in the format of {speciesID: [[x,y], [x,y]]}
     shrubCoordinates.forEach((shrubCoordinate) => {
-        const key = `(${shrubCoordinate[0]}, ${shrubCoordinate[1]})`
+        const key = `(${shrubCoordinate[1]}, ${shrubCoordinate[0]})`
         var speciesID = plantingCoords[key]
         if (!speciesCoordinates[speciesID]) {
             // Key does not exist, need to initialise
@@ -297,7 +297,7 @@ export default function download2DPlantingGrid (treeCanvasRef, shrubCanvasRef, p
     // Drawing the Tree Radius
     treeCoordinates.forEach((coordinate) => {
         // Retrieving Coordinates and ID
-        var treeSpecies = plantingCoords[`(${coordinate[0]}, ${coordinate[1]})`]
+        var treeSpecies = plantingCoords[`(${coordinate[1]}, ${coordinate[0]})`]
         var treeColourIndex = uniqueTreeList.indexOf(treeSpecies)
         // Doesnt exist in list
         if (treeColourIndex === -1) {
@@ -311,7 +311,7 @@ export default function download2DPlantingGrid (treeCanvasRef, shrubCanvasRef, p
         // Draw circle
         ctx.fillStyle = treeColourMap[treeColourIndex]
         ctx.beginPath();
-        ctx.arc(coordinate[1]*scale, coordinate[0]*scale, 10*scale, 0, Math.PI * 2);
+        ctx.arc(coordinate[0]*scale, coordinate[1]*scale, 10*scale, 0, Math.PI * 2);
         ctx.fill()
         // Draw circle outline
         ctx.strokeStyle = treeOutline; 
@@ -328,13 +328,13 @@ export default function download2DPlantingGrid (treeCanvasRef, shrubCanvasRef, p
         ctx.font = '12px Arial'; // Set text font and size
         ctx.textAlign = 'center'; // Align text horizontally to the center
         ctx.textBaseline = 'middle'; // Align text vertically to the middle
-        ctx.fillText(treeName, coordinate[1]*scale, coordinate[0]*scale); // Draw the text at the center
+        ctx.fillText(treeName, coordinate[0]*scale, coordinate[1]*scale); // Draw the text at the center
 
         
         // Shrub Canvas -------------------------------------------------------------------
         // Draw circle outline
         ctxS.beginPath();
-        ctxS.arc(coordinate[1]*scale, coordinate[0]*scale, 10*scale, 0, Math.PI * 2);
+        ctxS.arc(coordinate[0]*scale, coordinate[1]*scale, 10*scale, 0, Math.PI * 2);
         ctxS.strokeStyle = 'rgba(0, 0, 0, 0.25)'; // Some opacity 
         ctxS.lineWidth = 2;
         ctxS.stroke()                
