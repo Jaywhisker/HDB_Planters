@@ -25,7 +25,6 @@ function App() {
                 <Route path="/loading" element={<LoadingScreen />} />
                 <Route path="/select-configuration" element={<SelectConfiguration />} />
                 <Route path="/edit-configuration" element={<EditConfiguration />} />
-                <Route path="/1" element={<DownloadPage />} />
               </Routes>
             </Router>
           </PreloadProvider>

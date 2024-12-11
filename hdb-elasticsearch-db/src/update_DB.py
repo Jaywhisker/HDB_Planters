@@ -36,6 +36,7 @@ def parse_arguments():
     parser.add_argument('--collection_name', type=str, default='flora', help='Collection name for dataset in ElastiSearch. Defaults to flora.')
     parser.add_argument('--output_folder', type=str, default='./src/flora_data/', help='Dataset CSV output folder.')
     parser.add_argument('--logs_folder', type=str, default='./src/flora_data/logs/', help='Logs output folder.')
+    parser.add_argument('--include_canopy_radius', type=bool, default=False, help='Does dataset contain Canopy Radius attribute?')
 
     return parser.parse_args()
 
@@ -108,7 +109,7 @@ def ingest_dataset(csv_filepath:str, esManager:ESManager, collection_name:str, i
     return esManager.create_document(collection_name, all_documents)
 
 
-def main(include_canopy_radius:bool=False):
+def main():
     args = parse_arguments()
 
     # Accessing the arguments
@@ -119,6 +120,7 @@ def main(include_canopy_radius:bool=False):
     collection_name = args.collection_name
     DATA_FOLDER = args.output_folder
     LOGS_FOLDER = args.logs_folder
+    include_canopy_radius = args.include_canopy_radius
 
     CSV_FILE_PATH = os.path.join(DATA_FOLDER, 'dataset.csv')
 

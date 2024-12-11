@@ -63,7 +63,7 @@ const LoadingScreen = () => {
         console.log("Composition Config:", compositionConfig);
 
         // Make the API call to generate the composition
-        const response = await axios.post("http://localhost:8001/generate_composition", compositionConfig);
+        const response = await axios.post(`http://localhost:${process.env.REACT_APP_AI_SPATIAL_SELECTION_PORT}/generate_composition`, compositionConfig);
 
         console.log("API Response:", response.data);
 

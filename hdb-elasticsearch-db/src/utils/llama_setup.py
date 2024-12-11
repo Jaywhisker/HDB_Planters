@@ -2,7 +2,7 @@ import os
 from transformers import AutoTokenizer, AutoModelForCausalLM
 
 """
-Python File to download Llama2--7b locally
+Python File to download Llama2-7b locally
 
 Note: 
 To download LLama2-7b from hugging face, you require access from meta.

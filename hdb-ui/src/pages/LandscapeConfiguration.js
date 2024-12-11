@@ -73,7 +73,7 @@ const LandscapeDesignForm = () => {
 
     try {
       console.log("Sending Data to Backend:", data);
-      const response = await axios.post("http://localhost:8000/generate_palette", data);
+      const response = await axios.post(`http://localhost:${process.env.REACT_APP_AI_PLANT_SELECTION_PORT}/generate_palette`, data);
 
       const plantData = response.data;
       console.log("Received Plant Data:", plantData);
