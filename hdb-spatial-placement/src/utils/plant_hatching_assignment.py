@@ -1443,6 +1443,8 @@ class plantHatchingAndAssignment():
                     mirrored_tree_id_dict[(mirrored_y, mirrored_x)] = self.tree_id_dict.get((y, x), None)  # Map to tree ID
                     mirrored_trees[(y, x)] = radius  # Keep original position
                     mirrored_tree_id_dict[(y, x)] = self.tree_id_dict.get((y, x), None)
+        
+        return optimal_grid, optimal_shrubs_dict, mirrored_trees, mirrored_tree_id_dict, optimal_split
 
 
     def _split_and_mirror_grid(self, grid:np.ndarray, shrubs_dict:dict, split_type:str="horizontal"):
