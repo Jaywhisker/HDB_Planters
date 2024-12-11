@@ -1,4 +1,5 @@
 export default function download2DPlantingGrid (treeCanvasRef, shrubCanvasRef, plantingGrid, plantingCoords, plantPaletteDetails, scale=5) {
+    console.log(plantingCoords)
     // Tree Colour Map
     const treeColourMap = [
         'rgba(228, 236, 138, 0.75)',
@@ -58,10 +59,10 @@ export default function download2DPlantingGrid (treeCanvasRef, shrubCanvasRef, p
             if (value >= 1) {
                 // Check if is shrub / tree coordinates
                 if (value == 2) {
-                    treeCoordinates.push([x,y])
+                    treeCoordinates.push([y,x])
                 } 
                 if (value == 3) {
-                    shrubCoordinates.push([x,y])
+                    shrubCoordinates.push([y,x])
                 }
                 const neighbors = [
                     [0, -1], // Top
@@ -106,7 +107,7 @@ export default function download2DPlantingGrid (treeCanvasRef, shrubCanvasRef, p
             }
         }
     }
-    
+
     // Segmenting planting area for shrubs
     // Firstly we need to reformat the data to be in the format of {speciesID: [[x,y], [x,y]]}
     shrubCoordinates.forEach((shrubCoordinate) => {
@@ -276,11 +277,15 @@ export default function download2DPlantingGrid (treeCanvasRef, shrubCanvasRef, p
     }
             
     // Update text for each segmented area
-    // TODO: Update with proper species name
+
     const clusterCentroids = findClusterCentroids(clusterMap); // Retrieve all cluster centroids
     var speciesIDArray = Object.keys(speciesCoordinates)
     clusterCentroids.forEach((centroidData, index) => {
-        var shrubName = `S${speciesIDArray[centroidData.speciesKey]}`
+        var shrubScientificName = plantPaletteDetails[speciesIDArray[centroidData.speciesKey]]['Scientific Name']
+        var shrubNameList = shrubScientificName.split(" ").splice(0, 2)
+        var shrubSuffix = shrubNameList.map(name => name[0]).join("")
+        var shrubSuffixFinal = shrubSuffix.charAt(0).toUpperCase() + shrubSuffix.slice(1);
+        var shrubName = `S${shrubSuffixFinal}`
         // Draw shrub name at the center area
         ctxS.fillStyle = 'black'; // Set text color
         ctxS.font = '12px Arial'; // Set text font and size
@@ -290,7 +295,6 @@ export default function download2DPlantingGrid (treeCanvasRef, shrubCanvasRef, p
     })
 
     // Drawing the Tree Radius
-    // TODO: Update with proper species name
     treeCoordinates.forEach((coordinate) => {
         // Retrieving Coordinates and ID
         var treeSpecies = plantingCoords[`(${coordinate[0]}, ${coordinate[1]})`]
@@ -307,27 +311,30 @@ export default function download2DPlantingGrid (treeCanvasRef, shrubCanvasRef, p
         // Draw circle
         ctx.fillStyle = treeColourMap[treeColourIndex]
         ctx.beginPath();
-        ctx.arc(coordinate[0]*scale, coordinate[1]*scale, 10*scale, 0, Math.PI * 2);
+        ctx.arc(coordinate[1]*scale, coordinate[0]*scale, 10*scale, 0, Math.PI * 2);
         ctx.fill()
         // Draw circle outline
         ctx.strokeStyle = treeOutline; 
         ctx.lineWidth = 2;
         ctx.stroke()
 
-        // TODO: Get species name from dataset
-        var treeName = `TS${treeColourIndex}`
+        var treeScientificName = plantPaletteDetails[treeSpecies]['Scientific Name']
+        var treeNameList = treeScientificName.split(" ").splice(0, 2)
+        var treeSuffix = treeNameList.map(name => name[0]).join("")
+        var treeSuffixFinal = treeSuffix.charAt(0).toUpperCase() + treeSuffix.slice(1);
+        var treeName = `T${treeSuffixFinal}`
         // Draw text at the center of the circle
         ctx.fillStyle = 'black'; // Set text color
         ctx.font = '12px Arial'; // Set text font and size
         ctx.textAlign = 'center'; // Align text horizontally to the center
         ctx.textBaseline = 'middle'; // Align text vertically to the middle
-        ctx.fillText(treeName, coordinate[0]*scale, coordinate[1]*scale); // Draw the text at the center
+        ctx.fillText(treeName, coordinate[1]*scale, coordinate[0]*scale); // Draw the text at the center
 
         
         // Shrub Canvas -------------------------------------------------------------------
         // Draw circle outline
         ctxS.beginPath();
-        ctxS.arc(coordinate[0]*scale, coordinate[1]*scale, 10*scale, 0, Math.PI * 2);
+        ctxS.arc(coordinate[1]*scale, coordinate[0]*scale, 10*scale, 0, Math.PI * 2);
         ctxS.strokeStyle = 'rgba(0, 0, 0, 0.25)'; // Some opacity 
         ctxS.lineWidth = 2;
         ctxS.stroke()                

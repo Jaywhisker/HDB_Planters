@@ -512,8 +512,8 @@ const LandscapeDesignForm = () => {
                 sx={{ textAlign: "left" }}
               >
 
-                <MenuItem value="Little Water" sx={{ textAlign: "left" }} >Little Water</MenuItem>
                 <MenuItem value="Occasional Misting" sx={{ textAlign: "left" }} >Occasional Misting</MenuItem>
+                <MenuItem value="Little Water" sx={{ textAlign: "left" }} >Little Water</MenuItem>
                 <MenuItem value="Moderate Water" sx={{ textAlign: "left" }} >Moderate Water</MenuItem>
                 <MenuItem value="Lots of Water" sx={{ textAlign: "left" }} >Lots of Water</MenuItem>
               </Select>

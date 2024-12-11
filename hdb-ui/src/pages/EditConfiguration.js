@@ -1,4 +1,4 @@
-import React, { useState, useRef, useContext } from "react";
+import React, { useState, useRef, useContext, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Canvas } from "@react-three/fiber";
@@ -13,9 +13,10 @@ import download2DPlantingGrid from "../functions/download2DImage";
 
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import AddIcon from "@mui/icons-material/Add";
-import SwapVertIcon from "@mui/icons-material/SwapVert";
+import FindReplaceRoundedIcon from '@mui/icons-material/FindReplaceRounded';
 import CloseIcon from "@mui/icons-material/Close";
 import DownloadIcon from "@mui/icons-material/Download";
+import Tooltip from '@mui/material/Tooltip';
 
 import {
   AppBar,
@@ -86,9 +87,6 @@ const EditConfiguration = () => {
     setSelectedTab(newValue);
   };
 
-  // TODO: Load PlantPalette details for layer data and download2D
-  const plantPaletteDetails = null;
-
   // Use States for triggering download
   const [downloadModel, setDownloadModel] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -96,6 +94,8 @@ const EditConfiguration = () => {
   const [hoveredLayerID, setHoveredLayerID] = useState(null); //Hovering over layers tab
 
   // Duplicate edited Composition Coordinates to prevent corrupting the original data
+  const [editedCompositionGrid, setEditedCompositionGrid] =
+  useState(JSON.parse(JSON.stringify(compositionData["grid"])));
   const [editedCompositionCoordinates, setEditedCompositionCoordinates] =
     useState(JSON.parse(JSON.stringify(compositionData["coordinates"])));
   const [editedCompositionLayerData, setEditedCompositionLayerData] = useState(
@@ -197,6 +197,19 @@ const EditConfiguration = () => {
 
         // Update the composition and layer data with the new model ID
         // Landscape model will dyanmically update accordingly
+        const updatedPlantType = plantPaletteProcessed[newModelID]['Plant Type']
+        var speciesType = 0
+        if (updatedPlantType.includes("Tree")) {
+          speciesType = 2
+        } else if (updatedPlantType.includes("Palm")) {
+          speciesType = 2
+        } else {
+          speciesType = 3
+        }
+        const updatedGrid = [...editedCompositionGrid]
+        updatedGrid[selectedLayer.coordinate[0]][selectedLayer.coordinate[1]] = speciesType
+        setEditedCompositionGrid(updatedGrid)
+
         const updatedCoordinates = { ...editedCompositionCoordinates };
         updatedCoordinates[selectedCoordinateKey] = parseInt(newModelID);
         setEditedCompositionCoordinates(updatedCoordinates);
@@ -242,9 +255,9 @@ const EditConfiguration = () => {
         download2DPlantingGrid(
           treeCanvasRef,
           shrubCanvasRef,
-          compositionData["grid"],
+          editedCompositionGrid,
           editedCompositionCoordinates,
-          plantPaletteDetails
+          plantPaletteProcessed
         );
         setLoading(false); // Reset loading after 2D export
       }, 1000); // Adjust delay as needed
@@ -312,7 +325,7 @@ const EditConfiguration = () => {
             variant="text"
             color="primary"
             startIcon={<ArrowBackIosIcon />}
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/select-configuration")}
             sx={{ px: 4, py: 1.5 }}
           >
             Change composition
@@ -379,7 +392,7 @@ const EditConfiguration = () => {
         PaperProps={{
           sx: {
             maxHeight: "40vh", // Limit height
-            width: "18vw", // Set a fixed width
+            width: "18vw", // Set a fixed
             marginLeft: "-20.5vw", // Adjust spacing to position beside the drawer
             boxShadow: 2,
             overflow: "hidden",
@@ -776,22 +789,24 @@ const EditConfiguration = () => {
                           gap: "0.5rem",
                         }}
                       >
-                        <IconButton
-                          onMouseDown={(e) => e.stopPropagation()}
-                          onClick={(event) => {
-                            event.stopPropagation(); // Prevent propagation to parent elements
-                            handlePopoverOpen(event);
-                          }}
-                          sx={{
-                            bgcolor: "primary.main",
-                            color: "#fff",
-                            "&:hover": {
-                              bgcolor: "primary.dark",
-                            },
-                          }}
-                        >
-                          <SwapVertIcon />
-                        </IconButton>
+                        <Tooltip title="Swap Plants">
+                          <IconButton
+                            onMouseDown={(e) => e.stopPropagation()}
+                            onClick={(event) => {
+                              event.stopPropagation(); // Prevent propagation to parent elements
+                              handlePopoverOpen(event);
+                            }}
+                            sx={{
+                              bgcolor: "primary.main",
+                              color: "#fff",
+                              "&:hover": {
+                                bgcolor: "primary.dark",
+                              },
+                            }}
+                          >
+                            <FindReplaceRoundedIcon />
+                          </IconButton>
+                        </Tooltip>
                         <Typography
                           variant="h6"
                           sx={{
@@ -1027,8 +1042,8 @@ const EditConfiguration = () => {
       </Modal>
 
       {/* For 2D Downloading, DO NOT REMOVE, it is hidden from the UI, but necessary for the creation of the diagrams */}
-      <canvas ref={treeCanvasRef} style={{ display: "none" }}></canvas>
-      <canvas ref={shrubCanvasRef} style={{ display: "none" }}></canvas>
+      <canvas ref={treeCanvasRef} style={{display:'none'}}></canvas>
+      <canvas ref={shrubCanvasRef} style={{display:'none'}}></canvas>
     </Box>
   );
 };

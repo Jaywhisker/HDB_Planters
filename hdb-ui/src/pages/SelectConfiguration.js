@@ -416,6 +416,7 @@ const SelectConfiguration = () => {
               sx={{
                 fontFamily: '"Source Sans Pro", sans-serif',
                 fontSize: "0.75rem",
+                lineHeight: "1rem"
               }}
             >
               Disclaimer: The models are for representational purposes only and
@@ -478,7 +479,7 @@ const SelectConfiguration = () => {
             onClick={handleNavigation}
             sx={{ px: 4, py: 1.5, mb: 4, mt: 4 }}
           >
-            Selection and Edit
+            Select and Edit
           </Button>
         </Box>
       </Container>

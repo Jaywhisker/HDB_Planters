@@ -237,13 +237,13 @@ class plantHatchingAndAssignment():
 
         # For manicured theming, we mirror the hatching to provide a design
         if self.theme.lower() == "manicured":
-            cleaned_grid, shifted_seeds_dict, mirrored_trees, _ = self._mirror_grid(cleaned_grid, shifted_seeds_dict)
+            cleaned_grid, shifted_seeds_dict, mirrored_trees, mirrored_tree_id_dict, _ = self._mirror_grid(cleaned_grid, shifted_seeds_dict)
             self.tree_radii_dict = mirrored_trees
+            self.tree_id_dict = mirrored_tree_id_dict
 
         seed_mapping = {seed["Seed Number"]: seed["Shrub Name"] for seed in self.seed_mapping}
 
         return cleaned_grid, shifted_seeds_dict, seed_mapping
-    
 
     def _create_json(self, output_grid: np.ndarray, output_seed_dict: dict, seed_mapping: list):
         """
@@ -1372,40 +1372,21 @@ class plantHatchingAndAssignment():
 
             return merged_grid
     
-    def _mirror_grid(self, grid:np.ndarray, shrubs_dict:dict):
+    def _mirror_grid(self, grid: np.ndarray, shrubs_dict: dict):
         """
         Mirrors the grid and updates associated shrubs and tree positions based on an optimal split axis.
+        This function detects the optimal axis for splitting the grid and mirrors one part of the grid onto the other.
+        Shrub positions in `shrubs_dict` and tree positions in `self.tree_radii_dict` are updated to reflect the mirrored grid.
 
-        This function detects the optimal axis for splitting the grid (horizontal, vertical, right_diagonal, or left_diagonal)
-        and mirrors one part of the grid onto the other. Shrub positions in `shrubs_dict` and tree positions in 
-        `self.tree_radii_dict` are updated to reflect the mirrored grid.
-
-        Mirroring behavior:
-        - "horizontal": Mirrors the top half onto the bottom half.
-        - "vertical": Mirrors the left half onto the right half.
-        - "right_diagonal": Mirrors the bottom-left triangle onto the top-right triangle.
-        - "left_diagonal": Mirrors the bottom-right triangle onto the top-left triangle.
-
-        Args:
-            grid (np.ndarray): A 2D array representing the grid to be split and mirrored.
-            shrubs_dict (dict): A dictionary where keys are shrub types and values are lists of tuples 
-                                representing shrub positions (y, x).
+        Additionally, a new dictionary maps mirrored tree coordinates to their tree IDs.
 
         Returns:
             tuple:
                 - mirrored_grid (np.ndarray): The grid after applying the mirroring transformation.
                 - updated_shrubs_dict (dict): The updated dictionary with mirrored shrub positions.
-                - updated_tree_dict (dict): The updated dictionary where keys are tree positions (y, x) 
-                                            and values are radii after mirroring.
-                - optimal_split (str): The optimal split axis used for the operation 
-                                       (e.g., "horizontal", "vertical").
-
-        Notes:
-            - This function ensures that tree radii remain unchanged while their positions are mirrored.
-            - Tree positions are stored as a dictionary where keys are (y, x) coordinates, and values 
-              represent the tree radius.
-            - Shrub positions are adjusted and updated during mirroring to reflect the mirrored grid.
-
+                - updated_tree_dict (dict): The updated dictionary with mirrored tree positions mapped to radii.
+                - mirrored_tree_id_dict (dict): The updated dictionary with mirrored tree positions mapped to tree IDs.
+                - optimal_split (str): The optimal split axis used for the operation.
         """
         # Step 1: Ensure grid is integer type
         grid = grid.astype(int)
@@ -1425,36 +1406,44 @@ class plantHatchingAndAssignment():
         # Step 5: Mirror the trees across the split axis
         height, width = grid.shape
         mirrored_trees = {}
+        mirrored_tree_id_dict = {}
 
         if optimal_split == "horizontal":
             for (y, x), radius in self.tree_radii_dict.items():
                 if y < height // 2:  # Top half
                     mirrored_y = height - 1 - y
                     mirrored_trees[(mirrored_y, x)] = radius
-                mirrored_trees[(y, x)] = radius  # Keep original position
+                    mirrored_tree_id_dict[(mirrored_y, x)] = self.tree_id_dict.get((y, x), None)  # Map to tree ID
+                    mirrored_trees[(y, x)] = radius  # Keep original position
+                    mirrored_tree_id_dict[(y, x)] = self.tree_id_dict.get((y, x), None)
 
         elif optimal_split == "vertical":
             for (y, x), radius in self.tree_radii_dict.items():
                 if x < width // 2:  # Left half
                     mirrored_x = width - 1 - x
                     mirrored_trees[(y, mirrored_x)] = radius
-                mirrored_trees[(y, x)] = radius  # Keep original position
+                    mirrored_tree_id_dict[(y, mirrored_x)] = self.tree_id_dict.get((y, x), None)  # Map to tree ID
+                    mirrored_trees[(y, x)] = radius  # Keep original position
+                    mirrored_tree_id_dict[(y, x)] = self.tree_id_dict.get((y, x), None)
 
         elif optimal_split == "right_diagonal":
             for (y, x), radius in self.tree_radii_dict.items():
                 if y + x >= width:  # Bottom-left triangle
                     mirrored_y, mirrored_x = width - 1 - x, height - 1 - y
                     mirrored_trees[(mirrored_y, mirrored_x)] = radius
-                mirrored_trees[(y, x)] = radius  # Keep original position
+                    mirrored_tree_id_dict[(mirrored_y, mirrored_x)] = self.tree_id_dict.get((y, x), None)  # Map to tree ID
+                    mirrored_trees[(y, x)] = radius  # Keep original position
+                    mirrored_tree_id_dict[(y, x)] = self.tree_id_dict.get((y, x), None)
 
         elif optimal_split == "left_diagonal":
             for (y, x), radius in self.tree_radii_dict.items():
                 if x < y:  # Bottom-right triangle
                     mirrored_y, mirrored_x = x, y
                     mirrored_trees[(mirrored_y, mirrored_x)] = radius
-                mirrored_trees[(y, x)] = radius  # Keep original position
+                    mirrored_tree_id_dict[(mirrored_y, mirrored_x)] = self.tree_id_dict.get((y, x), None)  # Map to tree ID
+                    mirrored_trees[(y, x)] = radius  # Keep original position
+                    mirrored_tree_id_dict[(y, x)] = self.tree_id_dict.get((y, x), None)
 
-        return optimal_grid, optimal_shrubs_dict, mirrored_trees, optimal_split
 
     def _split_and_mirror_grid(self, grid:np.ndarray, shrubs_dict:dict, split_type:str="horizontal"):
         """
@@ -1786,6 +1775,7 @@ class plantHatchingAndAssignment():
         if isinstance(input, list):
             input = ", ".join(input)
         return bool(re.search(r'\bFull Shade\b', input, re.IGNORECASE))
+
 
 
 if __name__ == "__main__":

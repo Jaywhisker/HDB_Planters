@@ -212,7 +212,7 @@ const PlantPalette = () => {
             variant="text"
             color="primary"
             startIcon={<ArrowBackIosIcon />}
-            onClick={() => navigate(-1)}
+            onClick={() => navigate("/")}
             sx={{ px: 4, py: 1.5 }}
           >
             Edit Configuration
