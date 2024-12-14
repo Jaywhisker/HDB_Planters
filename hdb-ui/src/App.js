@@ -9,7 +9,8 @@ import LandscapeDesignPage from './pages/LandscapeConfiguration';
 import PlantPalette from './pages/PlantPalette';
 import SelectConfiguration from './pages/SelectConfiguration';
 import EditConfiguration from './pages/EditConfiguration';
-import LoadingScreen from './pages/LoadingScreen';
+import CompositionLoadingScreen from './pages/CompositionLoadingScreen';
+import PaletteLoadingScreen from './pages/PaletteLoadingScreen';
 import DownloadPage from './pages/2dDownloadTest';
 
 function App() {
@@ -21,8 +22,9 @@ function App() {
             <Router>
               <Routes>
                 <Route path="/" element={<LandscapeDesignPage />} />
+                <Route path="/loading-palette" element={<PaletteLoadingScreen />} />
                 <Route path="/plant-palette" element={<PlantPalette />} />
-                <Route path="/loading" element={<LoadingScreen />} />
+                <Route path="/loading-composition" element={<CompositionLoadingScreen />} />
                 <Route path="/select-configuration" element={<SelectConfiguration />} />
                 <Route path="/edit-configuration" element={<EditConfiguration />} />
               </Routes>

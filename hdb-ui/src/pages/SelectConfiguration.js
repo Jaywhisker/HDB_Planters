@@ -97,7 +97,7 @@ const SelectConfiguration = () => {
     navigate("/");
   };
 
-  
+
 
   // TODOS: Currently the UI only shows the first mock composition (For simplicity sake and also I only preloaded the models in the first composition)
   // Swapping the configurations will just be updating currentIndex to 0/1/2
@@ -116,69 +116,36 @@ const SelectConfiguration = () => {
           {/* Left Button */}
           <Button
             variant="text"
-            color="primary"
             startIcon={<ArrowBackIosIcon />}
             onClick={() => navigate("/plant-palette")}
-            sx={{ px: 4, py: 1.5 }}
           >
             Edit Plant Palette
           </Button>
 
-          <Box sx={{ flexGrow: 1, position: "relative" }}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  color: "primary.main",
-                  fontWeight: "bold",
-                  fontSize: "inherit", // Match font size
-                  lineHeight: "inherit", // Match line height
-                }}
-              >
-                DreamScape
-              </Typography>
+          <Box sx={{ flexGrow: 1, position: 'relative' }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img
+                src="/dreamscapeLogo.png"
+                alt="DreamScape Logo"
+                style={{ height: "8vh" }} />
             </Box>
           </Box>
 
           {/* Right Button */}
           <Button
             variant="contained"
-            color="primary"
             startIcon={<AddIcon />}
             onClick={handleNewDesign}
-            sx={{ px: 4, py: 1.5 }}
           >
             New Design
           </Button>
         </Toolbar>
+
       </AppBar>
 
       {/* Main Content */}
-      <Container
-        sx={{
-          mt: 3,
-          mb: "1.5rem",
-          bgcolor: "background.default",
-          width: "90vw",
-          height: "65vh",
-        }}
-      >
-        <Typography
-          variant="h1"
-          sx={{
-            fontFamily: '"Lora", serif',
-            fontWeight: 400, // Regular weight
-            fontSize: "45px", // Display Medium Font Size
-            lineHeight: "52px", // Display Medium Line Height
-            letterSpacing: "0", // Display Medium Tracking
-            textAlign: "left", // Left align the text
-          }}
-        >
+      <Container maxWidth="lg" sx={{ mt: "2vh", bgcolor: "background.default" }}>
+        <Typography variant="h1">
           Select a composition
         </Typography>
         <Box
@@ -189,6 +156,7 @@ const SelectConfiguration = () => {
             justifyContent: "space-between",
             gap: "2rem",
             height: "100%",
+
           }}
         >
           {/* Left Section */}
@@ -201,43 +169,15 @@ const SelectConfiguration = () => {
               gap: "1.5rem",
             }}
           >
-            <Typography
-              variant="body1"
-              sx={{
-                fontFamily: '"Source Sans Pro", sans-serif',
-                fontWeight: 400, // Regular weight
-                fontSize: "22px", // Title Large Font Size
-                lineHeight: "28px", // Title Large Medium Line Height
-                letterSpacing: "0", // Title Large Medium Tracking
-                textAlign: "left", // Left align the text
-              }}
-            >
+            <Typography variant="body1">
               Use the navigation arrows to browse designs or regenerate for new
               layouts.
             </Typography>
 
-            {/* Regenerate Button */}
-            <Button
-              variant="outlined"
-              color="primary"
-              onClick={() => navigate("/loading", { replace: true })}
-              sx={{
-                width: "8rem",
-                height: "2.5rem",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "0.3125rem",
-                flexShrink: 0,
-              }}
-            >
-              Regenerate
-            </Button>
-
             {/* Plant Palette */}
             <Card
               sx={{
-                height: "22rem",
+                height: "60vh",
                 flexGrow: 1,
                 display: "flex",
                 flexDirection: "column",
@@ -257,17 +197,7 @@ const SelectConfiguration = () => {
                   borderBottom: "1px solid #d3d3d3",
                 }}
               >
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontFamily: '"Source Sans Pro", sans-serif',
-                    fontWeight: 500, // Regular weight
-                    fontSize: "1rem", // Title Large Font Size
-                    lineHeight: "28px", // Title Large Medium Line Height
-                    letterSpacing: "0", // Title Large Medium Tracking
-                    textAlign: "left", // Left align the text
-                  }}
-                >
+                <Typography variant="h3" >
                   Plant Palette
                 </Typography>
               </Box>
@@ -275,6 +205,7 @@ const SelectConfiguration = () => {
                 sx={{
                   flex: 1, // Allow content to fill the remaining space
                   overflowY: "auto", // Enable vertical scrolling
+                  overflowX: "hidden",
                 }}
               >
                 {Object.values(plantPaletteProcessed)
@@ -310,20 +241,10 @@ const SelectConfiguration = () => {
 
                       {/* Plant Info */}
                       <Box sx={{ flexGrow: 1 }}>
-                        <Typography
-                          variant="body1"
-                          sx={{
-                            fontFamily: '"Source Sans Pro", sans-serif',
-                            fontWeight: 500,
-                          }}
-                        >
+                        <Typography variant="body1">
                           {plant["Scientific Name"]}
                         </Typography>
-                        <Typography
-                          variant="body2"
-                          color="textSecondary"
-                          sx={{ fontFamily: '"Source Sans Pro", sans-serif' }}
-                        >
+                        <Typography variant="body2" sx={{ color: 'text.secondary' }}>
                           {plant["Common Name"]}
                         </Typography>
                       </Box>
@@ -335,7 +256,7 @@ const SelectConfiguration = () => {
                           width: 60,
                           height: 60,
                           objectFit: "cover",
-                          borderRadius: "4px",
+                          borderRadius: "0.2rem",
                         }}
                         image={`/images/${plant["Species ID"]}.jpg`}
                         alt={plant["Scientific Name"]}
@@ -370,10 +291,7 @@ const SelectConfiguration = () => {
               {/* DO NOT remove Canvas, it is necessary, but you may edit the style */}
 
               {!modelsReady ? (
-                <Typography
-                  variant="body1"
-                  sx={{ fontFamily: '"Source Sans Pro", sans-serif' }}
-                >
+                <Typography variant="body1">
                   Loading Scene...
                 </Typography>
               ) : (
@@ -411,63 +329,53 @@ const SelectConfiguration = () => {
               )}
             </Box>
             {/* Disclaimer Text */}
-            <Typography
-              variant="body1"
-              sx={{
-                fontFamily: '"Source Sans Pro", sans-serif',
-                fontSize: "0.75rem",
-                lineHeight: "1rem"
-              }}
-            >
+            <Typography variant="body2" sx={{ color: "text.secondary" }}>
               Disclaimer: The models are for representational purposes only and
               may not accurately reflect the actual appearance of the plant
               species.
             </Typography>
             {/* Navigation Controls */}
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                mt: "1.5rem",
-              }}
-            >
-              <IconButton
-                onClick={() =>
-                  setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0))
-                }
-                disabled={currentIndex === 0}
-                sx={{ minWidth: "2.5rem", minHeight: "2.5rem" }}
-              >
-                <ArrowBackIosIcon />
-              </IconButton>
-
-              <Typography
-                variant="body1"
+            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <Box
                 sx={{
-                  fontFamily: '"Source Sans Pro", sans-serif',
-                  marginX: "1rem",
-                  fontSize: "1rem",
-                  textAlign: "center",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  mt: "1.5rem",
                 }}
               >
-                <Box component="span" sx={{ fontWeight: 700 }}>
-                  {currentIndex + 1}
-                </Box>{" "}
-                / {plantCompositionData.length}
-              </Typography>
+                <IconButton
+                  onClick={() =>
+                    setCurrentIndex((prevIndex) => Math.max(prevIndex - 1, 0))
+                  }
+                  disabled={currentIndex === 0}
+                  sx={{ minWidth: "2.5rem", minHeight: "2.5rem" }}
+                >
+                  <ArrowBackIosIcon />
+                </IconButton>
 
-              <IconButton
-                onClick={() =>
-                  setCurrentIndex((prevIndex) =>
-                    Math.min(prevIndex + 1, plantCompositionData.length - 1)
-                  )
-                }
-                disabled={currentIndex === plantCompositionData.length - 1}
-                sx={{ minWidth: "2.5rem", minHeight: "2.5rem" }}
-              >
-                <ArrowForwardIosIcon />
-              </IconButton>
+                <Typography variant="body1">
+                  <Box component="span" sx={{ fontWeight: 700 }}>
+                    {currentIndex + 1}
+                  </Box>{" "}
+                  / {plantCompositionData.length}
+                </Typography>
+
+                <IconButton
+                  onClick={() =>
+                    setCurrentIndex((prevIndex) =>
+                      Math.min(prevIndex + 1, plantCompositionData.length - 1)
+                    )
+                  }
+                  disabled={currentIndex === plantCompositionData.length - 1}
+                  sx={{ minWidth: "2.5rem", minHeight: "2.5rem" }}
+                >
+                  <ArrowForwardIosIcon />
+                </IconButton>
+              </Box>
+              <Button variant="outlined" onClick={() => navigate("/loading-composition", { replace: true })}>
+                Regenerate
+              </Button>
             </Box>
           </Box>
         </Box>
@@ -477,7 +385,7 @@ const SelectConfiguration = () => {
             variant="contained"
             color="primary"
             onClick={handleNavigation}
-            sx={{ px: 4, py: 1.5, mb: 4, mt: 4 }}
+            sx={{ mb: 4, mt: 4 }}
           >
             Select and Edit
           </Button>
@@ -507,7 +415,7 @@ const SelectConfiguration = () => {
         >
           <Typography
             id="confirm-new-design-title"
-            variant="h6"
+            variant="h2"
             sx={{ textAlign: "center", mb: 2 }}
           >
             Confirm New Design
@@ -529,19 +437,15 @@ const SelectConfiguration = () => {
           >
             <Button
               variant="outlined"
-              color="secondary"
               fullWidth
               onClick={cancelNewDesign}
-              sx={{ px: 4, py: 1.5 }}
             >
               Cancel
             </Button>
             <Button
               variant="contained"
-              color="primary"
               fullWidth
               onClick={confirmNewDesign}
-              sx={{ px: 4, py: 1.5 }}
             >
               Confirm
             </Button>
