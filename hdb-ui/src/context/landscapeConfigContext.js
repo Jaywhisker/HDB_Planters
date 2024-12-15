@@ -3,7 +3,7 @@ import React, { createContext, useReducer } from 'react';
 const initialState = {
   prompt: "",
   maxPlantCount: 6,
-  waterPreference: "",
+  waterPreference: "Moderate Water",
   faunaAttracted: ["None"],
   nativePercentage: 0.5,
   sunlightIntensity: 50,

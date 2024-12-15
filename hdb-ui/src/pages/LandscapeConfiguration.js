@@ -3,7 +3,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import RemoveIcon from "@mui/icons-material/Remove";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { LandscapeConfigContext } from "../context/landscapeConfigContext";
 import { usePlantPalette } from '../context/plantPaletteContext';
 
@@ -34,117 +34,13 @@ import {
 
 const LandscapeDesignForm = () => {
   const { state: configState, dispatch: configDispatch } = useContext(LandscapeConfigContext);
-  const { updateRawData } = usePlantPalette();
+
   const [alertMessage, setAlertMessage] = useState("");
   const [alertSeverity, setAlertSeverity] = useState("error");
   const [openAlert, setOpenAlert] = useState(false);
   const [formSubmitted, setFormSubmitted] = useState(false);
-  
   const navigate = useNavigate();
-
-  const showAlert = (message, severity = "error") => {
-    setAlertMessage(message);
-    setAlertSeverity(severity);
-    setOpenAlert(true);
-  };
-
-  const handleGenerate = async () => {
-    setFormSubmitted(true);
-
-    if (!isFormValid) {
-      showAlert("Please complete all required fields before generating.", "warning");
-      return;
-    }
-
-    const data = {
-      prompt: configState.prompt,
-      maximum_plant_count: configState.maxPlantCount,
-      light_preference:
-        configState.sunlightIntensity === 100
-          ? "Full Sun"
-          : configState.sunlightIntensity === 50
-            ? "Semi Shade"
-            : "Full Shade",
-      water_preference: configState.waterPreference || "",
-      drought_tolerant: configState.droughtTolerance || false,
-      fauna_attracted: configState.faunaAttracted.map((fauna) => fauna.toLowerCase()) || [],
-      ratio_native: configState.nativePercentage || 0.5,
-    };
-
-    try {
-      console.log("Sending Data to Backend:", data);
-      const response = await axios.post(`http://localhost:${process.env.REACT_APP_AI_PLANT_SELECTION_PORT}/generate_palette`, data);
-
-      const plantData = response.data;
-      console.log("Received Plant Data:", plantData);
-
-      if (plantData.all_plants.length < 3) {
-        showAlert(
-          "Not enough plants were generated to create a valid plant palette. Please broaden the scope of your configurations and try again.",
-          "warning"
-        );
-        return;
-      }
-
-      // Dispatch actions to update global states with backend data
-      // If style & surrounding are environment configurations, store them in LandscapeConfigContext
-      configDispatch({ type: 'SET_STYLE', payload: plantData.style });
-      configDispatch({ type: 'SET_SURROUNDING', payload: plantData.surrounding });
-
-      // Store all_plants and plant_palette in PlantPaletteContext
-      // Update the context with raw data
-      updateRawData(plantData.plant_palette, plantData.all_plants);
-
-      // Now navigate without passing state, since data is in global context
-      navigate("/plant-palette");
-    } catch (error) {
-      console.error("Error sending data to the backend:", error);
-      showAlert("An error occurred while generating the plant palette. Please try again.", "error");
-    }
-  };
-
-  const handleSliderChange = (event, newValue) => {
-    configDispatch({ type: "SET_SUNLIGHT_INTENSITY", payload: newValue });
-  };
-
-  const handleNativePercentageChange = (event, newValue) => {
-    configDispatch({ type: "SET_NATIVE_PERCENTAGE", payload: newValue });
-  };
-
-
-  const isFormValid = configState.prompt && configState.waterPreference;
-
-  const handleChangeFauna = (event) => {
-    const { value } = event.target;
-    const previousSelection = configState.faunaAttracted;
-
-    // Check if "None" is selected
-    if (value.includes("None")) {
-      if (value.length === 1) {
-        // If only "None" is selected
-        configDispatch({ type: "SET_FAUNA_ATTRACTED", payload: ["None"] });
-      } else {
-        // "None" plus other fauna selected
-        const previouslyNoneOnly = previousSelection.length === 1 && previousSelection[0] === "None";
-
-        if (previouslyNoneOnly) {
-          // Previously had only None, now user chose others as well
-          // Remove None and keep the newly chosen fauna
-          configDispatch({
-            type: "SET_FAUNA_ATTRACTED",
-            payload: value.filter((item) => item !== "None"),
-          });
-        } else {
-          // Previously had fauna or none, now "None" is selected as well
-          // This means user wants only "None"
-          configDispatch({ type: "SET_FAUNA_ATTRACTED", payload: ["None"] });
-        }
-      }
-    } else {
-      // No "None" selected, just update with chosen fauna
-      configDispatch({ type: "SET_FAUNA_ATTRACTED", payload: value });
-    }
-  };
+  const isFormValid = configState.prompt; // form only valid if prompt filled in
 
   const handlePromptChange = (value) => {
     configDispatch({ type: "SET_PROMPT", payload: value });
@@ -161,12 +57,96 @@ const LandscapeDesignForm = () => {
     }
   };
 
+  const handleSliderChange = (event, newValue) => {
+    configDispatch({ type: "SET_SUNLIGHT_INTENSITY", payload: newValue });
+  };
+
+  const handleNativePercentageChange = (event, newValue) => {
+    configDispatch({ type: "SET_NATIVE_PERCENTAGE", payload: newValue });
+  };
+
   const handleDroughtToleranceChange = (event) => {
     configDispatch({ type: "SET_DROUGHT_TOLERANCE", payload: event.target.checked });
   };
 
-  const handleWaterPreferenceChange = (value) => {
-    configDispatch({ type: "SET_WATER_PREFERENCE", payload: value });
+  const handleWaterPreferenceSliderChange = (event, newValue) => {
+    configDispatch({ type: "SET_WATER_PREFERENCE", payload: newValue });
+  };
+
+  // In order to have the Moderate Water be default value on slider upon initialisation
+  const waterPreferenceMap = {
+    0: "Occasional Misting",
+    1: "Little Water",
+    2: "Moderate Water",
+    3: "Lots of Water",
+  };
+
+  // Reverse mapping for setting numeric value based on string
+  const reverseWaterPreferenceMap = Object.fromEntries(
+    Object.entries(waterPreferenceMap).map(([key, value]) => [value, Number(key)])
+  );
+
+  // Ensure default value matches the slider's numeric value
+  useEffect(() => {
+    if (configState.waterPreference === undefined) {
+      configDispatch({ type: "SET_WATER_PREFERENCE", payload: 2 }); // Default to Moderate Water
+    } else if (typeof configState.waterPreference === "string") {
+      configDispatch({
+        type: "SET_WATER_PREFERENCE",
+        payload: reverseWaterPreferenceMap[configState.waterPreference] ?? 2,
+      });
+    }
+  }, [configState.waterPreference, configDispatch]);
+
+  // Fauna Attracted
+  const faunaOptions = ["Bird", "Butterfly", "Bee", "Caterpillar Moth", "Bat"];
+
+  const handleChangeFauna = (event) => {
+    const { value } = event.target;
+
+    // If "None" is clicked, clear all other fauna and set it to "None"
+    if (value.includes("None") && !value.includes("Bird") && !value.includes("Butterfly") && !value.includes("Bee") && !value.includes("Caterpillar Moth") && !value.includes("Bat")) {
+      configDispatch({ type: "SET_FAUNA_ATTRACTED", payload: ["None"] });
+      return;
+    }
+
+    // If fauna are selected, remove "None" from selection
+    if (value.includes("None")) {
+      configDispatch({
+        type: "SET_FAUNA_ATTRACTED",
+        payload: value.filter((item) => item !== "None"),
+      });
+      return;
+    }
+
+    // If all fauna are deselected, default to "None"
+    if (value.length === 0) {
+      configDispatch({ type: "SET_FAUNA_ATTRACTED", payload: ["None"] });
+      return;
+    }
+
+    // Regular fauna selection
+    configDispatch({ type: "SET_FAUNA_ATTRACTED", payload: value });
+  };
+
+  // Alert for Form Errors
+  const showAlert = (message, severity = "error") => {
+    setAlertMessage(message);
+    setAlertSeverity(severity);
+    setOpenAlert(true);
+  };
+
+  // Handle Generate to route to next page
+  const handleGenerate = () => {
+    setFormSubmitted(true);
+  
+    if (!isFormValid) {
+      showAlert("Please complete all required fields before generating.", "warning");
+      return;
+    }
+  
+    // Navigate to the LoadingPage
+    navigate("/loading-palette");
   };
 
   const ITEM_HEIGHT = 48;
@@ -180,154 +160,57 @@ const LandscapeDesignForm = () => {
     },
   };
 
-  const faunaOptions = ["Bird", "Butterfly", "Bee", "Caterpillar Moth", "Bat"];
-
   return (
-    <Box sx={{ width: "100%", height: "100%", bgcolor: "background.default" }}>
-      <AppBar position="fixed" sx={{ bgcolor: "#E0E3DE" }}>
+    <Box sx={{ width: "100%", height: "100vh", bgcolor: "background.default", overflowY: "auto" }}>
+      <AppBar position="sticky" sx={{ bgcolor: "surface.variant.background" }}>
         <Toolbar>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ flexGrow: 1, position: 'relative' }}>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <Typography
-                sx={{
-                  color: "primary.main",
-                  fontWeight: "bold",
-                  fontSize: "inherit", // Match font size
-                  lineHeight: "inherit", // Match line height
-                }}
-              >
-                DreamScape
-              </Typography>
+              <img
+                src="/dreamscapeLogo.png"
+                alt="DreamScape Logo"
+                style={{ height: "8vh" }} />
             </Box>
           </Box>
           <Box sx={{ flexGrow: 1 }} />
         </Toolbar>
       </AppBar>
-      <Container sx={{ width: "80%", height: "80%", mt: 12, bgcolor: "background.default" }}>
-        <Box sx={{ mb: 4 }}>
+      <Container maxWidth="lg" sx={{ mt: "2vh", bgcolor: "background.default" }}>
+        <Box>
           {/* "Create Your Ideal Landscape" */}
-          <Typography
-            variant="h1"
-            sx={{
-              fontFamily: '"Lora", serif',
-              fontWeight: 400, // Regular weight
-              fontSize: "45px", // Display Medium Font Size
-              lineHeight: "52px", // Display Medium Line Height
-              letterSpacing: "0", // Display Medium Tracking
-              mb: 1, // Margin bottom for spacing
-              textAlign: "left", // Left align the text
-            }}
-          >
+          <Typography variant="h1">
             Create Your Ideal Landscape
           </Typography>
 
           {/* "To design a landscape..." */}
-          <Typography
-            variant="body1"
-            sx={{
-              fontFamily: '"Source Sans Pro", sans-serif',
-              fontWeight: 400, // Regular weight
-              fontSize: "22px", // Title Large Font Size
-              lineHeight: "28px", // Title Large Medium Line Height
-              letterSpacing: "0", // Title Large Medium Tracking
-              mb: 4, // Margin bottom for spacing
-              textAlign: "left", // Left align the text
-            }}
-          >
+          <Typography variant="body1">
             To design a landscape that perfectly suits your style and environment, we need to understand your preferences and conditions.
           </Typography>
         </Box>
 
         {/* 30pt gap before the next section */}
-        <Box sx={{ mt: 7, mb: 4 }}>
+        <Box sx={{ mt: "3vh" }}>
           {/* "Describe Your Design Vision" */}
-          <Typography
-            variant="h2"
-            sx={{
-              fontFamily: '"Source Sans Pro", sans-serif',
-              fontWeight: 400, // Regular weight
-              fontSize: "22px", // Title Large Font Size
-              lineHeight: "28px", // Title Large Medium Line Height
-              letterSpacing: "0", // Title Large Medium Tracking
-              mb: 2.5,
-              textAlign: "left", // Left align the text
-            }}
-          >
+          <Typography variant="h2">
             Describe Your Design Vision
           </Typography>
 
-          {/* "In the text prompt..." */}
-          <Typography
-            variant="body1"
-            sx={{
-              fontFamily: '"Source Sans Pro", sans-serif',
-              fontWeight: 400, // Regular weight
-              fontSize: "16px", // Title Medium Font Size
-              lineHeight: "24px", // Title Medium Line Height
-              letterSpacing: "0.5px", // Title Medium Tracking
-              textAlign: "left", // Left align the text
-            }}
-            paragraph
-          >
+          <Typography variant="body1" gutterBottom>
             In the text prompt, please specify the following:
           </Typography>
 
           {/* Bullet points */}
-          <Typography
-            variant="body1"
-            sx={{
-              fontFamily: '"Source Sans Pro", sans-serif',
-              fontWeight: 400, // Regular weight
-              fontSize: "16px", // Title Medium Font Size
-              lineHeight: "24px", // Title Medium Line Height
-              letterSpacing: "0.5px", // Title Medium Tracking
-              mb: 1, // Margin bottom for spacing
-              textAlign: "left", // Left align the text
-            }}
-          >
+          <Typography variant="body1" gutterBottom>
             • Color Palette: Preferred colors for plants, paths, or accents.
           </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              fontFamily: '"Source Sans Pro", sans-serif',
-              fontWeight: 400,
-              fontSize: "16px",
-              lineHeight: "24px",
-              letterSpacing: "0.5px",
-              mb: 1,
-              textAlign: "left", // Left align the text
-            }}
-          >
+          <Typography variant="body1" gutterBottom>
             • Function: Any specific function such as butterfly garden.
           </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              fontFamily: '"Source Sans Pro", sans-serif',
-              fontWeight: 400,
-              fontSize: "16px",
-              lineHeight: "24px",
-              letterSpacing: "0.5px",
-              mb: 1,
-              textAlign: "left", // Left align the text
-            }}
-          >
+          <Typography variant="body1" gutterBottom>
             • Style: Desired mood, like natural, manicured, or rustic.
           </Typography>
-          <Typography
-            variant="body1"
-            sx={{
-              fontFamily: '"Source Sans Pro", sans-serif',
-              fontWeight: 400,
-              fontSize: "16px",
-              lineHeight: "24px",
-              letterSpacing: "0.5px",
-              mb: 2.5,
-              textAlign: "left", // Left align the text
-            }}
-          >
+          <Typography variant="body1" gutterBottom>
             • Surroundings: Key features of the space, such as nearby buildings, plants, or natural elements.
           </Typography>
 
@@ -361,25 +244,16 @@ const LandscapeDesignForm = () => {
             }}
           />
         </Box>
-        <Divider />
-        <Box sx={{ mt: 7, mb: 4 }}>
-          <Typography
-            variant="h2"
-            sx={{
-              fontFamily: '"Source Sans Pro", sans-serif',
-              fontWeight: 400, // Regular weight
-              fontSize: "22px", // Title Large Font Size
-              lineHeight: "28px", // Title Large Medium Line Height
-              letterSpacing: "0", // Title Large Medium Tracking
-              mb: 2.5,
-              textAlign: "left", // Left align the text
-            }}
-          >
+
+        <Divider sx={{ mt: "3vh" }} />
+
+        <Box sx={{ mt: "3vh", mb: "5vh" }}>
+          <Typography variant="h2">
             Specify Environmental Constraints
           </Typography>
 
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: 7, mb: 4 }}>
-            <Typography variant="body1">Maximum Plant Count</Typography>
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: "3vh" }}>
+            <Typography variant="body1">Maximum Plant Species Count</Typography>
             <Box
               display="inline-flex"
               alignItems="center"
@@ -434,9 +308,9 @@ const LandscapeDesignForm = () => {
             </Box>
           </Box>
 
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: "3vh" }}>
             <Typography variant="body1">Sunlight Intensity in Area</Typography>
-            <Box sx={{ width: 329 }}>
+            <Box sx={{ width: "40%" }}>
               <Slider
                 value={configState.sunlightIntensity}
                 onChange={handleSliderChange}
@@ -446,91 +320,69 @@ const LandscapeDesignForm = () => {
                   { value: 50, label: "Semi Shade" },
                   { value: 100, label: "Full Sun" },
                 ]}
-                sx={{
-                  "& .MuiSlider-rail": {
-                    backgroundColor: "#C8C6C5", // Inactive range color
-                  },
-                  "& .MuiSlider-track": {
-                    height: 5, // Increased height for the track (active range)
-                  },
-                  "& .MuiSlider-thumb": {
-                    backgroundColor: "#4A7F61"
-                  },
-                  height: 5, // Increased height for the slider bar itself
-                }}
               />
             </Box>
           </Box>
 
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
-            <Typography variant="body1" sx={{ mb: 1 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: "3vh" }}>
+            <Typography variant="body1">
               Percentage of Native to Singapore Plants
             </Typography>
-            <Box sx={{ width: 329 }}>
+            <Box sx={{ width: "40%" }}>
               <Slider
                 value={configState.nativePercentage}
-                marks
+                marks={[
+                  { value: 0, label: "0%" },
+                  { value: 0.1 },
+                  { value: 0.2 },
+                  { value: 0.3 },
+                  { value: 0.4 },
+                  { value: 0.5, label: "50%" },
+                  { value: 0.6 },
+                  { value: 0.7 },
+                  { value: 0.8 },
+                  { value: 0.9 },
+                  { value: 1, label: "100%" },
+                ]}
                 min={0}
                 max={1}
                 step={0.10}
                 onChange={handleNativePercentageChange}
                 valueLabelDisplay="auto"
                 valueLabelFormat={(value) => `${(value * 100).toFixed(0)}%`}
-                sx={{
-                  "& .MuiSlider-rail": {
-                    backgroundColor: "#C8C6C5",
-                  },
-                  "& .MuiSlider-track": {
-                    height: 5,
-                  },
-                  "& .MuiSlider-thumb": {
-                    backgroundColor: "#4A7F61"
-                  },
-                  height: 5,
-                }}
               />
             </Box>
           </Box>
 
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: "3vh" }}>
             <Typography variant="body1">Drought Tolerance</Typography>
             <Switch
               checked={configState.droughtTolerance || false}
               onChange={handleDroughtToleranceChange}
             />
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
-            <Typography variant="body1">Water Preference *</Typography>
-            <FormControl variant="filled" sx={{ minWidth: 400 }} error={formSubmitted && !configState.prompt} >
-              <InputLabel id="water-preference" sx={{ textAlign: "left" }} >Select Water Preference</InputLabel>
-              <Select
-                labelId="water-preference"
-                id="select-water-preference"
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: "3vh" }}>
+            <Typography variant="body1">Water Preference </Typography>
+            <Box sx={{ width: "40%" }}>
+              <Slider
                 value={configState.waterPreference}
-                label="Water Preference"
-                onChange={(e) => handleWaterPreferenceChange(e.target.value)}
-                sx={{ textAlign: "left" }}
-              >
-
-                <MenuItem value="Occasional Misting" sx={{ textAlign: "left" }} >Occasional Misting</MenuItem>
-                <MenuItem value="Little Water" sx={{ textAlign: "left" }} >Little Water</MenuItem>
-                <MenuItem value="Moderate Water" sx={{ textAlign: "left" }} >Moderate Water</MenuItem>
-                <MenuItem value="Lots of Water" sx={{ textAlign: "left" }} >Lots of Water</MenuItem>
-              </Select>
-              {formSubmitted && !configState.waterPreference && (
-                <Typography variant="caption" color="error">
-                  This field is required
-                </Typography>
-              )}
-            </FormControl>
+                onChange={handleWaterPreferenceSliderChange}
+                step={1}
+                marks={[
+                  { value: 0, label: "Occasional Misting" },
+                  { value: 1, label: "Little Water" },
+                  { value: 2, label: "Moderate Water" },
+                  { value: 3, label: "Lots of Water" },
+                ]}
+                min={0}
+                max={3}
+              />
+            </Box>
           </Box>
-          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 2 }}>
+          <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mt: "3vh" }}>
             <Typography variant="body1">Fauna attracted</Typography>
-            <FormControl variant="filled" sx={{ minWidth: 400 }} error={formSubmitted && !configState.waterPreference}>
-              <InputLabel id="fauna-multiselect-label"
-                sx={{
-                  textAlign: "left", // Left align the text
-                }}>Select Fauna</InputLabel>
+            <FormControl variant="filled" sx={{ minWidth: "400" }} error={formSubmitted && configState.faunaAttracted.length === 0}>
+              <InputLabel id="fauna-multiselect-label" sx={{ textAlign: "left" }}>Select Fauna</InputLabel>
               <Select
                 labelId="fauna-multiselect-label"
                 id="fauna-multiselect"
@@ -538,17 +390,18 @@ const LandscapeDesignForm = () => {
                 value={configState.faunaAttracted}
                 onChange={handleChangeFauna}
                 input={<FilledInput label="Select fauna" />}
-                renderValue={(selected) => selected.join(', ')}
+                renderValue={(selected) => {
+                  if (selected.length === 0) {
+                    return <em>None</em>;
+                  }
+                  return selected.join(', ');
+                }}
                 MenuProps={MenuProps}
+                displayEmpty
                 sx={{
                   textAlign: "left", // Left align the text
                 }}
               >
-                <MenuItem value="None">
-                  <Checkbox checked={configState.faunaAttracted.includes("None")} />
-                  <ListItemText primary="None" />
-                </MenuItem>
-
                 {faunaOptions.map((fauna) => (
                   <MenuItem key={fauna} value={fauna}>
                     <Checkbox checked={configState.faunaAttracted.includes(fauna)} />
@@ -556,7 +409,7 @@ const LandscapeDesignForm = () => {
                   </MenuItem>
                 ))}
               </Select>
-              {formSubmitted && !configState.faunaAttracted.length && (
+              {formSubmitted && configState.faunaAttracted.length === 0 && (
                 <Typography variant="caption" color="error">
                   This field is required
                 </Typography>
@@ -564,13 +417,12 @@ const LandscapeDesignForm = () => {
             </FormControl>
           </Box>
         </Box>
-        <Box sx={{ display: "flex", justifyContent: "center" }}>
+        <Box sx={{ display: "flex", justifyContent: "center", mb: "5vh" }}>
           <Button
             variant="contained"
             color="primary"
             onClick={handleGenerate}
             disabled={!isFormValid}
-            sx={{ px: 4, py: 1.5, mb: 4 }}
           >
             Generate
           </Button>

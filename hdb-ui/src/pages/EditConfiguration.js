@@ -6,34 +6,31 @@ import { usePreload } from "../context/preloadContext";
 import { usePlantPalette } from "../context/plantPaletteContext";
 import { LandscapeConfigContext } from "../context/landscapeConfigContext";
 import { CompositionContext } from "../context/compositionContext";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader"; // Import GLTFLoader
+import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 import LandscapeModel from "../component/LandscapeModel";
 import download2DPlantingGrid from "../functions/download2DImage";
 
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import AddIcon from "@mui/icons-material/Add";
-import FindReplaceRoundedIcon from '@mui/icons-material/FindReplaceRounded';
 import CloseIcon from "@mui/icons-material/Close";
 import DownloadIcon from "@mui/icons-material/Download";
-import Tooltip from '@mui/material/Tooltip';
 
 import {
   AppBar,
   CircularProgress,
+  CardMedia,
   Toolbar,
   Typography,
   Box,
   Tabs,
   Tab,
-  TextField,
   Button,
   IconButton,
   Popover,
   Modal,
-  Collapse,
+  Tooltip,
   DialogTitle,
-  DialogActions,
   DialogContent,
   Divider,
   Checkbox,
@@ -46,7 +43,7 @@ import {
 
 const EditConfiguration = () => {
   const navigate = useNavigate();
-  const [selectedTab, setSelectedTab] = useState(0); // For left drawer tabs; Tabs: Plant Palette or Layers
+  const [selectedTab, setSelectedTab] = useState(1);
   const { state: configState, dispatch: configDispatch } = useContext(
     LandscapeConfigContext
   );
@@ -95,7 +92,7 @@ const EditConfiguration = () => {
 
   // Duplicate edited Composition Coordinates to prevent corrupting the original data
   const [editedCompositionGrid, setEditedCompositionGrid] =
-  useState(JSON.parse(JSON.stringify(compositionData["grid"])));
+    useState(JSON.parse(JSON.stringify(compositionData["grid"])));
   const [editedCompositionCoordinates, setEditedCompositionCoordinates] =
     useState(JSON.parse(JSON.stringify(compositionData["coordinates"])));
   const [editedCompositionLayerData, setEditedCompositionLayerData] = useState(
@@ -143,10 +140,9 @@ const EditConfiguration = () => {
   };
 
   // Open swap plant modal
-  const handlePopoverOpen = (event) => {
-    if (selectedLayerID !== null) {
-      setPopoverAnchor(event.currentTarget);
-    }
+  const handlePopoverOpen = (event, layerID) => {
+    setPopoverAnchor(event.currentTarget);
+    setSelectedLayerID(layerID);
   };
 
   const handlePopoverClose = () => {
@@ -248,9 +244,9 @@ const EditConfiguration = () => {
   // 2D and 3D Download
   const startExport = (type) => {
     setLoading(true);
-
+  
     if (type === "2D") {
-      // Simulate a delay for 2D export to showcase loading spinner
+      // Simulate a delay for 2D export
       setTimeout(() => {
         download2DPlantingGrid(
           treeCanvasRef,
@@ -260,11 +256,15 @@ const EditConfiguration = () => {
           plantPaletteProcessed
         );
         setLoading(false); // Reset loading after 2D export
+        setExportModalOpen(false); // Close modal after export
       }, 1000); // Adjust delay as needed
     } else if (type === "3D") {
       setDownloadModel(true); // Trigger 3D export
+      setTimeout(() => {
+        setLoading(false); // Reset loading after 3D export
+        setExportModalOpen(false); // Close modal after export
+      }, 2000); // Simulate 3D export delay
     }
-    setExportModalOpen(false); // Close modal after initiating export
   };
 
   // Handle completion of 3D download
@@ -298,57 +298,24 @@ const EditConfiguration = () => {
         overflow: "hidden",
       }}
     >
-      {/* Loading Spinner */}
-      {loading && (
-        <Box
-          sx={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100vw",
-            height: "100vh",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "rgba(0, 0, 0, 0.5)",
-            zIndex: 1000,
-          }}
-        >
-          <CircularProgress color="inherit" />
-        </Box>
-      )}
       {/* Top AppBar */}
       <AppBar position="sticky" sx={{ bgcolor: "#E0E3DE", zIndex: 2 }}>
         <Toolbar>
           {/* Left Button */}
           <Button
             variant="text"
-            color="primary"
             startIcon={<ArrowBackIosIcon />}
             onClick={() => navigate("/select-configuration")}
-            sx={{ px: 4, py: 1.5 }}
           >
             Change composition
           </Button>
 
           <Box sx={{ flexGrow: 1, position: "relative" }}>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-              }}
-            >
-              <Typography
-                sx={{
-                  color: "primary.main",
-                  fontWeight: "bold",
-                  fontSize: "inherit", // Match font size
-                  lineHeight: "inherit", // Match line height
-                }}
-              >
-                DreamScape
-              </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <img
+                src="/dreamscapeLogo.png"
+                alt="DreamScape Logo"
+                style={{ height: "8vh" }} />
             </Box>
           </Box>
 
@@ -356,19 +323,15 @@ const EditConfiguration = () => {
           <Box sx={{ display: "flex", flexDirection: "row", gap: "0.5rem" }}>
             <Button
               variant="text"
-              color="primary"
               startIcon={<DownloadIcon />}
               onClick={() => setExportModalOpen(true)}
-              sx={{ px: 4, py: 1.5 }}
             >
               Export
             </Button>
             <Button
               variant="contained"
-              color="primary"
               startIcon={<AddIcon />}
               onClick={handleNewDesign}
-              sx={{ px: 4, py: 1.5 }}
             >
               New Design
             </Button>
@@ -382,20 +345,20 @@ const EditConfiguration = () => {
         anchorEl={popoverAnchor}
         onClose={handlePopoverClose}
         anchorOrigin={{
-          vertical: "top",
-          horizontal: "right",
+          vertical: "bottom",
+          horizontal: "center",
         }}
         transformOrigin={{
           vertical: "top",
-          horizontal: "left",
+          horizontal: "center",
         }}
         PaperProps={{
           sx: {
-            maxHeight: "40vh", // Limit height
-            width: "18vw", // Set a fixed
-            marginLeft: "-20.5vw", // Adjust spacing to position beside the drawer
+            maxHeight: "40vh",
+            width: "18vw",
             boxShadow: 2,
             overflow: "hidden",
+            marginLeft: "15vw",
           },
         }}
       >
@@ -408,8 +371,7 @@ const EditConfiguration = () => {
             }}
           >
             <Typography
-              variant="h6"
-              sx={{ fontWeight: "bold", color: "#444844" }}
+              variant="h4"
             >
               Swap plant
             </Typography>
@@ -422,14 +384,11 @@ const EditConfiguration = () => {
         <DialogContent
           sx={{
             padding: "0",
+            overflowY: "auto",
+            maxHeight: "40vh",
           }}
         >
-          <List
-            sx={{
-              maxHeight: "20rem", // Limit height of the List
-              overflowY: "auto", // Enable scrolling only for the List
-            }}
-          >
+          <List>
             {Object.values(plantPaletteProcessed).map((plant) => (
               <ListItem
                 key={plant["Species ID"]}
@@ -527,13 +486,10 @@ const EditConfiguration = () => {
             }}
           >
             {selectedTab === 0 && (
-              <Box>
+              <Box >
                 <Typography
-                  variant="body2"
+                  variant="body1"
                   sx={{
-                    fontWeight: "bold",
-                    color: "#1C1B1B",
-                    fontSize: "0.875rem",
                     mb: "0.5rem",
                   }}
                 >
@@ -555,21 +511,30 @@ const EditConfiguration = () => {
                           : "#FFF",
                       cursor: "pointer",
                       mb: "0.5rem",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alginItems: "center",
                     }}
                   >
-                    <Typography>{plant["Scientific Name"]}</Typography>
+                    <Typography sx={{ width: "80%" }}>{plant["Scientific Name"]}</Typography>
+                    <CardMedia
+                      component="img"
+                      image={`/images/${plant["Species ID"]}.jpg`}
+                      alt={plant["Scientific Name"]}
+                      sx={{
+                        height: "50px",
+                        width: "50px",
+                        objectFit: "cover",
+                        borderRadius: "0.5rem",
+                        marginRight: "0.5rem",
+                      }}
+                    />
                   </Box>
                 ))}
 
                 <Typography
-                  variant="body2"
-                  sx={{
-                    fontWeight: "bold",
-                    color: "#1C1B1B",
-                    fontSize: "0.875rem",
-                    mb: "0.5rem",
-                    mt: "1rem",
-                  }}
+                  variant="body1"
+                  sx={{ mb: "0.5rem", mt: "1rem" }}
                 >
                   Excluded Plants
                 </Typography>
@@ -589,9 +554,24 @@ const EditConfiguration = () => {
                           : "#FFF",
                       cursor: "pointer",
                       mb: "0.5rem",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alginItems: "center",
                     }}
                   >
-                    <Typography>{plant["Scientific Name"]}</Typography>
+                    <Typography sx={{ width: "80%" }}>{plant["Scientific Name"]}</Typography>
+                    <CardMedia
+                      component="img"
+                      image={`/images/${plant["Species ID"]}.jpg`}
+                      alt={plant["Scientific Name"]}
+                      sx={{
+                        height: "50px",
+                        width: "50px",
+                        objectFit: "cover",
+                        borderRadius: "0.5rem",
+                        marginRight: "0.5rem",
+                      }}
+                    />
                   </Box>
                 ))}
               </Box>
@@ -608,6 +588,9 @@ const EditConfiguration = () => {
                     onClick={() => handleLayerHighlight(layer.layerID)}
                     sx={{
                       display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
                       padding: "0.625rem",
                       border: "1px solid #444844",
                       borderRadius: "0.75rem",
@@ -617,13 +600,27 @@ const EditConfiguration = () => {
                         selectedLayerID === layer.layerID
                           ? "rgba(36, 90, 62, 0.08)"
                           : hoveredLayerID === layer.layerID
-                          ? "#D6D4CD"
-                          : "#FFF",
+                            ? "#D6D4CD"
+                            : "#FFF",
                     }}
                   >
-                    <Typography>
+                    <Typography sx={{ width: "80%" }}>
                       {getLayerName(layer.layerID, layer.speciesID)}
                     </Typography>
+                    <Tooltip title="Swap Plants">
+                      <Button
+                        variant="outlined"
+                        size="medium"
+                        onMouseDown={(e) => e.stopPropagation()}
+                        onClick={(event) => {
+                          event.stopPropagation(); // Prevent propagation to parent elements
+                          setSelectedLayerID(layer.layerID); // Set the selected layer ID
+                          setPopoverAnchor(event.currentTarget); // Set popover anchor
+                        }}
+                      >
+                        Swap
+                      </Button>
+                    </Tooltip>
                   </Box>
                 ))}
               </Box>
@@ -674,18 +671,18 @@ const EditConfiguration = () => {
         {/* Right Drawer */}
         <Box
           sx={{
-            width: "20vw", // Set drawer width
-            maxWidth: "400px", // Optional max width
+            width: "20vw",
+            height: "calc(100vh - 12vh)",
             padding: 2,
             boxShadow: 2,
             borderRadius: "1rem",
             bgcolor: "#E5E2E1",
             overflowY: "auto",
             position: "absolute",
-            right: 0,
-            top: "80px",
+            right: "1vw",
+            top: "10vh",
             bottom: 0,
-            zIndex: 2, // Ensure it stays above other elements
+            zIndex: 2,
             transform:
               selectedPlant || selectedLayerID
                 ? "translateX(0)"
@@ -699,11 +696,25 @@ const EditConfiguration = () => {
             {selectedPlant && (
               <>
                 <Typography
-                  variant="h6"
-                  sx={{ fontWeight: "bold", color: "#444844", mb: "0.5rem" }}
+                  variant="h2"
+                  sx={{ mb: "0.5rem" }}
                 >
                   Plant Detail
                 </Typography>
+
+                <CardMedia
+                  component="img"
+                  image={`/images/${selectedPlant["Species ID"]}.jpg`}
+                  alt={selectedPlant["Scientific Name"]}
+                  sx={{
+                    height: "20vh",
+                    width: "100%",
+                    objectFit: "cover",
+                    borderRadius: "0.75rem",
+                    margin: "0 auto",
+                    marginBottom: "1rem",
+                  }}
+                />
                 {/* Render all plant details dynamically */}
                 {Object.entries(selectedPlant).map(([key, value], index) => (
                   <Box
@@ -720,9 +731,7 @@ const EditConfiguration = () => {
                     <Typography
                       variant="body2"
                       sx={{
-                        fontWeight: "bold",
                         color: "#1C1B1B",
-                        fontSize: "0.875rem",
                       }}
                     >
                       {key.replace(/_/g, " ")}:
@@ -735,7 +744,6 @@ const EditConfiguration = () => {
                         underline="hover"
                         color="primary"
                         sx={{
-                          fontSize: "0.875rem",
                           wordBreak: "break-word",
                           cursor: "pointer",
                         }}
@@ -747,7 +755,6 @@ const EditConfiguration = () => {
                         variant="body2"
                         sx={{
                           color: "#444",
-                          fontSize: "0.875rem",
                           wordBreak: "break-word",
                         }}
                       >
@@ -762,11 +769,14 @@ const EditConfiguration = () => {
             {selectedLayerID !== null && (
               <>
                 <Typography
-                  variant="h6"
-                  sx={{ fontWeight: "bold", color: "#444844", mb: "0.5rem" }}
+                  variant="h2"
+                  sx={{ mb: "0.5rem" }}
                 >
                   Plant Detail
                 </Typography>
+
+
+
                 {/* Fetch plant details using species ID from the selected layer */}
                 {(() => {
                   const layer = editedCompositionLayerData.find(
@@ -780,48 +790,23 @@ const EditConfiguration = () => {
 
                   return (
                     <>
-                      {/* Scientific Name and Swap Button */}
-                      <Box
+
+                      <CardMedia
+                        component="img"
+                        image={`/images/${speciesID}.jpg`}
                         sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          mb: 2,
-                          gap: "0.5rem",
+                          height: "20vh",
+                          width: "100%",
+                          objectFit: "cover",
+                          borderRadius: "0.75rem",
+                          margin: "0 auto",
+                          marginBottom: "1rem",
                         }}
-                      >
-                        <Tooltip title="Swap Plants">
-                          <IconButton
-                            onMouseDown={(e) => e.stopPropagation()}
-                            onClick={(event) => {
-                              event.stopPropagation(); // Prevent propagation to parent elements
-                              handlePopoverOpen(event);
-                            }}
-                            sx={{
-                              bgcolor: "primary.main",
-                              color: "#fff",
-                              "&:hover": {
-                                bgcolor: "primary.dark",
-                              },
-                            }}
-                          >
-                            <FindReplaceRoundedIcon />
-                          </IconButton>
-                        </Tooltip>
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            fontWeight: "bold",
-                            color: "primary.main",
-                            fontSize: "1rem",
-                          }}
-                        >
-                          {plantDetails["Scientific Name"] || "Unknown"}
-                        </Typography>
-                      </Box>
+                      />
 
                       {/* Render all plant details dynamically */}
                       {Object.entries(plantDetails)
-                        .filter(([key]) => key !== "Scientific Name") // Exclude "Scientific Name"
+                        // .filter(([key]) => key !== "Scientific Name") // Exclude "Scientific Name"
                         .map(([key, value], index) => (
                           <Box
                             key={index}
@@ -837,9 +822,7 @@ const EditConfiguration = () => {
                             <Typography
                               variant="body2"
                               sx={{
-                                fontWeight: "bold",
                                 color: "#1C1B1B",
-                                fontSize: "0.875rem",
                               }}
                             >
                               {key.replace(/_/g, " ")}:
@@ -852,7 +835,6 @@ const EditConfiguration = () => {
                                 underline="hover"
                                 color="primary"
                                 sx={{
-                                  fontSize: "0.875rem",
                                   wordBreak: "break-word",
                                   cursor: "pointer",
                                 }}
@@ -864,7 +846,6 @@ const EditConfiguration = () => {
                                 variant="body2"
                                 sx={{
                                   color: "#444",
-                                  fontSize: "0.875rem",
                                   wordBreak: "break-word",
                                 }}
                               >
@@ -906,7 +887,7 @@ const EditConfiguration = () => {
         >
           <Typography
             id="confirm-new-design-title"
-            variant="h6"
+            variant="h2"
             sx={{ textAlign: "center", mb: 2 }}
           >
             Confirm New Design
@@ -916,8 +897,7 @@ const EditConfiguration = () => {
             variant="body1"
             sx={{ mb: 3, textAlign: "center" }}
           >
-            Are you sure you want to discard all current designs and restart the
-            designing process?
+            Are you sure you want to discard all current designs and restart the designing process?
           </Typography>
           <Box
             sx={{
@@ -928,19 +908,15 @@ const EditConfiguration = () => {
           >
             <Button
               variant="outlined"
-              color="secondary"
               fullWidth
               onClick={cancelNewDesign}
-              sx={{ px: 4, py: 1.5 }}
             >
               Cancel
             </Button>
             <Button
               variant="contained"
-              color="primary"
               fullWidth
               onClick={confirmNewDesign}
-              sx={{ px: 4, py: 1.5 }}
             >
               Confirm
             </Button>
@@ -951,7 +927,7 @@ const EditConfiguration = () => {
       {/* Export Modal */}
       <Modal
         open={exportModalOpen}
-        onClose={() => setExportModalOpen(false)}
+        onClose={() => !loading && setExportModalOpen(false)} // Prevent closing when loading
         aria-labelledby="export-modal-title"
         aria-describedby="export-modal-description"
       >
@@ -968,82 +944,93 @@ const EditConfiguration = () => {
             padding: "2rem",
             display: "flex",
             flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          <DialogTitle id="export-modal-title" sx={{ textAlign: "center" }}>
-            Export Composition
-          </DialogTitle>
+          {loading ? (
+            // Show spinner while loading
+            <>
+              <CircularProgress color="inherit" sx={{ mb: 2 }} />
+              <Typography variant="body1">Exporting, please wait...</Typography>
+            </>
+          ) : (
+            // Show export options when not loading
+            <>
+              <DialogTitle id="export-modal-title" sx={{ fontWeight: "500", textAlign: "center" }}>
+                Export Composition
+              </DialogTitle>
 
-          {/* Dropdown for Export Type */}
-          <Box sx={{ mb: 3 }}>
-            <Typography variant="body1" sx={{ mb: 1 }}>
-              Select Export Type
-            </Typography>
-            <select
-              value={exportType}
-              onChange={(e) => setExportType(e.target.value)}
-              style={{
-                width: "100%",
-                padding: "10px",
-                borderRadius: "5px",
-                border: "1px solid #ccc",
-                fontSize: "1rem",
-                marginBottom: "1rem",
-              }}
-            >
-              <option value="2D">2D</option>
-              <option value="3D">3D</option>
-            </select>
-
-            {/* Export Type Description */}
-            <Box sx={{ mb: "0.25rem", minHeight: "2.5rem" }}>
-              {exportType === "2D" ? (
-                <Typography variant="body2" id="export-modal-description">
-                  Export 2D top-down view for the placements of trees and shrubs
-                  in separate PNG files.
+              {/* Dropdown for Export Type */}
+              <Box sx={{ mb: 3, width: "100%" }}>
+                <Typography variant="body1" gutterBottom>
+                  Select Export Type
                 </Typography>
-              ) : (
-                <Typography variant="body2" id="export-modal-description">
-                  Export 3D render of your composition as a glb file.
-                </Typography>
-              )}
-            </Box>
-          </Box>
+                <select
+                  value={exportType}
+                  onChange={(e) => setExportType(e.target.value)}
+                  style={{
+                    width: "100%",
+                    padding: "10px",
+                    borderRadius: "5px",
+                    border: "1px solid #ccc",
+                    fontSize: "1rem",
+                    marginBottom: "1rem",
+                  }}
+                >
+                  <option value="2D">2D</option>
+                  <option value="3D">3D</option>
+                </select>
 
-          {/* Export and Close Buttons */}
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              gap: "1rem",
-            }}
-          >
-            <Button
-              variant="outlined"
-              color="secondary"
-              fullWidth
-              onClick={() => setExportModalOpen(false)}
-              sx={{ px: 4, py: 1.5 }}
-            >
-              Cancel
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              fullWidth
-              onClick={() => startExport(exportType)}
-              startIcon={<DownloadIcon />}
-              sx={{ px: 4, py: 1.5 }}
-            >
-              Export
-            </Button>
-          </Box>
+                {/* Export Type Description */}
+                <Box sx={{ mb: "0.25rem", minHeight: "2.5rem" }}>
+                  {exportType === "2D" ? (
+                    <Typography variant="body2" id="export-modal-description">
+                      Export 2D top-down view for the placements of trees and shrubs
+                      in separate PNG files.
+                    </Typography>
+                  ) : (
+                    <Typography variant="body2" id="export-modal-description">
+                      Export 3D render of your composition as a GLB file.
+                    </Typography>
+                  )}
+                </Box>
+              </Box>
+
+              {/* Export and Close Buttons */}
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: "1rem",
+                  width: "100%",
+                }}
+              >
+                <Button
+                  variant="outlined"
+                  color="secondary"
+                  fullWidth
+                  onClick={() => setExportModalOpen(false)}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={() => startExport(exportType)}
+                  startIcon={<DownloadIcon />}
+                >
+                  Export
+                </Button>
+              </Box>
+            </>
+          )}
         </Box>
       </Modal>
-
       {/* For 2D Downloading, DO NOT REMOVE, it is hidden from the UI, but necessary for the creation of the diagrams */}
-      <canvas ref={treeCanvasRef} style={{display:'none'}}></canvas>
-      <canvas ref={shrubCanvasRef} style={{display:'none'}}></canvas>
+      <canvas ref={treeCanvasRef} style={{ display: 'none' }}></canvas>
+      <canvas ref={shrubCanvasRef} style={{ display: 'none' }}></canvas>
     </Box>
   );
 };
