@@ -942,6 +942,7 @@ class plantHatchingAndAssignment():
 
         # Apply cutoff
         distance_to_border = np.where(distance_to_border >= cutoff, distance_to_border, 0)
+        normalized_distance_map = distance_to_border
 
         # Convert max_cutoff to an absolute value if it's a percentage (0 < max_cutoff <= 1)
         max_distance = np.max(distance_to_border)
