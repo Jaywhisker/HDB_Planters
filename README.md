@@ -1,7 +1,7 @@
 # Dreamscape
 This is the GitHub Repository for Dreamscape, a generative planting composition software. <br> Dreamscape is a collaboration between Design and Artificial Students (DAI) from the Singapore University of Technology and Design and the Housing Development Board of Singapore under 60.006 Spatial Design Studio. 
 
-Project Report: TBD
+Project Report: https://drive.google.com/file/d/1HDlCq3xDOpB0-PVAmdA2Zf6z42MEYVcn/view?usp=drive_link
 
 ## System design of Dreamscape
 ![Dreamscape System Design](./design.png)
