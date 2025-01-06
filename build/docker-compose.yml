@@ -66,7 +66,7 @@ services:
     volumes:
       - ../hdb-elasticsearch-db/data:/usr/share/elasticsearch/data
       - ../hdb-elasticsearch-db/src:/hdb-elasticsearch-db/src
-      - ../hdb-elasticsearch-db/test:/hdb-elasticsearch-db/test
+      - ../hdb-elasticsearch-db/tests:/hdb-elasticsearch-db/tests
     ports:
       - ${ELASTIC_HOST_PORT}:${ELASTIC_SERVICE_PORT}
     ulimits:
