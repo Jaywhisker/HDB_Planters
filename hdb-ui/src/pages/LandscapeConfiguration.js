@@ -219,6 +219,7 @@ const LandscapeDesignForm = () => {
             fullWidth
             id="filled-multiline-flexible"
             label="Describe here *"
+            placeholder="Create a naturalistic butterfly garden with yellow flowers"
             multiline
             maxRows={4}
             variant="filled"
